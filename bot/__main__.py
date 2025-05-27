@@ -60,7 +60,12 @@ async def cmd_start(msg: Message) -> None:
 async def choose_topic(cb: CallbackQuery, state: FSMContext) -> None:
     """Пользователь щёлкнул по теме — начинаем викторину."""
     topic = cb.data.split(":", 1)[1]
-    await state.update_data(topic=topic, idx=0, score=0)
+    await state.update_data(
+        topic=topic,
+        idx=0,
+        score=0,
+        results=[]            # ➊ сюда будем складывать ответы
+    )
     await ask_question(cb.message, state)
 
 
@@ -89,30 +94,54 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
 
 @dp.callback_query(QuizState.waiting_for_answer)
 async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
-    """Обрабатываем выбранный вариант ответа."""
-    data = await state.get_data()
-    q = QUIZZES[data["topic"]][data["idx"]]
-
+    data   = await state.get_data()
+    topic  = data["topic"]
+    idx    = data["idx"]
+    q      = QUIZZES[topic][idx]
     chosen = int(cb.data.split(":", 1)[1])
     correct = chosen == q["correct"]
 
-    # обновляем счёт
-    score = data["score"] + int(correct)
-    idx = data["idx"] + 1
-    
-    await cb.answer()
-    await cb.answer("✅ Верно!" if correct else "❌ Неверно", show_alert=False) # Сообщение верно/неверно
+    # ➋ дописываем в results
+    data["results"].append({"idx": idx, "correct": correct})
+    # (можно сразу state.update_data(results=data["results"]) ― несложно)
 
-    if idx < len(QUIZZES[data["topic"]]):
-        # Ещё есть вопросы
-        await state.update_data(idx=idx, score=score)
+    score = data["score"] + int(correct)
+    next_idx = idx + 1
+
+    await cb.answer("✅ Верно!" if correct else "❌ Неверно")
+
+    if next_idx < len(QUIZZES[topic]):
+        await state.update_data(idx=next_idx, score=score, results=data["results"])
         await ask_question(cb.message, state)
+
     else:
-        # Викторина завершена
+        # ── выводим итог + подробный отчёт ─────────────────────
+        lines = []
+        for i, item in enumerate(data["results"], start=1):
+            q_obj = QUIZZES[topic][item["idx"]]
+            mark  = "✅" if item["correct"] else "❌"
+            right = q_obj["options"][q_obj["correct"]]
+            lines.append(f"{mark} Вопрос {i}: {q_obj['question']}\n Правильный ответ: _{right}_")
+
+        report = "\n\n".join(lines)
+
         await cb.message.answer(
-            f"🏁 Конец!\nПравильных ответов: *{score}* из *{idx}*"
+            f"🏁 Конец!\nПравильных ответов: *{score}* из *{len(data['results'])}*\n\n{report}"
         )
         await state.clear()
+
+        # ➕ показываем предложение сыграть снова
+        topics = list(QUIZZES.keys())
+        kb = InlineKeyboardMarkup(
+            inline_keyboard=[
+                [InlineKeyboardButton(text=t, callback_data=f"topic:{t}")]
+                for t in topics
+            ]
+        )
+        await cb.message.answer(
+            "🔄 Хочешь сыграть ещё раз? Выбери тему:",
+            reply_markup=kb,
+        )
 
 # ─── запуск ────────────────────────────────────────────────────────────────
 async def main() -> None:
