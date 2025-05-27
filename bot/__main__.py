@@ -91,8 +91,9 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
     # обновляем счёт
     score = data["score"] + int(correct)
     idx = data["idx"] + 1
-
-    await cb.answer("✅ Верно!" if correct else "❌ Неверно", show_alert=True)
+    
+    await cb.answer()
+    await cb.answer("✅ Верно!" if correct else "❌ Неверно", show_alert=False) # Сообщение верно/неверно
 
     if idx < len(QUIZZES[data["topic"]]):
         # Ещё есть вопросы
