@@ -67,7 +67,10 @@ async def choose_topic(cb: CallbackQuery, state: FSMContext) -> None:
 async def ask_question(msg: Message, state: FSMContext) -> None:
     """Задаём очередной вопрос."""
     data = await state.get_data()
-    q = QUIZZES[data["topic"]][data["idx"]]
+    topic = data["topic"]
+    idx   = data["idx"]                      # текущий индекс (0-based)
+    total = len(QUIZZES[topic])              # всего вопросов в теме
+    q     = QUIZZES[topic][idx]
 
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -75,7 +78,12 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
             for i, opt in enumerate(q["options"])
         ]
     )
-    await msg.answer(f"*{q['question']}*", reply_markup=kb)
+    text = (
+        f"❓_Вопрос {idx + 1} из {total}_\n\n"   # курсивный счётчик
+        f"*{q['question']}*"                   # сам вопрос (жирный)
+    )
+    
+    await msg.answer(text, reply_markup=kb)
     await state.set_state(QuizState.waiting_for_answer)
 
 

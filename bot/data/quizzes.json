@@ -45,5 +45,30 @@
       ],
       "correct": 2
     }
+  ],
+  "Docker": [
+    {
+      "question": "Какая команда создаёт новый контейнер и сразу запускает его?",
+      "options": ["docker create", "docker run", "docker start", "docker exec"],
+      "correct": 1
+    },
+    {
+      "question": "Файл с инструкциями для сборки образа называется …",
+      "options": ["Containerfile", "Dockerfile", "compose.yaml", "Makefile"],
+      "correct": 1
+    }
+  ],
+
+  "Kubernetes": [
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
   ]
 }
