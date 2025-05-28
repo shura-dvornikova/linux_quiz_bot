@@ -68,14 +68,19 @@ async def choose_topic(cb: CallbackQuery, state: FSMContext) -> None:
     )
     await ask_question(cb.message, state)
 
+#@dp.message(lambda m: m.photo)
+#async def echo_file_id(msg: Message):
+    #file_id = msg.photo[-1].file_id
+    #await msg.answer(file_id)      # отправит вам ID в чат
+    # print(file_id)               # можно и в консоль
+
 
 async def ask_question(msg: Message, state: FSMContext) -> None:
-    """Задаём очередной вопрос."""
-    data = await state.get_data()
-    topic = data["topic"]
-    idx   = data["idx"]                      # текущий индекс (0-based)
-    total = len(QUIZZES[topic])              # всего вопросов в теме
-    q     = QUIZZES[topic][idx]
+    data   = await state.get_data()
+    topic  = data["topic"]
+    idx    = data["idx"]
+    total  = len(QUIZZES[topic])
+    q      = QUIZZES[topic][idx]
 
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -83,13 +88,26 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
             for i, opt in enumerate(q["options"])
         ]
     )
-    text = (
-        f"❓_Вопрос {idx + 1} из {total}_\n\n"   # курсивный счётчик
-        f"*{q['question']}*"                   # сам вопрос (жирный)
+
+    caption = (
+        f"❓_Вопрос {idx + 1} из {total}_\n\n"
+        f"*{q['question']}*"
     )
-    
-    await msg.answer(text, reply_markup=kb)
+
+    # ── НОВОЕ: если в JSON есть file_id, шлём фото ─────────────────────────
+    if q.get("file_id"):
+        await msg.answer_photo(
+            q["file_id"],           # тот самый AgACAgIAAxk… из Telegram
+            caption=caption,
+            reply_markup=kb,
+            parse_mode=ParseMode.MARKDOWN,
+        )
+    else:
+        # старый путь — вопрос без картинки
+        await msg.answer(caption, reply_markup=kb)
+
     await state.set_state(QuizState.waiting_for_answer)
+
 
 
 @dp.callback_query(QuizState.waiting_for_answer)

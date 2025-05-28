@@ -44,6 +44,17 @@
         "Антон не любит Сашу"
       ],
       "correct": 2
+    },
+    {
+      "question": "Как зовут этого персонажа?",
+      "options": [
+        "Линус Торвальдс",
+        "Пингвин Тукс",
+        "Винпинг Шмукс",
+        "Торвальд Линукс"
+      ],
+      "correct": 1,
+      "file_id": "AgACAgIAAxkBAAICbGg27PHth1pmCEZYVl4hIh6VPY7fAALM9TEbGAS4SQjCmXg4C-BzAQADAgADeQADNgQ"
     }
   ],
   "Docker": [
