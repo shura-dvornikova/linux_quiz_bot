@@ -121,7 +121,7 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
             q_obj = QUIZZES[topic][item["idx"]]
             mark  = "✅" if item["correct"] else "❌"
             right = q_obj["options"][q_obj["correct"]]
-            lines.append(f"{mark} Вопрос {i}: {q_obj['question']}\n Правильный ответ: _{right}_")
+            lines.append(f"{mark} *Вопрос {i}:* {q_obj['question']}\n *Правильный ответ:* _{right}_")
 
         report = "\n\n".join(lines)
 
