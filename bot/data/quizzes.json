@@ -81,5 +81,17 @@
       "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
       "correct": 1
     }
+  ],
+  "Аппаратная часть": [
+    {
+      "question": "Сервер не отвечает, как можно получить доступ к серверу, не находясь непосредственно в ЦОДЕ",
+      "options": ["Через IPMI или kvm", "Звонить дежурному", "Оба варианта"],
+      "correct": 2
+    },
+    {
+      "question": "Что такое POSIX?",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
   ]
 }

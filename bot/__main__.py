@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import random
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher
@@ -82,10 +83,17 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
     total  = len(QUIZZES[topic])
     q      = QUIZZES[topic][idx]
 
+
+    order = list(range(len(q["options"])))  # [0, 1, 2, 3 …]
+    random.shuffle(order)                   # например [2, 0, 3, 1]
+    
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text=opt, callback_data=f"ans:{i}")]
-            for i, opt in enumerate(q["options"])
+            [InlineKeyboardButton(
+                text=q["options"][i],      # текст ответа
+                callback_data=f"ans:{i}",  # *оригинальный* индекс!
+            )]
+            for i in order
         ]
     )
 
