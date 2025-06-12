@@ -106,6 +106,27 @@
       ],
       "correct": 0,
       "file_id": "AgACAgIAAxkBAAICvWhLFaX1batfTRE0LaEtk166CMe2AAJVAAEyG-sNWUoQ-7NPfMWnBgEAAwIAA3gAAzYE"
+    },
+    {
+      "question": "Как отделить процесс от оболочки и запустить его в фоновом режиме?",
+      "options": [
+        "добавить # в конец команды",
+        "добавить & в конец команды",
+        "никак",
+        "добавить $ в начало команды"
+      ],
+      "correct": 1
+    },
+    {
+      "question": "Какие символы и в каком порядке должны быть вместо 🦄?",
+      "options": [
+        "r, -, w, x",
+        "r, w, x, -",
+        "w, r, x, -",
+        "x, r, -, w"
+      ],
+      "correct": 1,
+      "file_id": "AgACAgIAAxkBAAIC4WhLI3rGqdtK3zHScDDHcUecbQiJAALYAAEyG-sNWUprRcrNHXLkmgEAAwIAA3kAAzYE"
     }
   ],
   "Docker": [
