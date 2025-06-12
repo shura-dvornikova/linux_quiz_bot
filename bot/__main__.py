@@ -69,11 +69,11 @@ async def choose_topic(cb: CallbackQuery, state: FSMContext) -> None:
     )
     await ask_question(cb.message, state)
 
-#@dp.message(lambda m: m.photo)
-#async def echo_file_id(msg: Message):
-    #file_id = msg.photo[-1].file_id
-    #await msg.answer(file_id)      # отправит вам ID в чат
-    # print(file_id)               # можно и в консоль
+@dp.message(lambda m: m.photo)
+async def echo_file_id(msg: Message):
+    file_id = msg.photo[-1].file_id
+    await msg.answer(file_id)      # отправит вам ID в чат
+    print(file_id)               # можно и в консоль
 
 
 async def ask_question(msg: Message, state: FSMContext) -> None:
