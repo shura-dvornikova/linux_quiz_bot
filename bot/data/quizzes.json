@@ -110,17 +110,306 @@
   ],
   "Docker": [
     {
-      "question": "Какая команда создаёт новый контейнер и сразу запускает его?",
-      "options": ["docker create", "docker run", "docker start", "docker exec"],
-      "correct": 1
+        "question": "Что такое Docker-образ (image)?",
+        "options": [
+            "Непрерывно работающий процесс в контейнере",
+            "Файловая система + метаданные, из которых создаются контейнеры",
+            "Файл конфигурации docker-compose.yml",
+            "Плагин Docker Engine для работы с кластерами"
+        ],
+        "correct": 1
     },
     {
-      "question": "Файл с инструкциями для сборки образа называется …",
-      "options": ["Containerfile", "Dockerfile", "compose.yaml", "Makefile"],
-      "correct": 1
+        "question": "Какой командой создаётся новый контейнер и сразу запускается в фоновом режиме?",
+        "options": [
+            "docker create -d …",
+            "docker run -d …",
+            "docker start -d …",
+            "docker compose up"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Какой флаг Docker Build включает движок BuildKit (современный билд-движок)?",
+        "options": [
+            "--build-arg BUILDKIT=1",
+            "BUILDKIT=1 docker build …",
+            "--enable-buildkit",
+            "--use-buildkit"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "В какой инструкции Dockerfile обычно указывают рабочую директорию, в которой будут выполняться последующие команды?",
+        "options": [
+            "RUN",
+            "CMD",
+            "WORKDIR",
+            "USER"
+        ],
+        "correct": 2
+    },
+    {
+        "question": "Какой сетевой режим предоставляет контейнеру доступ к сетевому пространству хоста?",
+        "options": [
+            "bridge",
+            "host",
+            "none",
+            "overlay"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Чем отличается `ENTRYPOINT` от `CMD` в Dockerfile?",
+        "options": [
+            "`ENTRYPOINT` задаёт неизменяемую команду, `CMD` — аргументы по умолчанию",
+            "`CMD` выполняется раньше `ENTRYPOINT`",
+            "`ENTRYPOINT` используется только в Alpine-образах",
+            "Ничем — это синонимы"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Как удалить ВСЕ остановленные контейнеры одной командой?",
+        "options": [
+            "docker rm $(docker ps -aq)",
+            "docker system prune -f",
+            "docker container prune -f",
+            "docker stop $(docker ps -q)"
+        ],
+        "correct": 2
+    },
+    {
+        "question": "Какой драйвер логирования в Docker по умолчанию на Linux?",
+        "options": [
+            "json-file",
+            "journald",
+            "syslog",
+            "awslogs"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Что делает команда `docker login`?",
+        "options": [
+            "Запускает контейнер с интерактивным терминалом",
+            "Авторизует пользователя в реестре (Registry)",
+            "Входит внутрь уже работающего контейнера",
+            "Выводит список авторизованных пользователей"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Какой файл по умолчанию ищет `docker compose` без флага `-f`?",
+        "options": [
+            "docker-compose.yaml",
+            "docker-compose.yml",
+            "compose.yml",
+            "compose.yaml"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Какой уровень рестарта контейнера перезапустит его ТОЛЬКО при нештатном завершении, но НЕ после перезагрузки хоста?",
+        "options": [
+            "no",
+            "always",
+            "unless-stopped",
+            "on-failure"
+        ],
+        "correct": 3
+    },
+    {
+        "question": "Команда для просмотра пространств имён (namespaces) контейнера?",
+        "options": [
+            "docker inspect …",
+            "docker top …",
+            "docker exec ns",
+            "docker namespace list"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Какой плагин/утилита используется для управления несколькими Docker-хостами как единым кластером без Kubernetes?",
+        "options": [
+            "Docker Swarm",
+            "Docker Machine",
+            "Docker Compose",
+            "Docker Hub"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Как задать переменные окружения в Dockerfile?",
+        "options": [
+            "ARG KEY=value",
+            "ENV KEY=value",
+            "RUN export KEY=value",
+            "CMD KEY=value"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Что делает директива `COPY` в Dockerfile?",
+        "options": [
+            "Копирует файлы из контейнера наружу",
+            "Копирует файлы с хоста внутрь образа",
+            "Копирует файлы из одного образа в другой",
+            "Копирует переменные среды"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Как посмотреть последние 100 строк логов контейнера?",
+        "options": [
+            "docker logs --tail 100 <id>",
+            "docker logs -n 100 <id>",
+            "docker tail -f <id> 100",
+            "docker inspect logs 100 <id>"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Какая команда удалит все неиспользуемые образы, сети и кеши сборки одним махом?",
+        "options": [
+            "docker system prune",
+            "docker image rm -f $(docker images -q)",
+            "docker clean all",
+            "docker gc"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Что такое multi-stage-build в Dockerfile?",
+        "options": [
+            "Сборка образа из нескольких репозиториев",
+            "Сборка с несколькими последовательными FROM, где промежуточные слои могут быть отброшены",
+            "Параллельная сборка образов в несколько потоков",
+            "Сборка, управляемая Jenkins Pipeline"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Как ограничить использование CPU контейнером (в один логический процессор)?",
+        "options": [
+            "--cpus=1",
+            "--cpu-shares=1",
+            "--limit-cpu=1",
+            "--cpu=1"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Какой статус у контейнера, когда он запустился, но основной процесс завершился с кодом 0?",
+        "options": [
+            "Up",
+            "Exited (0)",
+            "Paused",
+            "Restarting"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Как вывести список всех слоёв конкретного образа?",
+        "options": [
+            "docker history <image>",
+            "docker image layers <image>",
+            "docker inspect --layers <image>",
+            "docker diff <image>"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Какая команда запускает интерактивную оболочку внутри работающего контейнера?",
+        "options": [
+            "docker exec -it <id> /bin/bash",
+            "docker attach <id> /bin/bash",
+            "docker shell <id>",
+            "docker run -it <id>"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Что такое Docker Registry?",
+        "options": [
+            "Демон, управляющий контейнерами",
+            "Формат файловой системы",
+            "Сервер для хранения и распространения Docker-образов",
+            "Плагин для сетей overlay"
+        ],
+        "correct": 2
+    },
+    {
+        "question": "Какой драйвер network по умолчанию у контейнера, если не указать `--network`?",
+        "options": [
+            "host",
+            "bridge",
+            "none",
+            "overlay"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Как называется файл, содержащий метаданные для Docker BuildKit о кэше и зависимостях сборки (используется в GitHub Actions Cache)?",
+        "options": [
+            "build.info",
+            "cache.manifest",
+            "buildx.toml",
+            "buildkit.cache"
+        ],
+        "correct": 0
+    },
+    {
+        "question": "Как сохранить изменения внутри запущенного контейнера в новый образ?",
+        "options": [
+            "docker cp <container> newimage",
+            "docker commit <container> newimage",
+            "docker save <container> newimage",
+            "docker export <container> newimage"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Какой флаг `docker run` монтирует хостовую директорию внутрь контейнера?",
+        "options": [
+            "-p",
+            "-e",
+            "-v",
+            "-d"
+        ],
+        "correct": 2
+    },
+    {
+        "question": "Что делает команда `docker save`?",
+        "options": [
+            "Сохраняет контейнер в сжатый tar-файл",
+            "Сохраняет образ в tar-архив",
+            "Сохраняет изменения в слои",
+            "Сохраняет логи контейнера"
+        ],
+        "correct": 1
+    },
+    {
+        "question": "Какой инструмент Docker-экосистемы предназначен для сборки и пуша образов напрямую из Docker CLI, поддерживая кросс-архитектуру?",
+        "options": [
+            "docker build",
+            "docker image",
+            "docker buildx",
+            "docker pushx"
+        ],
+        "correct": 2
+    },
+    {
+        "question": "Какой параметр `docker compose` перезапускает только один указанный сервис, не трогая остальные?",
+        "options": [
+            "docker compose restart",
+            "docker compose restart <service>",
+            "docker compose up <service>",
+            "docker compose recreate <service>"
+        ],
+        "correct": 1
     }
   ],
-
   "Kubernetes": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
@@ -129,18 +418,6 @@
     },
     {
       "question": "Компонент, который распределяет поды по нодам кластера:",
-      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
-      "correct": 1
-    }
-  ],
-  "Аппаратная часть": [
-    {
-      "question": "Сервер не отвечает, как можно получить доступ к серверу, не находясь непосредственно в ЦОДЕ",
-      "options": ["Через IPMI или kvm", "Звонить дежурному", "Оба варианта"],
-      "correct": 2
-    },
-    {
-      "question": "Что такое POSIX?",
       "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
       "correct": 1
     }

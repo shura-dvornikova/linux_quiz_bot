@@ -15,7 +15,8 @@ venv/
 .DS_Store
 
 # Secrets
-.env
+.env.prod
+.env.dev
 
 # Docker
 *.log

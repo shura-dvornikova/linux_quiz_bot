@@ -79,20 +79,21 @@ async def echo_file_id(msg: Message):
 async def ask_question(msg: Message, state: FSMContext) -> None:
     data   = await state.get_data()
     topic  = data["topic"]
-    idx    = data["idx"]
+    idx    = data["idx"]                     # текущий вопрос
     total  = len(QUIZZES[topic])
     q      = QUIZZES[topic][idx]
 
+    order = list(range(len(q["options"])))
+    random.shuffle(order)
 
-    order = list(range(len(q["options"])))  # [0, 1, 2, 3 …]
-    random.shuffle(order)                   # например [2, 0, 3, 1]
-    
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(
-                text=q["options"][i],      # текст ответа
-                callback_data=f"ans:{i}",  # *оригинальный* индекс!
-            )]
+            [
+                InlineKeyboardButton(
+                    text=q["options"][i],
+                    callback_data=f"ans:{idx}:{i}",   # ans:QIDX:OPTIDX
+                )
+            ]
             for i in order
         ]
     )
@@ -102,19 +103,18 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
         f"*{q['question']}*"
     )
 
-    # ── НОВОЕ: если в JSON есть file_id, шлём фото ─────────────────────────
     if q.get("file_id"):
         await msg.answer_photo(
-            q["file_id"],           # тот самый AgACAgIAAxk… из Telegram
+            q["file_id"],
             caption=caption,
             reply_markup=kb,
             parse_mode=ParseMode.MARKDOWN,
         )
     else:
-        # старый путь — вопрос без картинки
         await msg.answer(caption, reply_markup=kb)
 
     await state.set_state(QuizState.waiting_for_answer)
+
 
 
 
@@ -122,16 +122,23 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
 async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
     data   = await state.get_data()
     topic  = data["topic"]
-    idx    = data["idx"]
-    q      = QUIZZES[topic][idx]
-    chosen = int(cb.data.split(":", 1)[1])
+    idx    = data["idx"]                      # номер текущего вопроса
+
+    # извлекаем q_idx и opt_idx
+    _, q_idx_str, opt_idx_str = cb.data.split(":")
+    q_idx   = int(q_idx_str)
+    chosen  = int(opt_idx_str)
+
+    # 👉 если нажали кнопку от предыдущего вопроса — просто игнорируем
+    if q_idx != idx:
+        await cb.answer()     # молча
+        return
+
+    q       = QUIZZES[topic][idx]
     correct = chosen == q["correct"]
 
-    # ➋ дописываем в results
     data["results"].append({"idx": idx, "correct": correct})
-    # (можно сразу state.update_data(results=data["results"]) ― несложно)
-
-    score = data["score"] + int(correct)
+    score    = data["score"] + int(correct)
     next_idx = idx + 1
 
     await cb.answer("✅ Верно!" if correct else "❌ Неверно")
@@ -139,7 +146,6 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
     if next_idx < len(QUIZZES[topic]):
         await state.update_data(idx=next_idx, score=score, results=data["results"])
         await ask_question(cb.message, state)
-
     else:
         # ── выводим итог + подробный отчёт ─────────────────────
         lines = []

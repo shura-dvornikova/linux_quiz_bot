@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import os
 from dotenv import load_dotenv
 
-load_dotenv()           # читает .env в корне проекта
+load_dotenv()           # читает .env.prod в корне проекта
 
 @dataclass
 class Settings:
