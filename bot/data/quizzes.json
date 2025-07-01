@@ -432,105 +432,15 @@
     }
   ],
   "Kubernetes": [
-  {
-    "question": "Какой объект в Kubernetes обычно используется для управляемого масштабирования и обновления подов?",
-    "options": ["ReplicaSet", "DaemonSet", "Deployment", "StatefulSet"],
-    "correct": 2
-  },
-  {
-    "question": "Какой контроллер обеспечивает уникальный стабильный сетевой ID и постоянный диск для каждого пода?",
-    "options": ["ReplicaSet", "StatefulSet", "Job", "CronJob"],
-    "correct": 1
-  },
-  {
-    "question": "Команда kubectl для просмотра ресурсов в текущем пространстве имён:",
-    "options": ["kubectl get all", "kubectl describe ns", "kubectl get pods --all-namespaces", "kubectl get resources"],
-    "correct": 0
-  },
-  {
-    "question": "Какой тип сервиса предоставляет статический IP внутри кластера и балансирует трафик на поды?",
-    "options": ["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"],
-    "correct": 0
-  },
-  {
-    "question": "Какой объект позволяет безопасно хранить чувствительные данные (пароли, токены)?",
-    "options": ["ConfigMap", "Secret", "ServiceAccount", "Volume"],
-    "correct": 1
-  },
-  {
-    "question": "Ресурсное ограничение памяти задаётся в разделе контейнера при помощи поля:",
-    "options": ["limits.memory", "resources.limitMemory", "spec.memory", "resources.memory"],
-    "correct": 0
-  },
-  {
-    "question": "Какой объект выполняет одноразовую задачу до успешного завершения?",
-    "options": ["Job", "CronJob", "Deployment", "ReplicaSet"],
-    "correct": 0
-  },
-  {
-    "question": "Какой компонент кластера отвечает за поддержание запущенных контейнеров на каждой ноде?",
-    "options": ["kube-scheduler", "kubelet", "etcd", "kube-proxy"],
-    "correct": 1
-  },
-  {
-    "question": "Для периодического запуска задач по расписанию используют объект:",
-    "options": ["Job", "CronJob", "DaemonSet", "ReplicaSet"],
-    "correct": 1
-  },
-  {
-    "question": "Как называется механизм автоматического перезапуска контейнера при падении?",
-    "options": ["RestartPolicy", "Liveness Probe", "Readiness Probe", "Affinity"],
-    "correct": 0
-  },
-  {
-    "question": "Какой тип Volume интегрирован с облачными дисками и хранит данные дольше жизни пода?",
-    "options": ["emptyDir", "configMap", "persistentVolumeClaim", "secret"],
-    "correct": 2
-  },
-  {
-    "question": "Команда для получения логов контейнера, работающего в поде mypod:",
-    "options": ["kubectl logs mypod", "kubectl get logs mypod", "kubectl describe logs mypod", "kubectl pod logs mypod"],
-    "correct": 0
-  },
-  {
-    "question": "Какой механизм маршрутизирует входящий внешний HTTP-трафик на службы внутри кластера?",
-    "options": ["Ingress", "ServiceAccount", "EndpointSlice", "NetworkPolicy"],
-    "correct": 0
-  },
-  {
-    "question": "Что такое kube-proxy?",
-    "options": ["Балансировщик входящего трафика на узлах", "Сторожевой процесс etcd", "Контроллер авторизации API", "Плагин хранения данных CSI"],
-    "correct": 0
-  },
-  {
-    "question": "Какое поле в манифесте контейнера определяет проверку \"жив ли\" контейнер?",
-    "options": ["readinessProbe", "startupProbe", "livenessProbe", "healthcheck"],
-    "correct": 2
-  },
-  {
-    "question": "Какой объект применяют для управления сетевым доступом Pod ➜ Pod/Service?",
-    "options": ["Ingress", "NetworkPolicy", "Endpoint", "LimitRange"],
-    "correct": 1
-  },
-  {
-    "question": "Плагин CNI в Kubernetes отвечает за:",
-    "options": ["мониторинг метрик", "сетевую связность подов", "распределение нагрузки", "хранение секретов"],
-    "correct": 1
-  },
-  {
-    "question": "Какой контроллер гарантирует, что под запущен на каждой ноде кластера?",
-    "options": ["DaemonSet", "StatefulSet", "Deployment", "Job"],
-    "correct": 0
-  },
-  {
-    "question": "Какой API-объект описывает права доступа (RBAC) к ресурсам в пределах пространства имён?",
-    "options": ["ClusterRole", "Role", "ServiceAccount", "PodSecurityPolicy"],
-    "correct": 1
-  },
-  {
-    "question": "Какой kubectl-флаг применяют для указания контекста/кластера?",
-    "options": ["--cluster", "--context", "--namespace", "--server"],
-    "correct": 1
-  }
-]
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
+  ]
 }
