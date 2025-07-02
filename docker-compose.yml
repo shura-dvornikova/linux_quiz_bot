@@ -1,7 +1,11 @@
-#version: "3.9" # this helps to delete the 'warning' message
+version: "3.8"
+
 services:
   bot:
-    build: .                 # ← теперь Compose будет собирать образ
-    image: linux-quiz-bot:dev
-    env_file: ${ENV_FILE}
+    build: .
+    command: python -m bot
+    working_dir: /app
+    volumes:
+      - .:/app                 # 💡 целиком проект (проще)
+    env_file: .env.dev         # имя прямо, без переменных
     restart: unless-stopped

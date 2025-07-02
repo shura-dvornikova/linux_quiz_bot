@@ -1,11 +1,9 @@
-from dataclasses import dataclass
+from pathlib import Path
+from dotenv import load_dotenv       # pip install python-dotenv
 import os
-from dotenv import load_dotenv
 
-load_dotenv()           # читает .env.prod в корне проекта
+# ищем файл, имя приходит из переменной или берём .env
+env_file = os.getenv("ENV_FILE", ".env")
+load_dotenv(Path(__file__).parent.parent / env_file)
 
-@dataclass
-class Settings:
-    bot_token: str = os.getenv("BOT_TOKEN", "")
-
-config = Settings()
+bot_token = os.getenv("BOT_TOKEN")         # ← единственное, что нужно наружу
