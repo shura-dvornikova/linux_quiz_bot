@@ -1,0 +1,21 @@
+version: "3.8"               # строка может уже быть — оставляйте
+
+services:
+  bot:
+    build: .
+    command: python -m bot    # чтобы явно запускался модуль
+    working_dir: /app
+
+    # ↓ ЭТО главная «фишка dev»: монтируем исходники внутрь контейнера,
+    #   тогда любые изменения кода видны сразу без rebuild
+    volumes:
+      - .:/app
+
+    # используем dev-переменные
+    env_file: .env.dev
+
+    # для красоты логов
+    environment:
+      - PYTHONUNBUFFERED=1
+
+    restart: unless-stopped

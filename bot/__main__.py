@@ -7,180 +7,187 @@ from pathlib import Path
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import (
+    BotCommand,
+    BotCommandScopeDefault,
     CallbackQuery,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     Message,
 )
 
-from .config import config
+from .config import bot_token   # BOT_TOKEN подтягивается из .env.*
 
-# ─── базовая настройка логирования ──────────────────────────────────────────
+# ────────────────── базовое логирование ────────────────────────────────────
 logging.basicConfig(level=logging.INFO)
 
-# ─── загрузка вопросов ──────────────────────────────────────────────────────
+# ────────────────── читаем вопросы ─────────────────────────────────────────
 QUIZ_PATH = Path(__file__).parent / "data" / "quizzes.json"
-try:
-    with QUIZ_PATH.open(encoding="utf-8") as f:
-        QUIZZES: dict[str, list[dict]] = json.load(f)
-except FileNotFoundError:
-    raise RuntimeError(f"Файл с вопросами не найден: {QUIZ_PATH}")
-except json.JSONDecodeError as e:
-    raise RuntimeError(f"Ошибка синтаксиса в quizzes.json: {e}") from e
+QUIZZES: dict[str, list[dict]]
+with QUIZ_PATH.open(encoding="utf-8") as f:
+    QUIZZES = json.load(f)
 
-# ─── инициализация бота и диспетчера ────────────────────────────────────────
+# ────────────────── бот и диспетчер ────────────────────────────────────────
 bot = Bot(
-    token=config.bot_token,
+    token=bot_token,
     default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN),
 )
 dp = Dispatcher()
 
-# ─── fsm-состояния ──────────────────────────────────────────────────────────
+# ────────────────── меню команд при старте ─────────────────────────────────
+async def on_startup(bot: Bot) -> None:
+    await bot.set_my_commands(
+        [
+            BotCommand(command="start", description="🚀🚀🚀 Начать викторину"),
+        ],
+        scope=BotCommandScopeDefault(),
+    )
+    logging.info("Меню команд обновлено")
+
+
+dp.startup.register(on_startup)
+
+# ────────────────── FSM ────────────────────────────────────────────────────
 class QuizState(StatesGroup):
     waiting_for_answer = State()
 
-# ─── хэндлеры ───────────────────────────────────────────────────────────────
+# ────────────────── /start ─────────────────────────────────────────────────
 @dp.message(Command("start"))
 async def cmd_start(msg: Message) -> None:
-    """Стартовое меню: выбор темы."""
     topics = list(QUIZZES.keys())
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text=topic, callback_data=f"topic:{topic}")]
+            [
+                InlineKeyboardButton(
+                    text=topic,
+                    callback_data=f"topic:{topic}",
+                )
+            ]
             for topic in topics
         ]
     )
     await msg.answer("*Привет!*\nВыбери тему викторины:", reply_markup=kb)
 
-
+# ────────────────── выбор темы ─────────────────────────────────────────────
 @dp.callback_query(lambda cb: cb.data.startswith("topic:"))
 async def choose_topic(cb: CallbackQuery, state: FSMContext) -> None:
-    """Пользователь щёлкнул по теме — начинаем викторину."""
     topic = cb.data.split(":", 1)[1]
-    await state.update_data(
-        topic=topic,
-        idx=0,
-        score=0,
-        results=[]            # ➊ сюда будем складывать ответы
-    )
+    await state.update_data(topic=topic, idx=0, score=0, results=[])
     await ask_question(cb.message, state)
 
+# ────────────────── util: получить file_id фото ────────────────────────────
 @dp.message(lambda m: m.photo)
 async def echo_file_id(msg: Message):
-    file_id = msg.photo[-1].file_id
-    await msg.answer(file_id)      # отправит вам ID в чат
-    print(file_id)               # можно и в консоль
+    await msg.answer(msg.photo[-1].file_id)
 
-
+# ────────────────── показ вопроса ──────────────────────────────────────────
 async def ask_question(msg: Message, state: FSMContext) -> None:
     data   = await state.get_data()
     topic  = data["topic"]
-    idx    = data["idx"]                     # текущий вопрос
+    idx    = data["idx"]
     total  = len(QUIZZES[topic])
     q      = QUIZZES[topic][idx]
 
-    order = list(range(len(q["options"])))
-    random.shuffle(order)
-
+    # новое перемешивание каждый раз
+    order = random.sample(range(len(q["options"])), len(q["options"]))
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
                     text=q["options"][i],
-                    callback_data=f"ans:{idx}:{i}",   # ans:QIDX:OPTIDX
+                    callback_data=f"ans:{idx}:{i}",
                 )
             ]
             for i in order
         ]
     )
 
-    caption = (
-        f"❓_Вопрос {idx + 1} из {total}_\n\n"
-        f"*{q['question']}*"
-    )
+    caption = f"❓_Вопрос {idx + 1} из {total}_\n\n*{q['question']}*"
 
-    if q.get("file_id"):
-        await msg.answer_photo(
-            q["file_id"],
-            caption=caption,
-            reply_markup=kb,
-            parse_mode=ParseMode.MARKDOWN,
-        )
-    else:
+    try:
+        if q.get("file_id"):
+            await msg.answer_photo(
+                q["file_id"],
+                caption=caption,
+                reply_markup=kb,
+                parse_mode=ParseMode.MARKDOWN,   # важно для форматирования
+            )
+        else:
+            await msg.answer(caption, reply_markup=kb)
+    except TelegramBadRequest:
         await msg.answer(caption, reply_markup=kb)
 
     await state.set_state(QuizState.waiting_for_answer)
 
-
-
-
+# ────────────────── обработка ответа ───────────────────────────────────────
 @dp.callback_query(QuizState.waiting_for_answer)
 async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
-    data   = await state.get_data()
-    topic  = data["topic"]
-    idx    = data["idx"]                      # номер текущего вопроса
+    data = await state.get_data()
+    topic = data["topic"]
+    cur_idx = data["idx"]
 
-    # извлекаем q_idx и opt_idx
-    _, q_idx_str, opt_idx_str = cb.data.split(":")
-    q_idx   = int(q_idx_str)
-    chosen  = int(opt_idx_str)
+    _, qidx_str, opt_str = cb.data.split(":")
+    qidx = int(qidx_str)
+    opt  = int(opt_str)
 
-    # 👉 если нажали кнопку от предыдущего вопроса — просто игнорируем
-    if q_idx != idx:
-        await cb.answer()     # молча
+    # клик по кнопке от предыдущего вопроса
+    if qidx != cur_idx:
+        await cb.answer()
         return
 
-    q       = QUIZZES[topic][idx]
-    correct = chosen == q["correct"]
+    q  = QUIZZES[topic][qidx]
+    ok = opt == q["correct"]
 
-    data["results"].append({"idx": idx, "correct": correct})
-    score    = data["score"] + int(correct)
-    next_idx = idx + 1
+    data["results"].append({"idx": qidx, "correct": ok})
+    data["score"] += int(ok)
+    data["idx"]   += 1
+    await state.update_data(**data)
 
-    await cb.answer("✅ Верно!" if correct else "❌ Неверно")
+    # мгновенная всплывашка
+    await cb.answer("✅ Верно!" if ok else "❌ Неверно", show_alert=False)
 
-    if next_idx < len(QUIZZES[topic]):
-        await state.update_data(idx=next_idx, score=score, results=data["results"])
+    # ещё остались вопросы
+    if data["idx"] < len(QUIZZES[topic]):
         await ask_question(cb.message, state)
-    else:
-        # ── выводим итог + подробный отчёт ─────────────────────
-        lines = []
-        for i, item in enumerate(data["results"], start=1):
-            q_obj = QUIZZES[topic][item["idx"]]
-            mark  = "✅" if item["correct"] else "❌"
-            right = q_obj["options"][q_obj["correct"]]
-            lines.append(f"{mark} *Вопрос {i}:* {q_obj['question']}\n *Правильный ответ:* _{right}_")
+        return
 
-        report = "\n\n".join(lines)
-
-        await cb.message.answer(
-            f"🏁 Конец!\nПравильных ответов: *{score}* из *{len(data['results'])}*\n\n{report}"
+    # ───── финальный отчёт ────────────────────────────────────────────────
+    lines = []
+    for i, item in enumerate(data["results"], start=1):
+        q_obj = QUIZZES[topic][item["idx"]]
+        mark  = "✅" if item["correct"] else "❌"
+        right = q_obj["options"][q_obj["correct"]]
+        lines.append(
+            f"{mark} *Вопрос {i}:* {q_obj['question']}\n *Правильный ответ:* _{right}_"
         )
-        await state.clear()
 
-        # ➕ показываем предложение сыграть снова
-        topics = list(QUIZZES.keys())
-        kb = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [InlineKeyboardButton(text=t, callback_data=f"topic:{t}")]
-                for t in topics
+    await cb.message.answer(
+        f"🏁 Конец!\nПравильных: *{data['score']}* из *{len(data['results'])}*\n\n" +
+        "\n\n".join(lines)
+    )
+    await state.clear()
+
+    # ───── предложение сыграть ещё ───────────────────────────────────────
+    topics = list(QUIZZES.keys())
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text=t, callback_data=f"topic:{t}")
             ]
-        )
-        await cb.message.answer(
-            "🔄 Хочешь сыграть ещё раз? Выбери тему:",
-            reply_markup=kb,
-        )
+            for t in topics
+        ]
+    )
+    await cb.message.answer("🔄 Хочешь сыграть ещё раз? Выбери тему:", reply_markup=kb)
 
-# ─── запуск ────────────────────────────────────────────────────────────────
+# ────────────────── запуск ────────────────────────────────────────────────
 async def main() -> None:
-    if not config.bot_token:
-        raise RuntimeError("BOT_TOKEN не найден. Добавьте его в .env")
+    if not bot_token:
+        raise RuntimeError("BOT_TOKEN не найден")
     await dp.start_polling(bot)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
