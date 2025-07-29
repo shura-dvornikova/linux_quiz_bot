@@ -28,7 +28,7 @@ jobs:
     - name: Start bot container
       run: |
         docker run -d --name quiz-bot-test \
-          -e BOT_TOKEN=${{ secrets.TEST_BOT_TOKEN }} \
+          -e BOT_TOKEN=${{ secrets.BOT_TOKEN }} \
           -p 8088:8080 \
           quizbot:test-${{ github.sha }}
 
@@ -38,7 +38,7 @@ jobs:
     # --- 4. Smoke-test -----------------------------------------------------
     - name: Telegram getMe smoke-check
       run: |
-        curl -fsSL "https://api.telegram.org/bot${{ secrets.TEST_BOT_TOKEN }}/getMe" \
+        curl -fsSL "https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/getMe" \
           | jq -e '.ok == true'
 
     # --- 5. Clean-up -------------------------------------------------------
