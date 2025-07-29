@@ -43,7 +43,7 @@ dp = Dispatcher()
 async def on_startup(bot: Bot) -> None:
     await bot.set_my_commands(
         [
-            BotCommand(command="start", description="🚀🚀🚀 Начать викторину"),
+            BotCommand(command="start", description="🚀🚀🚀 Начать викторину заново"),
         ],
         scope=BotCommandScopeDefault(),
     )
