@@ -1,0 +1,49 @@
+name: CD-local smoke test
+
+on:
+  push:             
+    branches: [ main ]
+
+jobs:
+  local-test:
+    runs-on: self-hosted     # <-- наш локальный runner!
+    steps:
+
+    # --- 1. Checkout ------------------------------------------------------
+    - uses: actions/checkout@v4
+
+    # --- 2. Set-up Docker Buildx (build + load) ---------------------------
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build image & load into Docker
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        load: true             # <-- вместо push-а загружаем в local Docker daemon
+        tags: quizbot:test-${{ github.sha }}
+
+    # --- 3. Run container (detached) --------------------------------------
+    - name: Start bot container
+      run: |
+        docker run -d --name quiz-bot-test \
+          -e BOT_TOKEN=${{ secrets.TEST_BOT_TOKEN }} \
+          -p 8088:8080 \
+          quizbot:test-${{ github.sha }}
+
+        # Подождём, пока бот поднимется (логи или healthcheck)
+        sleep 6
+
+    # --- 4. Smoke-test -----------------------------------------------------
+    - name: Telegram getMe smoke-check
+      run: |
+        curl -fsSL "https://api.telegram.org/bot${{ secrets.TEST_BOT_TOKEN }}/getMe" \
+          | jq -e '.ok == true'
+
+    # --- 5. Clean-up -------------------------------------------------------
+    - name: Stop & remove container
+      if: always()
+      run: |
+        docker rm -f quiz-bot-test || true
+        docker image rm quizbot:test-${{ github.sha }} || true
