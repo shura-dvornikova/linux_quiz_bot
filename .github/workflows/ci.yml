@@ -47,9 +47,9 @@ jobs:
         black --check .
 
     # ---- 6. (опция) unit-tests -------------------------------------
-    # - name: Run tests
-    #   run: |
-    #     pytest -q
+    - name: Run tests
+      run: |
+       pytest -q
 
   # ---------- пример job, который билдит Docker-образ ---------------
   # Срабатывает только на push в main, чтобы не гонять на PR
@@ -75,3 +75,12 @@ jobs:
         push: true
         tags: |
           docker.io/${{ secrets.DOCKERHUB_USER }}/linux-quiz-bot:${{ steps.tag.outputs.TAG }}
+
+
+    - name: Debug secrets presence
+      run: |
+        echo "Username len: ${#DOCKERHUB_USERNAME}"
+        echo "Token len:    ${#DOCKERHUB_TOKEN}"
+      env:
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKERHUB_TOKEN:    ${{ secrets.DOCKERHUB_TOKEN }}
