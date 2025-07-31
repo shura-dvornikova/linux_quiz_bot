@@ -7,21 +7,20 @@ on:
     branches: [ "main" ]
 
 jobs:
+# ────────────────────────── LINT + TEST ──────────────────────────
   lint-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    # --- 1. чекаут кода ----------------------------------------------
-    - name: Checkout code
-      uses: actions/checkout@v4
+    # 1. Получаем код репозитория
+    - uses: actions/checkout@v4
 
-    # --- 2. выбор версии Python --------------------------------------
-    - name: Setup Python
-      uses: actions/setup-python@v5
+    # 2. Ставим конкретную версию Python
+    - uses: actions/setup-python@v5
       with:
         python-version: "3.12"
 
-    # --- 3. кэшируем pip-packages ------------------------------------
+    # 3. Кеш pip-пакетов
     - name: Cache pip
       uses: actions/cache@v4
       with:
@@ -29,58 +28,64 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
         restore-keys: ${{ runner.os }}-pip-
 
-    # --- 4. устанавливаем зависимости проекта ------------------------
+    # 4. Устанавливаем зависимости + линтеры
     - name: Install deps
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install flake8 black pytest
 
-    # --- 5. линт: Flake8 + Black ------------------------------------
+    # 5. Flake8
     - name: Run Flake8
-      run: |
-        flake8 --config .flake8 .
+      run: flake8 --config .flake8 .
 
+    # 6. Black (только проверка форматирования)
     - name: Check formatting with Black
-      run: |
-        black --check .
+      run: black --check .
 
-    # ---- 6. (опция) unit-tests -------------------------------------
-    - name: Run tests
+    # 7. Pytest (код 5 → нет тестов  → считаем успехом)
+    - name: Run tests (tolerate no-tests)
       run: |
-       pytest -q
+        set +e
+        python -m pytest -q
+        status=$?
+        if [ "$status" = "5" ]; then
+          echo "🛈  Pytest: no tests collected → ok"
+          exit 0
+        fi
+        exit $status
 
-  # ---------- пример job, который билдит Docker-образ ---------------
-  # Срабатывает только на push в main, чтобы не гонять на PR
+# ──────────────────────────── DOCKER ────────────────────────────
   docker-build:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push'           # только push (не PR)
     needs: lint-and-test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
     - uses: actions/checkout@v4
-    - uses: docker/login-action@v3
+
+    # логин в Docker Hub
+    - name: Docker login
+      uses: docker/login-action@v3
       with:
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Extract tag  (YYYYMMDD-HHMM)
+    # тег для образа
+    - name: Extract tag (YYYYMMDD-HHMM)
       id: tag
-      run: echo "TAG=$(date +'%Y%m%d-%H%M')" >> "$GITHUB_OUTPUT"
+      run: echo "TAG=$(date +'%Y%m%d-%H%M')" >>"$GITHUB_OUTPUT"
 
-    - name: Build & push
+    # сборка и push
+    - name: Build & push image
       uses: docker/build-push-action@v5
       with:
+        context: .
         push: true
         tags: |
           docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ steps.tag.outputs.TAG }}
-
-
-    - name: Debug secrets presence
-      run: |
-        echo "Username len: ${#DOCKERHUB_USERNAME}"
-        echo "Token len:    ${#DOCKERHUB_TOKEN}"
-      env:
-        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        DOCKERHUB_TOKEN:    ${{ secrets.DOCKERHUB_TOKEN }}
-
+          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:latest
