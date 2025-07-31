@@ -98,7 +98,7 @@ jobs:
     runs-on: [ self-hosted ]                # тот же раннер / та же машина
 
     env:                                   # удобная переменная
-      IMAGE_FULL: docker.io/${{ secrets.DOCKERHUB_USER }}/linux-quiz-bot:${{ needs.docker-build.outputs.image_tag }}
+      IMAGE_FULL: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ needs.docker-build.outputs.image_tag }}
 
     steps:
     - name: Pull fresh image
