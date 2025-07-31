@@ -34,8 +34,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        # линтеры – только для CI, можно не вносить в requirements.txt
-        pip install flake8 black
+        pip install flake8 black pytest
 
     # --- 5. линт: Flake8 + Black ------------------------------------
     - name: Run Flake8
