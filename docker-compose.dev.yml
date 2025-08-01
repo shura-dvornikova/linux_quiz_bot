@@ -1,21 +1,15 @@
-version: "3.8"               # строка может уже быть — оставляйте
-
 services:
   bot:
+    container_name: linux-quiz-bot-dev
     build: .
-    command: python -m bot    # чтобы явно запускался модуль
+    command: python -m bot
     working_dir: /app
-
-    # ↓ ЭТО главная «фишка dev»: монтируем исходники внутрь контейнера,
-    #   тогда любые изменения кода видны сразу без rebuild
     volumes:
       - .:/app
-
-    # используем dev-переменные
     env_file: .env.dev
-
-    # для красоты логов
     environment:
+      - BOT_TOKEN_DEV
+      - LOG_LEVEL
+      - ENV
       - PYTHONUNBUFFERED=1
-
     restart: unless-stopped

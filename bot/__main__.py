@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import os
 import random
 from pathlib import Path
 
@@ -20,10 +21,19 @@ from aiogram.types import (
     Message,
 )
 
-from .config import bot_token  # BOT_TOKEN подтягивается из .env.*
+# ────────────────── определяем переменную BOT_TOKEN ───────────────────────
+ENV = os.getenv("ENV", "dev").lower()
+if ENV == "prod":
+    bot_token = os.getenv("BOT_TOKEN_PROD")
+else:
+    bot_token = os.getenv("BOT_TOKEN_DEV")
+
+if not bot_token:
+    raise RuntimeError(f"❌ Не задан токен для окружения ENV={ENV}")
 
 # ────────────────── базовое логирование ────────────────────────────────────
-logging.basicConfig(level=logging.INFO)
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=LOG_LEVEL)
 
 # ────────────────── читаем вопросы ─────────────────────────────────────────
 QUIZ_PATH = Path(__file__).parent / "data" / "quizzes.json"
@@ -98,7 +108,6 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
     total = len(QUIZZES[topic])
     q = QUIZZES[topic][idx]
 
-    # новое перемешивание каждый раз
     order = random.sample(range(len(q["options"])), len(q["options"]))
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -120,7 +129,7 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
                 q["file_id"],
                 caption=caption,
                 reply_markup=kb,
-                parse_mode=ParseMode.MARKDOWN,  # важно для форматирования
+                parse_mode=ParseMode.MARKDOWN,
             )
         else:
             await msg.answer(caption, reply_markup=kb)
@@ -141,7 +150,6 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
     qidx = int(qidx_str)
     opt = int(opt_str)
 
-    # клик по кнопке от предыдущего вопроса
     if qidx != cur_idx:
         await cb.answer()
         return
@@ -154,15 +162,12 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
     data["idx"] += 1
     await state.update_data(**data)
 
-    # мгновенная всплывашка
     await cb.answer("✅ Верно!" if ok else "❌ Неверно", show_alert=False)
 
-    # ещё остались вопросы
     if data["idx"] < len(QUIZZES[topic]):
         await ask_question(cb.message, state)
         return
 
-    # ───── финальный отчёт ────────────────────────────────────────────────
     lines = []
     for i, item in enumerate(data["results"], start=1):
         q_obj = QUIZZES[topic][item["idx"]]
@@ -178,7 +183,6 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
     )
     await state.clear()
 
-    # ───── предложение сыграть ещё ───────────────────────────────────────
     topics = list(QUIZZES.keys())
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -190,8 +194,6 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
 
 # ────────────────── запуск ────────────────────────────────────────────────
 async def main() -> None:
-    if not bot_token:
-        raise RuntimeError("BOT_TOKEN не найден")
     await dp.start_polling(bot)
 
 
