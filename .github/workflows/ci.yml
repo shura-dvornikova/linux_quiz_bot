@@ -1,4 +1,4 @@
-name: CI-CD (local self-hosted)
+name: CI-CD
 
 on:
   push:

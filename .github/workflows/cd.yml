@@ -1,19 +1,36 @@
-name: Local deploy
+name: CD
+
 on:
   workflow_run:
-    workflows: [ "CI" ]
+    workflows: [ "CI" ]           # ← должно совпадать с name: в ci.yml
     branches:  [ main ]
     types:     [ completed ]
 
 jobs:
-  rollout:
+  deploy-prod:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: self-hosted              # <-- ваш раннер
+    runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Pull & restart container
+      - name: Create .env.prod from secrets
         run: |
-          docker pull docker.io/${{ secrets.DOCKERHUB_USER }}/linux-quiz-bot:latest
-          docker compose up -d --force-recreate
+          cat <<EOF > .env.prod
+          BOT_TOKEN_PROD=${{ secrets.BOT_TOKEN_PROD }}
+          ENV=prod
+          # добавь при необходимости другие переменные
+          EOF
+
+      - name: Pull and restart container
+        run: |
+          docker pull docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:latest
+          docker compose -f docker-compose.prod.yml \
+                         --env-file .env.prod \
+                         up -d --force-recreate
+
+      - name: Smoke test – ping bot
+        run: |
+          sleep 5
+          curl -sf "http://localhost:8080/healthz" || echo "🤷‍♀️ no health-check yet"
