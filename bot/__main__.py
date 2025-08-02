@@ -173,7 +173,9 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
 
 @dp.callback_query()
 async def unknown_callback(cb: CallbackQuery):
-    await cb.answer("⚠️ Ответ устарел или сессия завершена. Нажми /start", show_alert=True)
+    await cb.answer(
+        "⚠️ Ответ устарел или сессия завершена. Нажми /start", show_alert=True
+    )
 
 
 async def main() -> None:
