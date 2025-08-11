@@ -83,11 +83,12 @@ jobs:
     runs-on: [ self-hosted ]
 
     env:
-      IMAGE_FULL: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ needs.docker-build.outputs.image_tag }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
 
     steps:
       - name: Pull fresh image
-        run: docker pull $IMAGE_FULL
+        run: docker pull docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ env.IMAGE_TAG }}
 
       - name: Create .env.dev from secrets
         run: |
@@ -99,7 +100,6 @@ jobs:
 
       - name: Recreate container (docker-compose)
         run: |
-          export IMAGE_TAG=${{ needs.docker-build.outputs.image_tag }}
           docker compose -f docker-compose.dev.yml \
                          --env-file .env.dev      \
                          up -d --force-recreate
@@ -117,15 +117,16 @@ jobs:
     runs-on: [ self-hosted ]
 
     env:
-      IMAGE_FULL: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ needs.docker-build.outputs.image_tag }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
 
     steps:
       - name: Pull fresh image
-        run: docker pull $IMAGE_FULL
+        run: docker pull docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ env.IMAGE_TAG }}
 
       - name: Create .env.prod from secrets
         run: |
-          cat <<EOF > .env.prod
+          cat > .env.prod <<EOF
           ENV=prod
           BOT_TOKEN_PROD=${{ secrets.BOT_TOKEN_PROD }}
           LOG_LEVEL=INFO
@@ -133,7 +134,6 @@ jobs:
 
       - name: Recreate container (docker-compose)
         run: |
-          export IMAGE_TAG=${{ needs.docker-build.outputs.image_tag }}
           docker compose -f docker-compose.prod.yml \
                          --env-file .env.prod      \
                          up -d --force-recreate
