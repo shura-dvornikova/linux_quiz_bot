@@ -44,7 +44,7 @@ dp = Dispatcher()
 
 async def on_startup(bot: Bot) -> None:
     await bot.set_my_commands(
-        [BotCommand(command="start", description="👾👾👾 Начать викторину заново")],
+        [BotCommand(command="start", description="👾 Начать викторину заново")],
         scope=BotCommandScopeDefault(),
     )
     logging.info("Меню команд обновлено")
