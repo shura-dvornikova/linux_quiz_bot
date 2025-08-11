@@ -2,9 +2,9 @@ name: CI-CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
 jobs:
 
@@ -79,6 +79,7 @@ jobs:
   # --- DEV деплой (как у тебя было), можно оставить/отключить по желанию
   deploy-dev:
     needs: docker-build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     runs-on: [ self-hosted ]
 
     env:
