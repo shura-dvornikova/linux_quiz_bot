@@ -1,13 +1,9 @@
 services:
   bot:
-    container_name: linux-quiz-bot
-    image: docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest
-    command: python -m bot
-    working_dir: /app
-    env_file: .env.prod
-    environment:
-      - BOT_TOKEN_PROD
-      - LOG_LEVEL
-      - ENV
-      - PYTHONUNBUFFERED=1
+    image: docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
+    container_name: linux-quiz-bot-prod
     restart: unless-stopped
+    env_file: .env.prod
+    ports:
+      - "8080:8080"
+

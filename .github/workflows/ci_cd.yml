@@ -2,7 +2,7 @@ name: CI-CD
 
 on:
   push:
-    branches: [ "main", "develop" ]   # ← ВАЖНО: слушаем обе ветки
+    branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main", "develop" ]
 
@@ -11,36 +11,59 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
-      - uses: actions/cache@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache pip
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
           restore-keys: ${{ runner.os }}-pip-
-      - run: |
+
+      - name: Install dependencies
+        run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install flake8 black pytest
-      - run: flake8 --config .flake8 .
-      - run: black --check .
-      - run: pytest -q || echo "no tests"
+
+      - name: Flake8
+        run: flake8 --config .flake8 .
+
+      - name: Black (check-only)
+        run: black --check .
+
+      - name: Run pytest (skip-ok)
+        run: |
+          pytest -q || echo "⚠️  no tests yet"
 
   docker-build:
     needs: lint-and-test
     if: github.event_name == 'push'
     runs-on: [ self-hosted ]
+
+    # сохраняем тег, чтобы использовать его в deploy-* джобах
     outputs:
       image_tag: ${{ steps.vars.outputs.tag }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker login
+        uses: docker/login-action@v3
         with:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - id: vars
+
+      # Тег в формате YYYYMMDD-HHMM (оставляем как у тебя)
+      - name: Extract tag (YYYYMMDD-HHMM)
+        id: vars
         run: echo "tag=$(date +'%Y%m%d-%H%M')" >> "$GITHUB_OUTPUT"
       - uses: docker/build-push-action@v5
         with:
@@ -49,17 +72,21 @@ jobs:
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ steps.vars.outputs.tag }}
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:latest
 
-  # ------------ DEV деплой: ТОЛЬКО для ветки develop -------------
+  # --- DEV деплой (как у тебя было), можно оставить/отключить по желанию
   deploy-dev:
     needs: docker-build
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     runs-on: [ self-hosted ]
+
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
     steps:
+      - uses: actions/checkout@v4
+
       - name: Pull fresh image
-        run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
+        run: docker pull docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ env.IMAGE_TAG }}
+
       - name: Create .env.dev from secrets
         run: |
           cat > .env.dev <<EOF
@@ -67,17 +94,20 @@ jobs:
           BOT_TOKEN_DEV=${{ secrets.BOT_TOKEN_DEV }}
           LOG_LEVEL=INFO
           EOF
-      - name: Recreate container (dev)
+
+      - name: Recreate container (docker-compose)
         run: |
+          # в compose используются ${DOCKERHUB_USERNAME} и ${IMAGE_TAG}
           docker compose -f docker-compose.dev.yml \
                          --env-file .env.dev \
                          up -d --force-recreate
-      - name: Smoke test
+
+      - name: Smoke test – ping Bot API
         run: |
           sleep 5
           curl -sf http://localhost:8081/healthz || echo "no health-check"
 
-  # ------------ PROD деплой: ТОЛЬКО для ветки main ---------------
+  # --- PROD деплой (НОВЫЙ job)
   deploy-prod:
     needs: docker-build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -86,8 +116,11 @@ jobs:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
     steps:
+      - uses: actions/checkout@v4
+
       - name: Pull fresh image
-        run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
+        run: docker pull docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ env.IMAGE_TAG }}
+
       - name: Create .env.prod from secrets
         run: |
           cat > .env.prod <<EOF
@@ -95,12 +128,14 @@ jobs:
           BOT_TOKEN_PROD=${{ secrets.BOT_TOKEN_PROD }}
           LOG_LEVEL=INFO
           EOF
-      - name: Recreate container (prod)
+
+      - name: Recreate container (docker-compose)
         run: |
           docker compose -f docker-compose.prod.yml \
                          --env-file .env.prod \
                          up -d --force-recreate
-      - name: Smoke test
+
+      - name: Smoke test – ping Bot API
         run: |
           sleep 5
           curl -sf http://localhost:8080/healthz || echo "no health-check"
