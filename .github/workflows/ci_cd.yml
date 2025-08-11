@@ -12,69 +12,72 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Cache pip
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-        restore-keys: ${{ runner.os }}-pip-
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install flake8 black pytest
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8 black pytest
 
-    - name: Flake8
-      run: flake8 --config .flake8 .
+      - name: Flake8
+        run: flake8 --config .flake8 .
 
-    - name: Black (check-only)
-      run: black --check .
+      - name: Black (check-only)
+        run: black --check .
 
-    - name: Run pytest (skip-ok)
-      run: |
-        pytest -q || echo "⚠️  no tests yet"
+      - name: Run pytest (skip-ok)
+        run: |
+          pytest -q || echo "⚠️  no tests yet"
 
   docker-build:
     if: github.event_name == 'push'
     needs: lint-and-test
     runs-on: [ self-hosted ]
 
+    # сохраняем тег, чтобы использовать его в deploy-* джобах
     outputs:
       image_tag: ${{ steps.vars.outputs.tag }}
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Docker login
-      uses: docker/login-action@v3
-      with:
-        registry: docker.io
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker login
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Extract tag (YYYYMMDD-HHMM)
-      id: vars
-      run: echo "tag=$(date +'%Y%m%d-%H%M')" >> "$GITHUB_OUTPUT"
+      # Тег в формате YYYYMMDD-HHMM (оставляем как у тебя)
+      - name: Extract tag (YYYYMMDD-HHMM)
+        id: vars
+        run: echo "tag=$(date +'%Y%m%d-%H%M')" >> "$GITHUB_OUTPUT"
 
-    - name: Build & push
-      uses: docker/build-push-action@v5
-      with:
-        push: true
-        tags: |
-          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ steps.vars.outputs.tag }}
-          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:latest
+      - name: Build & push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: |
+            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ steps.vars.outputs.tag }}
+            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:latest
 
-  deploy-local:
+  # --- DEV деплой (как у тебя было), можно оставить/отключить по желанию
+  deploy-dev:
     needs: docker-build
     runs-on: [ self-hosted ]
 
@@ -82,25 +85,59 @@ jobs:
       IMAGE_FULL: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ needs.docker-build.outputs.image_tag }}
 
     steps:
-    - name: Pull fresh image
-      run: docker pull $IMAGE_FULL
+      - name: Pull fresh image
+        run: docker pull $IMAGE_FULL
 
-    - name: Create .env.dev from secrets
-      run: |
-        cat <<EOF > .env.dev
-        BOT_TOKEN_DEV=${{ secrets.BOT_TOKEN_DEV }}
-        ENV=dev
-        # Добавь при необходимости другие переменные
-        EOF
+      - name: Create .env.dev from secrets
+        run: |
+          cat <<EOF > .env.dev
+          ENV=dev
+          BOT_TOKEN_DEV=${{ secrets.BOT_TOKEN_DEV }}
+          LOG_LEVEL=INFO
+          EOF
 
-    - name: Recreate container (docker-compose)
-      run: |
-        export IMAGE_TAG=${{ needs.docker-build.outputs.image_tag }}
-        docker compose -f docker-compose.dev.yml \
-                       --env-file .env.dev      \
-                       up -d --force-recreate
+      - name: Recreate container (docker-compose)
+        run: |
+          export IMAGE_TAG=${{ needs.docker-build.outputs.image_tag }}
+          docker compose -f docker-compose.dev.yml \
+                         --env-file .env.dev      \
+                         up -d --force-recreate
 
-    - name: Smoke test – ping Bot API
-      run: |
-        sleep 5
-        curl -sf "http://localhost:8080/healthz" || echo "🤷‍♂️ no health-check yet"
+      - name: Smoke test – ping Bot API
+        run: |
+          sleep 5
+          curl -sf "http://localhost:8081/healthz" || echo "🤷‍♂️ no health-check yet"
+  # ↑ совет: чтобы не конфликтовать с продом, в dev маппируй 8081:8080 в docker-compose.dev.yml
+
+  # --- PROD деплой (НОВЫЙ job)
+  deploy-prod:
+    needs: docker-build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: [ self-hosted ]
+
+    env:
+      IMAGE_FULL: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/linux-quiz-bot:${{ needs.docker-build.outputs.image_tag }}
+
+    steps:
+      - name: Pull fresh image
+        run: docker pull $IMAGE_FULL
+
+      - name: Create .env.prod from secrets
+        run: |
+          cat <<EOF > .env.prod
+          ENV=prod
+          BOT_TOKEN_PROD=${{ secrets.BOT_TOKEN_PROD }}
+          LOG_LEVEL=INFO
+          EOF
+
+      - name: Recreate container (docker-compose)
+        run: |
+          export IMAGE_TAG=${{ needs.docker-build.outputs.image_tag }}
+          docker compose -f docker-compose.prod.yml \
+                         --env-file .env.prod      \
+                         up -d --force-recreate
+
+      - name: Smoke test – ping Bot API
+        run: |
+          sleep 5
+          curl -sf "http://localhost:8080/healthz" || echo "🤷 no health-check yet"
