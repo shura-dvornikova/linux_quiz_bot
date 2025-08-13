@@ -101,7 +101,7 @@ jobs:
         run: |
           docker compose -f docker-compose.dev.yml \
                          --env-file .env.dev \
-                         -p dev \ 
+                         -p dev \
                          up -d --force-recreate
 
       - name: Show resolved image (dev)
