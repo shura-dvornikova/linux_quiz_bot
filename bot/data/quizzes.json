@@ -2,8 +2,13 @@
   "Linux": [
     {
       "question": "Какой процесс имеет PID 1 в Linux?",
-      "options": ["systemd", "init", "sshd", "bash"],
-      "correct": 0
+      "options": [
+        "systemd",
+        "init",
+        "sshd",
+        "bash"
+      ],
+      "correct": "0"
     },
     {
       "question": "Что делает команда `chmod +x script.sh`?",
@@ -13,575 +18,611 @@
         "Добавляет право на исполнение",
         "Показывает содержимое файла"
       ],
-      "correct": 2
+      "correct": "2"
     },
     {
-      "question": "Что такое systemd?\n1 - Это менеджер системы и сервисов в операционной системе Linux",
+      "question": "Что такое systemd?\n1 - Это менеджер системы и сервисов в операционной системе Linux\n1 - Это операционная система из семейства UNIX\n2 - Порядок хранения файлов на диске или другом информационном носителе\n3 - Древовидная сложная структура, начинающаяся с корня\n4 - Процесс, который работает в фоновом режиме без прямого участия пользователя",
       "options": [
-        "Это операционная система из семейства UNIX",
-        "Порядок хранения файлов на диске или другом информационном носителе",
-        "Древовидная сложная структура, начинающаяся с корня",
-        "Процесс, который работает в фоновом режиме без прямого участия пользователя"
+        "1",
+        "2",
+        "3",
+        "4"
       ],
-      "correct": 0
+      "correct": "1"
     },
     {
-      "question": "SSH (Secure SHell - защищенная оболочка) - это ...",
+      "question": "SSH (Secure SHell - защищенная оболочка) - это ...\n1 - сетевая модель, описывающая процесс передачи цифровых данных\n2 - уникальный адрес, который идентифицирует устройство в Интеренете или локальной сети\n3 - менеджер системы и сервисов в операционной системе Linux\n4 - сетевой протокол прикладного уровня для безопасного удаленного управления сервером через интеренет",
       "options": [
-        "сетевая модель, описывающая процесс передачи цифровых данных",
-        "уникальный адрес, который идентифицирует устройство в Интеренете или локальной сети",
-        "менеджер системы и сервисов в операционной системе Linux",
-        "сетевой протокол прикладного уровня для безопасного удаленного управления сервером через интеренет"
+        "1",
+        "2",
+        "3",
+        "4"
       ],
-      "correct": 3
+      "correct": "4"
     },
     {
       "question": "Какой каталог содержит конфиги ядра, смонтированные как псевдо-ФС?",
-      "options": ["/proc", "/sys", "/run", "/dev"],
-      "correct": 1
+      "options": [
+        "/proc",
+        "/sys",
+        "/run",
+        "/dev"
+      ],
+      "correct": "1"
     },
     {
       "question": "Чем отличается `apt update` от `apt upgrade`?",
-      "options": ["Обновляет кэш", "Ставит пакеты", "Удаляет пакеты", "Чистит кэш"],
-      "correct": 0
+      "options": [
+        "Обновляет кэш",
+        "Ставит пакеты",
+        "Удаляет пакеты",
+        "Чистит кэш"
+      ],
+      "correct": "0"
     },
     {
       "question": "Какой ключ `ps` выводит дерево процессов?",
-      "options": ["-e", "-f", "-u", "-H"],
-      "correct": 3
+      "options": [
+        "-e",
+        "-f",
+        "-u",
+        "-H"
+      ],
+      "correct": "3"
     },
     {
       "question": "Что делает `set -e` в bash-скрипте?",
-      "options": ["Игнор err", "Выход при err", "Трассировка", "Экспорт vars"],
-      "correct": 1
+      "options": [
+        "Игнор err",
+        "Выход при err",
+        "Трассировка",
+        "Экспорт vars"
+      ],
+      "correct": "1"
     },
     {
       "question": "Команда, показывающая открытые порты и PID:",
-      "options": ["top", "ss -tlnp", "lsof", "du"],
-      "correct": 1
+      "options": [
+        "top",
+        "ss -tlnp",
+        "lsof",
+        "du"
+      ],
+      "correct": "1"
     },
     {
       "question": "Какой сигнал безопасно завершает процесс для сохранения данных?",
-      "options": ["SIGKILL", "SIGSTOP", "SIGTERM", "SIGHUP"],
-      "correct": 2
+      "options": [
+        "SIGKILL",
+        "SIGSTOP",
+        "SIGTERM",
+        "SIGHUP"
+      ],
+      "correct": "2"
     },
     {
       "question": "`/etc/hosts` читается раньше, чем…",
-      "options": ["DNS", "ARP", "DHCP", "NTP"],
-      "correct": 0
+      "options": [
+        "DNS",
+        "ARP",
+        "DHCP",
+        "NTP"
+      ],
+      "correct": "0"
     },
     {
       "question": "Чем отличается soft link от hard link?",
-      "options": ["inode общий", "inode разный", "RW права", "Нет прав"],
-      "correct": 1
+      "options": [
+        "inode общий",
+        "inode разный",
+        "RW права",
+        "Нет прав"
+      ],
+      "correct": "1"
     },
     {
       "question": "Что покажет `uname -r`?",
-      "options": ["Вер. ОС", "Вер. ядра", "Хостнейм", "Архитек."],
-      "correct": 1
+      "options": [
+        "Вер. ОС",
+        "Вер. ядра",
+        "Хостнейм",
+        "Архитек."
+      ],
+      "correct": "1"
     },
     {
       "question": "Какой runlevel отвечает за перезапуск (SysV)?",
-      "options": ["3", "1", "6", "5"],
-      "correct": 2
+      "options": [
+        "3",
+        "1",
+        "6",
+        "5"
+      ],
+      "correct": "2"
     },
     {
       "question": "Файл для задания ulimits глобально:",
-      "options": ["/etc/security/limits.conf", "/etc/profile", "/etc/fstab", "/etc/login.defs"],
-      "correct": 0
+      "options": [
+        "/etc/security/limits.conf",
+        "/etc/profile",
+        "/etc/fstab",
+        "/etc/login.defs"
+      ],
+      "correct": "0"
     },
     {
       "question": "Что делает `journalctl -u nginx`?",
-      "options": ["Фильтр по unit", "Очистка лога", "Перезапуск", "Сжатие"],
-      "correct": 0
+      "options": [
+        "Фильтр по unit",
+        "Очистка лога",
+        "Перезапуск",
+        "Сжатие"
+      ],
+      "correct": "0"
     },
     {
       "question": "Каким инструментом измерить I/O диска в реальном времени?",
-      "options": ["htop", "iostat", "vmstat", "strace"],
-      "correct": 1
+      "options": [
+        "htop",
+        "iostat",
+        "vmstat",
+        "strace"
+      ],
+      "correct": "1"
     },
     {
       "question": "`chmod 640 file` выдаёт права…",
-      "options": ["rw-r-----", "rw-r--r--", "rwxr-x---", "rw-rw----"],
-      "correct": 0
+      "options": [
+        "rw-r-----",
+        "rw-r--r--",
+        "rwxr-x---",
+        "rw-rw----"
+      ],
+      "correct": "0"
     },
     {
       "question": "Где systemd хранит юниты пользователя?",
-      "options": ["~/.config/systemd/user", "/usr/lib/systemd", "/etc/init.d", "/run/systemd"],
-      "correct": 0
+      "options": [
+        "~/.config/systemd/user",
+        "/usr/lib/systemd",
+        "/etc/init.d",
+        "/run/systemd"
+      ],
+      "correct": "0"
     },
     {
       "question": "Команда для создания gzip-архива и вывода в stdout:",
-      "options": ["tar czf", "tar xzf", "tar cO", "tar cz -"],
-      "correct": 3
+      "options": [
+        "tar czf",
+        "tar xzf",
+        "tar cO",
+        "tar cz -"
+      ],
+      "correct": "3"
     },
     {
       "question": "Какой менеджер пакетов в Fedora?",
-      "options": ["apt", "dnf", "pacman", "zypper"],
-      "correct": 1
+      "options": [
+        "apt",
+        "dnf",
+        "pacman",
+        "zypper"
+      ],
+      "correct": "1"
     },
     {
       "question": "`nice -n -10` делает процесс…",
-      "options": ["Менее приор.", "Более приор.", "Стопит", "Убивает"],
-      "correct": 1
+      "options": [
+        "Менее приор.",
+        "Более приор.",
+        "Стопит",
+        "Убивает"
+      ],
+      "correct": "1"
     },
     {
       "question": "Что делает `rsync -a`?",
-      "options": ["Полный sync", "Только diff", "Удаляет src", "Тестовое"],
-      "correct": 0
+      "options": [
+        "Полный sync",
+        "Только diff",
+        "Удаляет src",
+        "Тестовое"
+      ],
+      "correct": "0"
     },
     {
       "question": "Какой файл описывает static network в systemd-networkd?",
-      "options": ["*.network", "*.link", "*.netdev", "*.service"],
-      "correct": 0
+      "options": [
+        "*.network",
+        "*.link",
+        "*.netdev",
+        "*.service"
+      ],
+      "correct": "0"
     },
     {
       "question": "Слой copy-on-write используют…",
-      "options": ["LVM", "OverlayFS", "ext4", "NFS"],
-      "correct": 1
+      "options": [
+        "LVM",
+        "OverlayFS",
+        "ext4",
+        "NFS"
+      ],
+      "correct": "1"
     },
     {
       "question": "Что делает `chroot /mnt`?",
-      "options": ["Меняет pidns", "Меняет root dir", "Меняет user", "Меняет cwd"],
-      "correct": 1
+      "options": [
+        "Меняет pidns",
+        "Меняет root dir",
+        "Меняет user",
+        "Меняет cwd"
+      ],
+      "correct": "1"
     },
     {
       "question": "`grep -E \"^#?Port\" /etc/ssh/sshd_config` ищет…",
-      "options": ["TCP порт", "SSH ключ", "User", "Subsystem"],
-      "correct": 0
+      "options": [
+        "TCP порт",
+        "SSH ключ",
+        "User",
+        "Subsystem"
+      ],
+      "correct": "0"
     },
     {
       "question": "Какой ключ `find` удалит файлы старше 7 суток?",
-      "options": ["-size", "-mtime +7 -delete", "-ctime 7", "-type f"],
-      "correct": 1
+      "options": [
+        "-size",
+        "-mtime +7 -delete",
+        "-ctime 7",
+        "-type f"
+      ],
+      "correct": "1"
     },
     {
       "question": "Что возвращает `$?` в bash?",
-      "options": ["PID", "Exit code", "Кол-во args", "UID"],
-      "correct": 1
+      "options": [
+        "PID",
+        "Exit code",
+        "Кол-во args",
+        "UID"
+      ],
+      "correct": "1"
     },
     {
       "question": "Команда для отображения групп пользователя:",
-      "options": ["id -nG", "whoami", "groups -l", "passwd -l"],
-      "correct": 0
-    },
-    {
-      "question": "Какой файл отвечает за fstab-style mounts при boot?",
-      "options": ["/etc/fstab", "/etc/mtab", "/etc/rc.local", "/boot/grub.cfg"],
-      "correct": 0
-    },
-    {
-      "question": "`ssh -L 8080:localhost:80 user@host` это…",
-      "options": ["Dynamic", "Reverse", "Local", "Socks"],
-      "correct": 2
-    },
-    {
-      "question": "Утилита для перезаписи MBR нулями (осторожно!):",
-      "options": ["fsck", "mkfs", "dd", "hdparm"],
-      "correct": 2
-    },
-    {
-      "question": "Как показать только IP адреса интерфейсов?",
-      "options": ["ip a", "ip -brief a", "ifconfig", "route -n"],
-      "correct": 1
-    },
-    {
-      "question": "Как зовут этого персонажа?",
       "options": [
-        "Линус Торвальдс",
-        "Пингвин Тукс",
-        "Винпинг Шмукс",
-        "Торвальд Линукс"
+        "id -nG",
+        "whoami",
+        "groups -l",
+        "passwd -l"
       ],
-      "correct": 1,
-      "file_id": "AgACAgIAAxkBAAICbGg27PHth1pmCEZYVl4hIh6VPY7fAALM9TEbGAS4SQjCmXg4C-BzAQADAgADeQADNgQ"
-    },
-    {
-      "question": "Какой термин пропущен в тексте? <...> - это исполняемая программа. Когда программист пишет программу и выполняет ее, эта программа становится <...>, который выполняет задачи в соответствии с инструкциями программы.",
-      "options": [
-        "поток",
-        "операционная система",
-        "процесс",
-        "приложение"
-      ],
-      "correct": 2
-    },
-    {
-      "question": "Какое утверждение о сигналах в UNIX-системах неверно?",
-      "options": [
-        "сигналы могут возникать только синхронно с ошибкой в приложении",
-        "сигнал — это число",
-        "сигналы могут возникать синхронно с ошибкой в приложении",
-        "сигнал - это асинхронное уведомление процесса о каком-либо событии, один из основных способов взаимодействия между процессами"
-      ],
-      "correct": 0
-    },
-    {
-      "question": "Каким символом обозначается корневой каталог Unix-системах?",
-      "options": [
-        "/",
-        "@",
-        "~",
-        "."
-      ],
-      "correct": 0
-    },
-    {
-      "question": "Каким символом в bash обозначается домашний каталог текущего пользователя?",
-      "options": [
-        ".",
-        "@",
-        "~",
-        "/"
-      ],
-      "correct": 2
-    },
-    {
-      "question": "Посмотрите на картинку. Что означает TTY?",
-      "options": [
-        "имя терминала, на котором выполняется процесс, соединённого со стандартным вводом",
-        "идентификатор процесса",
-        "состояние процесса",
-        "имя пользователя"
-      ],
-      "correct": 0,
-      "file_id": "AgACAgIAAxkBAAICvWhLFaX1batfTRE0LaEtk166CMe2AAJVAAEyG-sNWUoQ-7NPfMWnBgEAAwIAA3gAAzYE"
-    },
-    {
-      "question": "Как отделить процесс от оболочки и запустить его в фоновом режиме?",
-      "options": [
-        "добавить # в конец команды",
-        "добавить & в конец команды",
-        "никак",
-        "добавить $ в начало команды"
-      ],
-      "correct": 1
-    },
-    {
-      "question": "Какие символы и в каком порядке должны быть вместо 🦄?",
-      "options": [
-        "r, -, w, x",
-        "r, w, x, -",
-        "w, r, x, -",
-        "x, r, -, w"
-      ],
-      "correct": 1,
-      
-      "file_id": "AgACAgIAAxkBAAIC4WhLI3rGqdtK3zHScDDHcUecbQiJAALYAAEyG-sNWUprRcrNHXLkmgEAAwIAA3kAAzYE"
+      "correct": "0"
     }
   ],
   "Docker": [
     {
-        "question": "Что такое Docker-образ (image)?",
-        "options": [
-            "Непрерывно работающий процесс в контейнере",
-            "Файловая система + метаданные, из которых создаются контейнеры",
-            "Файл конфигурации docker-compose.yml",
-            "Плагин Docker Engine для работы с кластерами"
-        ],
-        "correct": 1
+      "question": "Что такое Docker-образ (image)?\n1 - Непрерывно работающий процесс в контейнере\n2 - Файловая система + метаданные, из которых создаются контейнеры\n3 - Файл конфигурации docker-compose.yml\n4 - Плагин Docker Engine для работы с кластерами",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct": "2"
     },
     {
-        "question": "Какой командой создаётся новый контейнер и сразу запускается в фоновом режиме?",
-        "options": [
-            "docker create -d …",
-            "docker run -d …",
-            "docker start -d …",
-            "docker compose up"
-        ],
-        "correct": 1
+      "question": "Какой командой создаётся новый контейнер и сразу запускается в фоновом режиме?",
+      "options": [
+        "docker create -d …",
+        "docker run -d …",
+        "docker start -d …",
+        "docker compose up"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Какой флаг Docker Build включает движок BuildKit (современный билд-движок)?",
-        "options": [
-            "--build-arg BUILDKIT=1",
-            "BUILDKIT=1 docker build …",
-            "--enable-buildkit",
-            "--use-buildkit"
-        ],
-        "correct": 1
+      "question": "Какой флаг Docker Build включает движок BuildKit (современный билд-движок)?",
+      "options": [
+        "--build-arg BUILDKIT=1",
+        "BUILDKIT=1 docker build …",
+        "--enable-buildkit",
+        "--use-buildkit"
+      ],
+      "correct": "1"
     },
     {
-        "question": "В какой инструкции Dockerfile обычно указывают рабочую директорию, в которой будут выполняться последующие команды?",
-        "options": [
-            "RUN",
-            "CMD",
-            "WORKDIR",
-            "USER"
-        ],
-        "correct": 2
+      "question": "В какой инструкции Dockerfile обычно указывают рабочую директорию, в которой будут выполняться последующие команды?",
+      "options": [
+        "RUN",
+        "CMD",
+        "WORKDIR",
+        "USER"
+      ],
+      "correct": "2"
     },
     {
-        "question": "Какой сетевой режим предоставляет контейнеру доступ к сетевому пространству хоста?",
-        "options": [
-            "bridge",
-            "host",
-            "none",
-            "overlay"
-        ],
-        "correct": 1
+      "question": "Какой сетевой режим предоставляет контейнеру доступ к сетевому пространству хоста?",
+      "options": [
+        "bridge",
+        "host",
+        "none",
+        "overlay"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Чем отличается `ENTRYPOINT` от `CMD` в Dockerfile?",
-        "options": [
-            "`ENTRYPOINT` задаёт неизменяемую команду, `CMD` — аргументы по умолчанию",
-            "`CMD` выполняется раньше `ENTRYPOINT`",
-            "`ENTRYPOINT` используется только в Alpine-образах",
-            "Ничем — это синонимы"
-        ],
-        "correct": 0
+      "question": "Чем отличается `ENTRYPOINT` от `CMD` в Dockerfile?\n1 - `ENTRYPOINT` задаёт неизменяемую команду, `CMD` — аргументы по умолчанию\n2 - `CMD` выполняется раньше `ENTRYPOINT`\n3 - `ENTRYPOINT` используется только в Alpine-образах\n4 - Ничем — это синонимы",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Как удалить ВСЕ остановленные контейнеры одной командой?",
-        "options": [
-            "docker rm $(docker ps -aq)",
-            "docker system prune -f",
-            "docker container prune -f",
-            "docker stop $(docker ps -q)"
-        ],
-        "correct": 2
+      "question": "Как удалить ВСЕ остановленные контейнеры одной командой?",
+      "options": [
+        "docker rm $(docker ps -aq)",
+        "docker system prune -f",
+        "docker container prune -f",
+        "docker stop $(docker ps -q)"
+      ],
+      "correct": "2"
     },
     {
-        "question": "Какой драйвер логирования в Docker по умолчанию на Linux?",
-        "options": [
-            "json-file",
-            "journald",
-            "syslog",
-            "awslogs"
-        ],
-        "correct": 0
+      "question": "Какой драйвер логирования в Docker по умолчанию на Linux?",
+      "options": [
+        "json-file",
+        "journald",
+        "syslog",
+        "awslogs"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Что делает команда `docker login`?",
-        "options": [
-            "Запускает контейнер с интерактивным терминалом",
-            "Авторизует пользователя в реестре (Registry)",
-            "Входит внутрь уже работающего контейнера",
-            "Выводит список авторизованных пользователей"
-        ],
-        "correct": 1
+      "question": "Что делает команда `docker login`?",
+      "options": [
+        "Запускает контейнер с интерактивным терминалом",
+        "Авторизует пользователя в реестре (Registry)",
+        "Входит внутрь уже работающего контейнера",
+        "Выводит список авторизованных пользователей"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Какой файл по умолчанию ищет `docker compose` без флага `-f`?",
-        "options": [
-            "docker-compose.yaml",
-            "docker-compose.yml",
-            "compose.yml",
-            "compose.yaml"
-        ],
-        "correct": 1
+      "question": "Какой файл по умолчанию ищет `docker compose` без флага `-f`?",
+      "options": [
+        "docker-compose.yaml",
+        "docker-compose.yml",
+        "compose.yml",
+        "compose.yaml"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Какой уровень рестарта контейнера перезапустит его ТОЛЬКО при нештатном завершении, но НЕ после перезагрузки хоста?",
-        "options": [
-            "no",
-            "always",
-            "unless-stopped",
-            "on-failure"
-        ],
-        "correct": 3
+      "question": "Какой уровень рестарта контейнера перезапустит его ТОЛЬКО при нештатном завершении, но НЕ после перезагрузки хоста?",
+      "options": [
+        "no",
+        "always",
+        "unless-stopped",
+        "on-failure"
+      ],
+      "correct": "3"
     },
     {
-        "question": "Команда для просмотра пространств имён (namespaces) контейнера?",
-        "options": [
-            "docker inspect …",
-            "docker top …",
-            "docker exec ns",
-            "docker namespace list"
-        ],
-        "correct": 0
+      "question": "Команда для просмотра пространств имён (namespaces) контейнера?",
+      "options": [
+        "docker inspect …",
+        "docker top …",
+        "docker exec ns",
+        "docker namespace list"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Какой плагин/утилита используется для управления несколькими Docker-хостами как единым кластером без Kubernetes?",
-        "options": [
-            "Docker Swarm",
-            "Docker Machine",
-            "Docker Compose",
-            "Docker Hub"
-        ],
-        "correct": 0
+      "question": "Какой плагин/утилита используется для управления несколькими Docker-хостами как единым кластером без Kubernetes?",
+      "options": [
+        "Docker Swarm",
+        "Docker Machine",
+        "Docker Compose",
+        "Docker Hub"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Как задать переменные окружения в Dockerfile?",
-        "options": [
-            "ARG KEY=value",
-            "ENV KEY=value",
-            "RUN export KEY=value",
-            "CMD KEY=value"
-        ],
-        "correct": 1
+      "question": "Как задать переменные окружения в Dockerfile?",
+      "options": [
+        "ARG KEY=value",
+        "ENV KEY=value",
+        "RUN export KEY=value",
+        "CMD KEY=value"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Что делает директива `COPY` в Dockerfile?",
-        "options": [
-            "Копирует файлы из контейнера наружу",
-            "Копирует файлы с хоста внутрь образа",
-            "Копирует файлы из одного образа в другой",
-            "Копирует переменные среды"
-        ],
-        "correct": 1
+      "question": "Что делает директива `COPY` в Dockerfile?",
+      "options": [
+        "Копирует файлы из контейнера наружу",
+        "Копирует файлы с хоста внутрь образа",
+        "Копирует файлы из одного образа в другой",
+        "Копирует переменные среды"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Как посмотреть последние 100 строк логов контейнера?",
-        "options": [
-            "docker logs --tail 100 <id>",
-            "docker logs -n 100 <id>",
-            "docker tail -f <id> 100",
-            "docker inspect logs 100 <id>"
-        ],
-        "correct": 0
+      "question": "Как посмотреть последние 100 строк логов контейнера?",
+      "options": [
+        "docker logs --tail 100 <id>",
+        "docker logs -n 100 <id>",
+        "docker tail -f <id> 100",
+        "docker inspect logs 100 <id>"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Какая команда удалит все неиспользуемые образы, сети и кеши сборки одним махом?",
-        "options": [
-            "docker system prune",
-            "docker image rm -f $(docker images -q)",
-            "docker clean all",
-            "docker gc"
-        ],
-        "correct": 0
+      "question": "Какая команда удалит все неиспользуемые образы, сети и кеши сборки одним махом?",
+      "options": [
+        "docker system prune",
+        "docker image rm -f $(docker images -q)",
+        "docker clean all",
+        "docker gc"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Что такое multi-stage-build в Dockerfile?",
-        "options": [
-            "Сборка образа из нескольких репозиториев",
-            "Сборка с несколькими последовательными FROM, где промежуточные слои могут быть отброшены",
-            "Параллельная сборка образов в несколько потоков",
-            "Сборка, управляемая Jenkins Pipeline"
-        ],
-        "correct": 1
+      "question": "Что такое multi-stage-build в Dockerfile?\n1 - Сборка образа из нескольких репозиториев\n2 - Сборка с несколькими последовательными FROM, где промежуточные слои могут быть отброшены\n3 - Параллельная сборка образов в несколько потоков\n4 - Сборка, управляемая Jenkins Pipeline",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct": "2"
     },
     {
-        "question": "Как ограничить использование CPU контейнером (в один логический процессор)?",
-        "options": [
-            "--cpus=1",
-            "--cpu-shares=1",
-            "--limit-cpu=1",
-            "--cpu=1"
-        ],
-        "correct": 0
+      "question": "Как ограничить использование CPU контейнером (в один логический процессор)?",
+      "options": [
+        "--cpus=1",
+        "--cpu-shares=1",
+        "--limit-cpu=1",
+        "--cpu=1"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Какой статус у контейнера, когда он запустился, но основной процесс завершился с кодом 0?",
-        "options": [
-            "Up",
-            "Exited (0)",
-            "Paused",
-            "Restarting"
-        ],
-        "correct": 1
+      "question": "Какой статус у контейнера, когда он запустился, но основной процесс завершился с кодом 0?",
+      "options": [
+        "Up",
+        "Exited (0)",
+        "Paused",
+        "Restarting"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Как вывести список всех слоёв конкретного образа?",
-        "options": [
-            "docker history <image>",
-            "docker image layers <image>",
-            "docker inspect --layers <image>",
-            "docker diff <image>"
-        ],
-        "correct": 0
+      "question": "Как вывести список всех слоёв конкретного образа?",
+      "options": [
+        "docker history <image>",
+        "docker image layers <image>",
+        "docker inspect --layers <image>",
+        "docker diff <image>"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Какая команда запускает интерактивную оболочку внутри работающего контейнера?",
-        "options": [
-            "docker exec -it <id> /bin/bash",
-            "docker attach <id> /bin/bash",
-            "docker shell <id>",
-            "docker run -it <id>"
-        ],
-        "correct": 0
+      "question": "Какая команда запускает интерактивную оболочку внутри работающего контейнера?",
+      "options": [
+        "docker exec -it <id> /bin/bash",
+        "docker attach <id> /bin/bash",
+        "docker shell <id>",
+        "docker run -it <id>"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Что такое Docker Registry?",
-        "options": [
-            "Демон, управляющий контейнерами",
-            "Формат файловой системы",
-            "Сервер для хранения и распространения Docker-образов",
-            "Плагин для сетей overlay"
-        ],
-        "correct": 2
+      "question": "Что такое Docker Registry?",
+      "options": [
+        "Демон, управляющий контейнерами",
+        "Формат файловой системы",
+        "Сервер для хранения и распространения Docker-образов",
+        "Плагин для сетей overlay"
+      ],
+      "correct": "2"
     },
     {
-        "question": "Какой драйвер network по умолчанию у контейнера, если не указать `--network`?",
-        "options": [
-            "host",
-            "bridge",
-            "none",
-            "overlay"
-        ],
-        "correct": 1
+      "question": "Какой драйвер network по умолчанию у контейнера, если не указать `--network`?",
+      "options": [
+        "host",
+        "bridge",
+        "none",
+        "overlay"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Как называется файл, содержащий метаданные для Docker BuildKit о кэше и зависимостях сборки (используется в GitHub Actions Cache)?",
-        "options": [
-            "build.info",
-            "cache.manifest",
-            "buildx.toml",
-            "buildkit.cache"
-        ],
-        "correct": 0
+      "question": "Как называется файл, содержащий метаданные для Docker BuildKit о кэше и зависимостях сборки (используется в GitHub Actions Cache)?",
+      "options": [
+        "build.info",
+        "cache.manifest",
+        "buildx.toml",
+        "buildkit.cache"
+      ],
+      "correct": "0"
     },
     {
-        "question": "Как сохранить изменения внутри запущенного контейнера в новый образ?",
-        "options": [
-            "docker cp <container> newimage",
-            "docker commit <container> newimage",
-            "docker save <container> newimage",
-            "docker export <container> newimage"
-        ],
-        "correct": 1
+      "question": "Как сохранить изменения внутри запущенного контейнера в новый образ?",
+      "options": [
+        "docker cp <container> newimage",
+        "docker commit <container> newimage",
+        "docker save <container> newimage",
+        "docker export <container> newimage"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Какой флаг `docker run` монтирует хостовую директорию внутрь контейнера?",
-        "options": [
-            "-p",
-            "-e",
-            "-v",
-            "-d"
-        ],
-        "correct": 2
+      "question": "Какой флаг `docker run` монтирует хостовую директорию внутрь контейнера?",
+      "options": [
+        "-p",
+        "-e",
+        "-v",
+        "-d"
+      ],
+      "correct": "2"
     },
     {
-        "question": "Что делает команда `docker save`?",
-        "options": [
-            "Сохраняет контейнер в сжатый tar-файл",
-            "Сохраняет образ в tar-архив",
-            "Сохраняет изменения в слои",
-            "Сохраняет логи контейнера"
-        ],
-        "correct": 1
+      "question": "Что делает команда `docker save`?",
+      "options": [
+        "Сохраняет контейнер в сжатый tar-файл",
+        "Сохраняет образ в tar-архив",
+        "Сохраняет изменения в слои",
+        "Сохраняет логи контейнера"
+      ],
+      "correct": "1"
     },
     {
-        "question": "Какой инструмент Docker-экосистемы предназначен для сборки и пуша образов напрямую из Docker CLI, поддерживая кросс-архитектуру?",
-        "options": [
-            "docker build",
-            "docker image",
-            "docker buildx",
-            "docker pushx"
-        ],
-        "correct": 2
+      "question": "Какой инструмент Docker-экосистемы предназначен для сборки и пуша образов напрямую из Docker CLI, поддерживая кросс-архитектуру?",
+      "options": [
+        "docker build",
+        "docker image",
+        "docker buildx",
+        "docker pushx"
+      ],
+      "correct": "2"
     },
     {
-        "question": "Какой параметр `docker compose` перезапускает только один указанный сервис, не трогая остальные?",
-        "options": [
-            "docker compose restart",
-            "docker compose restart <service>",
-            "docker compose up <service>",
-            "docker compose recreate <service>"
-        ],
-        "correct": 1
+      "question": "Какой параметр `docker compose` перезапускает только один указанный сервис, не трогая остальные?",
+      "options": [
+        "docker compose restart",
+        "docker compose restart <service>",
+        "docker compose up <service>",
+        "docker compose recreate <service>"
+      ],
+      "correct": "1"
     }
   ],
   "Kubernetes": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
-      "options": ["Service", "Deployment", "ConfigMap", "Node"],
-      "correct": 1
+      "options": [
+        "Service",
+        "Deployment",
+        "ConfigMap",
+        "Node"
+      ],
+      "correct": "1"
     },
     {
       "question": "Компонент, который распределяет поды по нодам кластера:",
-      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
-      "correct": 1
+      "options": [
+        "kube-proxy",
+        "scheduler",
+        "kubelet",
+        "controller-manager"
+      ],
+      "correct": "1"
     }
   ]
 }
