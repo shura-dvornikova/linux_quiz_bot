@@ -100,7 +100,11 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
         ]
     )
 
-    caption = f"❓_Вопрос {idx + 1} из {len(QUIZZES[topic])}_\n\n*{q['question'].splitlines()[0]}*\n" + "\n".join(q["question"].splitlines()[1:])
+    caption = (
+        f"❓_Вопрос {idx + 1} из {len(QUIZZES[topic])}_\n\n"
+        f"*{q['question'].splitlines()[0]}*\n"
+        + "\n".join(q["question"].splitlines()[1:])
+    )
     try:
         if q.get("file_id"):
             await msg.answer_photo(q["file_id"], caption=caption, reply_markup=kb)
