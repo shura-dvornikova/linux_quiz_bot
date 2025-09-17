@@ -130,6 +130,9 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
         logging.error(f"Неверный формат callback: {cb.data} — {e}")
         await cb.answer("❌ Ошибка обработки ответа")
         return
+    
+    if qidx != data["idx"]:
+        return
 
     q = QUIZZES[topic][qidx]
     correct = q["correct"]
