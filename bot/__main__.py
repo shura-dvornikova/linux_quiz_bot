@@ -132,10 +132,6 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
         await cb.answer("❌ Ошибка обработки ответа")
         return
 
-    if qidx != cur_idx:
-        await cb.answer("⛔️ Этот вопрос уже пройден", show_alert=True)
-        return
-
     q = QUIZZES[topic][qidx]
     correct = q["correct"]
     ok = opt == correct
