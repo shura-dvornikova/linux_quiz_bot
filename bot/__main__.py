@@ -153,7 +153,8 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
         mark = "✅" if item["correct"] else "❌"
         right = q_obj["options"][q_obj["correct"]]
         lines.append(
-            f"{mark} *Вопрос {i}:* {q_obj['question']}\n *Правильный ответ:* _{right}_"
+            f"{mark} *Вопрос {i}:* {q_obj['question']}\n"
+            f" *Правильный ответ:* _{right}_"
         )
 
     await cb.message.answer(
