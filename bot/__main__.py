@@ -121,7 +121,6 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
 async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
     data = await state.get_data()
     topic = data["topic"]
-    cur_idx = data["idx"]
 
     try:
         _, qidx_str, opt_str = cb.data.split(":")
