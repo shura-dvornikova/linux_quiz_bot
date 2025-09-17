@@ -101,41 +101,6 @@
       "correct": 3
     },
     {
-      "question": "Какой менеджер пакетов в Fedora?",
-      "options": ["apt", "dnf", "pacman", "zypper"],
-      "correct": 1
-    },
-    {
-      "question": "Что делает `rsync -a`?",
-      "options": ["Полный sync", "Только diff", "Удаляет src", "Тестовое"],
-      "correct": 0
-    },
-    {
-      "question": "Какой файл описывает static network в systemd-networkd?",
-      "options": ["*.network", "*.link", "*.netdev", "*.service"],
-      "correct": 0
-    },
-    {
-      "question": "Слой copy-on-write используют…",
-      "options": ["LVM", "OverlayFS", "ext4", "NFS"],
-      "correct": 1
-    },
-    {
-      "question": "Что делает `chroot /mnt`?",
-      "options": ["Меняет pidns", "Меняет root dir", "Меняет user", "Меняет cwd"],
-      "correct": 1
-    },
-    {
-      "question": "`grep -E \"^#?Port\" /etc/ssh/sshd_config` ищет…",
-      "options": ["TCP порт", "SSH ключ", "User", "Subsystem"],
-      "correct": 0
-    },
-    {
-      "question": "Какой ключ `find` удалит файлы старше 7 суток?",
-      "options": ["-size", "-mtime +7 -delete", "-ctime 7", "-type f"],
-      "correct": 1
-    },
-    {
       "question": "Команда для отображения групп пользователя:",
       "options": ["id -nG", "whoami", "groups -l", "passwd -l"],
       "correct": 0
