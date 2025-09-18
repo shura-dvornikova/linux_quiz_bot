@@ -47,7 +47,6 @@ async def on_startup(bot: Bot) -> None:
     await bot.set_my_commands(
         commands=[
             BotCommand(command="start", description="🦄 Начать викторину заново"),
-            BotCommand(command="feedback", description="✉️ Оставить фидбек"),
         ],
         scope=BotCommandScopeDefault(),
     )
