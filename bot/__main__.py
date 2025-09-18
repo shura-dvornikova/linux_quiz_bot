@@ -23,6 +23,7 @@ from aiogram.types import (
 
 
 ENV = os.getenv("ENV", "dev").lower()
+FEEDBACK_RECEIVER_ID = 299416948
 bot_token = os.getenv("BOT_TOKEN_PROD") if ENV == "prod" else os.getenv("BOT_TOKEN_DEV")
 if not bot_token:
     raise RuntimeError(f"❌ Не задан токен для окружения ENV={ENV}")
@@ -64,7 +65,7 @@ async def cmd_start(msg: Message) -> None:
         inline_keyboard=[
             [InlineKeyboardButton(text=topic, callback_data=f"topic:{topic}")]
             for topic in topics
-        ]
+        ] + [[InlineKeyboardButton(text="✉️ Оставить фидбек", callback_data="feedback")]]
     )
     await msg.answer("*Привет!*\nВыбери тему викторины:", reply_markup=kb)
 
@@ -178,6 +179,27 @@ async def unknown_callback(cb: CallbackQuery):
     await cb.answer(
         "⚠️ Ответ устарел или сессия завершена. Нажми /start", show_alert=True
     )
+
+@dp.callback_query(lambda cb: cb.data == "feedback")
+async def handle_feedback_request(cb: CallbackQuery, state: FSMContext):
+    await cb.message.answer("📝 Напиши сюда свой фидбек:")
+    await state.set_state(QuizState.waiting_for_feedback)
+    await cb.answer()
+
+@dp.message(QuizState.waiting_for_feedback)
+async def receive_feedback(msg: Message, state: FSMContext):
+    try:
+        text = (
+            f"📬 *Фидбек от пользователя:*\n"
+            f"👤 @{msg.from_user.username or '(без username)'} | ID: `{msg.from_user.id}`\n\n"
+            f"💬 {msg.text}"
+        )
+        await bot.send_message(chat_id=FEEDBACK_RECEIVER_ID, text=text)
+        await msg.answer("✅ Спасибо за фидбек!")
+    except Exception as e:
+        logging.error(f"Ошибка отправки фидбека: {e}")
+        await msg.answer("❌ Не удалось отправить фидбек. Попробуй позже.")
+    await state.clear()
 
 
 async def main() -> None:
