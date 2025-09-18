@@ -56,6 +56,8 @@ dp.startup.register(on_startup)
 
 class QuizState(StatesGroup):
     waiting_for_answer = State()
+    waiting_for_feedback = State()  # 👈 добавили новое состояние
+
 
 
 @dp.message(Command("start"))
