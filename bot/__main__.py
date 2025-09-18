@@ -47,6 +47,7 @@ async def on_startup(bot: Bot) -> None:
     await bot.set_my_commands(
         commands=[
             BotCommand(command="start", description="🦄 Начать викторину заново"),
+            BotCommand(command="feedback", description="✉️ Оставить фидбек"),
         ],
         scope=BotCommandScopeDefault(),
     )
@@ -69,7 +70,6 @@ async def cmd_start(msg: Message) -> None:
             [InlineKeyboardButton(text=topic, callback_data=f"topic:{topic}")]
             for topic in topics
         ]
-        + [[InlineKeyboardButton(text="✉️ Оставить фидбек", callback_data="feedback")]]
     )
     await msg.answer("*Привет!*\nВыбери тему викторины:", reply_markup=kb)
 
