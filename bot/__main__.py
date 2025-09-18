@@ -45,8 +45,8 @@ dp = Dispatcher()
 
 async def on_startup(bot: Bot) -> None:
     await bot.set_my_commands(
-        [BotCommand(command="start", description="🦄 Начать викторину заново🦄")],
-        scope=BotCommandScopeDefault(),
+        BotCommand(command="start", description="🦄 Начать викторину заново"),
+        BotCommand(command="feedback", description="✉️ Оставить фидбек"),
     )
     logging.info("Меню команд обновлено")
 
@@ -70,6 +70,12 @@ async def cmd_start(msg: Message) -> None:
         + [[InlineKeyboardButton(text="✉️ Оставить фидбек", callback_data="feedback")]]
     )
     await msg.answer("*Привет!*\nВыбери тему викторины:", reply_markup=kb)
+
+
+@dp.message(Command("feedback"))
+async def cmd_feedback(msg: Message, state: FSMContext) -> None:
+    await msg.answer("✍️ Напиши свой фидбек сообщением, я обязательно прочитаю!")
+    await state.set_state(QuizState.waiting_for_feedback)
 
 
 @dp.callback_query(lambda cb: cb.data.startswith("topic:"))
@@ -191,18 +197,16 @@ async def handle_feedback_request(cb: CallbackQuery, state: FSMContext):
 
 
 @dp.message(QuizState.waiting_for_feedback)
-async def receive_feedback(msg: Message, state: FSMContext):
+async def handle_feedback(msg: Message, state: FSMContext) -> None:
+    admin_id = 299416948  # ← замени на свой Telegram ID (не @username!)
     try:
-        text = (
-            f"📬 *Фидбек от пользователя:*\n"
-            f"👤 @{msg.from_user.username or '(без username)'} | ID: `{msg.from_user.id}`\n\n"
-            f"💬 {msg.text}"
+        await bot.send_message(
+            chat_id=admin_id,
+            text=f"✉️ Новый фидбек от @{msg.from_user.username or msg.from_user.id}:\n\n{msg.text}",
         )
-        await bot.send_message(chat_id=FEEDBACK_RECEIVER_ID, text=text)
-        await msg.answer("✅ Спасибо за фидбек!")
     except Exception as e:
-        logging.error(f"Ошибка отправки фидбека: {e}")
-        await msg.answer("❌ Не удалось отправить фидбек. Попробуй позже.")
+        logging.warning(f"❌ Не удалось отправить фидбек админу: {e}")
+    await msg.answer("Спасибо за фидбек! 💌")
     await state.clear()
 
 
