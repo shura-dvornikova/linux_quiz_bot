@@ -180,11 +180,13 @@ async def unknown_callback(cb: CallbackQuery):
         "⚠️ Ответ устарел или сессия завершена. Нажми /start", show_alert=True
     )
 
+
 @dp.callback_query(lambda cb: cb.data == "feedback")
 async def handle_feedback_request(cb: CallbackQuery, state: FSMContext):
     await cb.message.answer("📝 Напиши сюда свой фидбек:")
     await state.set_state(QuizState.waiting_for_feedback)
     await cb.answer()
+
 
 @dp.message(QuizState.waiting_for_feedback)
 async def receive_feedback(msg: Message, state: FSMContext):
