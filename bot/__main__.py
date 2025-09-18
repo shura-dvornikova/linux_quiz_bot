@@ -65,7 +65,8 @@ async def cmd_start(msg: Message) -> None:
         inline_keyboard=[
             [InlineKeyboardButton(text=topic, callback_data=f"topic:{topic}")]
             for topic in topics
-        ] + [[InlineKeyboardButton(text="✉️ Оставить фидбек", callback_data="feedback")]]
+        ]
+        + [[InlineKeyboardButton(text="✉️ Оставить фидбек", callback_data="feedback")]]
     )
     await msg.answer("*Привет!*\nВыбери тему викторины:", reply_markup=kb)
 
