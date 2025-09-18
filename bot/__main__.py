@@ -59,7 +59,6 @@ class QuizState(StatesGroup):
     waiting_for_feedback = State()  # 👈 добавили новое состояние
 
 
-
 @dp.message(Command("start"))
 async def cmd_start(msg: Message) -> None:
     topics = list(QUIZZES.keys())
