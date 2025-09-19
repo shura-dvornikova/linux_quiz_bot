@@ -24,6 +24,7 @@ from aiogram.types import (
 
 ENV = os.getenv("ENV", "dev").lower()
 FEEDBACK_RECEIVER_ID = 299416948
+FEEDBACK_CHANNEL_ID = -1003033348229
 bot_token = os.getenv("BOT_TOKEN_PROD") if ENV == "prod" else os.getenv("BOT_TOKEN_DEV")
 if not bot_token:
     raise RuntimeError(f"❌ Не задан токен для окружения ENV={ENV}")
@@ -200,14 +201,18 @@ async def handle_feedback_request(cb: CallbackQuery, state: FSMContext):
 
 @dp.message(QuizState.waiting_for_feedback)
 async def handle_feedback(msg: Message, state: FSMContext) -> None:
-    admin_id = 299416948  # ← замени на свой Telegram ID (не @username!)
+    FEEDBACK_CHANNEL_ID = -1001234567890  # ← замени на реальный chat_id твоего приватного канала
     try:
         await bot.send_message(
-            chat_id=admin_id,
-            text=f"✉️ Новый фидбек от @{msg.from_user.username or msg.from_user.id}:\n\n{msg.text}",
+            chat_id=FEEDBACK_CHANNEL_ID,
+            text=(
+                f"✉️ *Новый фидбек*\n"
+                f"👤 От: @{msg.from_user.username or msg.from_user.id}\n"
+                f"📝 Сообщение:\n{msg.text}"
+            ),
         )
     except Exception as e:
-        logging.warning(f"❌ Не удалось отправить фидбек админу: {e}")
+        logging.warning(f"❌ Не удалось отправить фидбек в канал: {e}")
     await msg.answer("Спасибо за фидбек! 💌")
     await state.clear()
 
