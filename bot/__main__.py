@@ -202,13 +202,22 @@ async def handle_feedback_request(cb: CallbackQuery, state: FSMContext):
 @dp.message(QuizState.waiting_for_feedback)
 async def handle_feedback(msg: Message, state: FSMContext) -> None:
     try:
+        username = msg.from_user.username
+        if username:
+            safe_username = "@" + username.replace("_", "\\_")
+        else:
+            safe_username = f"[id {msg.from_user.id}]"
+
+        text = (
+            f"✉️ *Новый фидбек*\n"
+            f"👤 От: {safe_username}\n"
+            f"📝 Сообщение:\n{msg.text}"
+        )
+
         await bot.send_message(
             chat_id=FEEDBACK_CHANNEL_ID,
-            text=(
-                f"✉️ *Новый фидбек*\n"
-                f"👤 От: @{msg.from_user.username or msg.from_user.id}\n"
-                f"📝 Сообщение:\n{msg.text}"
-            ),
+            text=text,
+            parse_mode=ParseMode.MARKDOWN,
         )
     except Exception as e:
         logging.warning(f"❌ Не удалось отправить фидбек в канал: {e}")
