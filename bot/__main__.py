@@ -201,9 +201,6 @@ async def handle_feedback_request(cb: CallbackQuery, state: FSMContext):
 
 @dp.message(QuizState.waiting_for_feedback)
 async def handle_feedback(msg: Message, state: FSMContext) -> None:
-    FEEDBACK_CHANNEL_ID = (
-        -1001234567890
-    )  # ← замени на реальный chat_id твоего приватного канала
     try:
         await bot.send_message(
             chat_id=FEEDBACK_CHANNEL_ID,
