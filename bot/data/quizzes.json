@@ -210,7 +210,7 @@
       "file_id": "AgACAgIAAxkBAAIC4WhLI3rGqdtK3zHScDDHcUecbQiJAALYAAEyG-sNWUprRcrNHXLkmgEAAwIAA3kAAzYE"
     }
   ],
-  "Пользователи, sudo, PAM/SSH, базовая безопасность": [
+  "Пользователи и безопасность": [
     {
         "question": "Что такое Docker-образ (image)?",
         "options": [
@@ -512,7 +512,7 @@
         "correct": 1
     }
   ],
-  "systemd и процессы + загрузка/восстановление": [
+  "systemd и загрузка системы": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
@@ -524,7 +524,7 @@
       "correct": 1
     }
   ],
-  "Сеть: IP/DNS/Firewall + диагностика": [
+  "Сеть, DNS и диагностика": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
@@ -536,7 +536,7 @@
       "correct": 1
     }
   ],
-  "Хранилища: LVM/RAID + бэкапы/восстановление": [
+  "Хранилища, LVM, RAID и бэкапы": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
@@ -548,7 +548,7 @@
       "correct": 1
     }
   ],
-  "Пакеты/репозитории + автоматизация shell": [
+  "Пакеты и автоматизация shell": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
@@ -560,7 +560,7 @@
       "correct": 1
     }
   ],
-  "Наблюдаемость и прод-диагностика": [
+  "Наблюдаемость и диагностика": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
@@ -572,7 +572,7 @@
       "correct": 1
     }
   ],
-  "Контейнеры/изоляция + Registry": [
+  "Контейнеры и Registry": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
@@ -584,7 +584,7 @@
       "correct": 1
     }
   ],
-  "Виртуализация и облако на уровне Linux": [
+  "Виртуализация и облака Linux": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
