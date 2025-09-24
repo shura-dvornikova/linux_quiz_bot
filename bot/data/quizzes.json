@@ -572,7 +572,7 @@
       "correct": 1
     }
   ],
-  "Контейнеры/изоляция (Docker/Podman, cgroups/namespaces) + Registry": [
+  "Контейнеры/изоляция + Registry": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
@@ -584,7 +584,7 @@
       "correct": 1
     }
   ],
-  "Виртуализация и облако на уровне Linux (KVM/libvirt, cloud-init)": [
+  "Виртуализация и облако на уровне Linux": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
@@ -596,7 +596,7 @@
       "correct": 1
     }
   ],
-  "Практика DevOps на Linux (сквозные сценарии)": [
+  "Практика DevOps на Linux": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
