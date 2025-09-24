@@ -1,5 +1,5 @@
 {
-  "Linux": [
+  "ОС и файловые системы": [
     {
       "question": "Какой процесс имеет PID 1 в Linux?",
       "options": ["systemd", "init", "sshd", "bash"],
@@ -210,7 +210,7 @@
       "file_id": "AgACAgIAAxkBAAIC4WhLI3rGqdtK3zHScDDHcUecbQiJAALYAAEyG-sNWUprRcrNHXLkmgEAAwIAA3kAAzYE"
     }
   ],
-  "Docker": [
+  "Пользователи, sudo, PAM/SSH, базовая безопасность": [
     {
         "question": "Что такое Docker-образ (image)?",
         "options": [
@@ -512,7 +512,91 @@
         "correct": 1
     }
   ],
-  "Kubernetes": [
+  "systemd и процессы + загрузка/восстановление": [
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
+  ],
+  "Сеть: IP/DNS/Firewall + диагностика": [
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
+  ],
+  "Хранилища: LVM/RAID + бэкапы/восстановление": [
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
+  ],
+  "Пакеты/репозитории + автоматизация shell": [
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
+  ],
+  "Наблюдаемость и прод-диагностика": [
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
+  ],
+  "Контейнеры/изоляция (Docker/Podman, cgroups/namespaces) + Registry": [
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
+  ],
+  "Виртуализация и облако на уровне Linux (KVM/libvirt, cloud-init)": [
+    {
+      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
+      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "correct": 1
+    },
+    {
+      "question": "Компонент, который распределяет поды по нодам кластера:",
+      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "correct": 1
+    }
+  ],
+  "Практика DevOps на Linux (сквозные сценарии)": [
     {
       "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
       "options": ["Service", "Deployment", "ConfigMap", "Node"],
