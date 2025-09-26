@@ -517,7 +517,7 @@
         "correct": 1
     }
   ],
-  "systemd, процессы и загрузка системы": [
+  "systemd и процессы": [
     {
       "question": "Какой процесс имеет PID 1 в Linux?",
       "options": ["systemd", "init", "sshd", "bash"],
