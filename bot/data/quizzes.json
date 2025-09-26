@@ -21,38 +21,8 @@
       "correct": 2
     },
     {
-      "question": "Что такое systemd?\n1 - Это система инициализации и менеджер служб для операционных систем Linux\n2 - Порядок хранения файлов на диске или другом информационном носителе\n3 - Процесс, который работает в фоновом режиме без прямого участия пользователя\n4 - Сетевой протокол прикладного уровня для безопасного удаленного управления сервером через интеренет",
-      "options": [
-        "1",
-        "2",
-        "3",
-        "4"
-      ],
-      "correct": 0
-    },
-    {
-      "question": "SSH (Secure SHell - защищенная оболочка) - это ...\n1 - Уникальный адрес, который идентифицирует устройство в Интернете или локальной сети\n2 - Сетевой протокол прикладного уровня для безопасного удаленного управления сервером через интеренет\n3 - Менеджер системы и сервисов в операционной системе Linux\n4 - Сетевая модель, описывающая процесс передачи цифровых данных",
-      "options": [
-        "1",
-        "2",
-        "3",
-        "4"
-      ],
-      "correct": 1
-    },
-    {
       "question": "Какой каталог содержит конфиги ядра, смонтированные как псевдо-ФС?",
       "options": ["/proc", "/sys", "/run", "/dev"],
-      "correct": 1
-    },
-    {
-      "question": "Какой ключ `ps` выводит дерево процессов?",
-      "options": ["-e", "-f", "-u", "-H"],
-      "correct": 3
-    },
-    {
-      "question": "Что делает `set -e` в bash-скрипте?",
-      "options": ["Игнор err", "Выход при err", "Трассировка", "Экспорт vars"],
       "correct": 1
     },
     {
@@ -532,12 +502,22 @@
         "4"
       ],
       "correct": 0
+    },
+    {
+      "question": "Какой ключ `ps` выводит дерево процессов?",
+      "options": ["-e", "-f", "-u", "-H"],
+      "correct": 3
     }
   ],
   "Сеть, DNS и диагностика": [
     {
-      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
-      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "question": "SSH (Secure SHell - защищенная оболочка) - это ...\n1 - Уникальный адрес, который идентифицирует устройство в Интернете или локальной сети\n2 - Сетевой протокол прикладного уровня для безопасного удаленного управления сервером через интеренет\n3 - Менеджер системы и сервисов в операционной системе Linux\n4 - Сетевая модель, описывающая процесс передачи цифровых данных",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
       "correct": 1
     },
     {
@@ -560,13 +540,153 @@
   ],
   "Пакеты и автоматизация shell": [
     {
-      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
-      "options": ["Service", "Deployment", "ConfigMap", "Node"],
+      "question": "Что делает `set -e` в bash-скрипте?",
+      "options": ["Игнор err", "Выход при err", "Трассировка", "Экспорт vars"],
       "correct": 1
     },
     {
-      "question": "Компонент, который распределяет поды по нодам кластера:",
-      "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
+      "question": "Что делает set -u в bash?",
+      "options": ["Игнор vars", "Err unset", "Трассировка", "Ничего"],
+      "correct": 1
+    },
+    {
+      "question": "Что делает set -o pipefail?",
+      "options": ["0 при ok", "Err в пайпе", "Фоновый режим", "Alias"],
+      "correct": 1
+    },
+    {
+      "question": "apt update — это…",
+      "options": ["Обн.индексы", "Обн.пакеты", "Чистка кеша", "Удалить старые"],
+      "correct": 0
+    },
+    {
+      "question": "apt upgrade — это…",
+      "options": ["Только индексы", "Обн. пакеты", "Удалить ядро", "Только кеш"],
+      "correct": 1
+    },
+    {
+      "question": "apt full-upgrade делает…",
+      "options": ["Без удалений", "Только ядро", "С deps/removal", "Только индексы"],
+      "correct": 2
+    },
+    {
+      "question": "dnf makecache — это…",
+      "options": ["Обн.индексы", "Чистка кеша", "Обн.пакеты", "Уст.локально"],
+      "correct": 0
+    },
+    {
+      "question": "Установить локальный .deb:",
+      "options": ["apt add", "dpkg -i", "apt run", "deb -i"],
+      "correct": 1
+    },
+    {
+      "question": "Показать все установленные RPM:",
+      "options": ["rpm -qa", "dnf list", "rpm -qi", "rpm -qR"],
+      "correct": 0
+    },
+    {
+      "question": "Найти пакет, владелец файла (RPM):",
+      "options": ["rpm -qR", "rpm -qf", "rpm -qi", "rpm -ql"],
+      "correct": 1
+    },
+    {
+      "question": "Запретить обновление пакета (APT):",
+      "options": ["apt lock", "apt-mark hold", "apt freeze", "apt keep"],
+      "correct": 1
+    },
+    {
+      "question": "Где pinning для APT?",
+      "options": ["/etc/apt/apt.conf", "/etc/apt/preferences", "/etc/apt/sources.list", "/etc/apt/trust.d"],
+      "correct": 1
+    },
+    {
+      "question": "Добавить репо (RHEL/DNF):",
+      "options": ["dnf addrepo", "dnf repolist", "dnf config-manager --add-repo", "rpm --add-repo"],
+      "correct": 2
+    },
+    {
+      "question": "Импорт GPG-ключа (RPM):",
+      "options": ["rpm --import", "dnf --gpg", "rpm --gpg-add", "dnf import-gpg"],
+      "correct": 0
+    },
+    {
+      "question": "Очистить кеш APT:",
+      "options": ["apt clean", "apt purge", "apt-cache rm", "apt flush"],
+      "correct": 0
+    },
+    {
+      "question": "Удалить пакет с конфигами (APT):",
+      "options": ["apt remove", "apt purge", "apt erase", "apt drop"],
+      "correct": 1
+    },
+    {
+      "question": "Файл со списком APT-репо:",
+      "options": ["/etc/apt/sources.list", "/etc/apt/keys", "/etc/apt/repos", "/etc/apt/channels"],
+      "correct": 0
+    },
+    {
+      "question": "Правильный shebang для bash:",
+      "options": ["#!/bin/sh", "#!/usr/bin/env bash", "#!bash", "#!/bin/zsh"],
+      "correct": 1
+    },
+    {
+      "question": "Запустить скрипт без +x:",
+      "options": ["run script", "bash script.sh", "./script.sh", "exec script"],
+      "correct": 1
+    },
+    {
+      "question": "Перенаправить stderr в stdout:",
+      "options": ["1>&2", "2>&1", "&>1", "2>1"],
+      "correct": 1
+    },
+    {
+      "question": "Записать stdout+stderr в файл:",
+      "options": [">file 2>&1", "1>file", "2>file", ">>file"],
+      "correct": 0
+    },
+    {
+      "question": "Синтаксис here-doc:",
+      "options": ["<<EOF", "<>EOF", "<<<EOF", "<<|EOF"],
+      "correct": 0
+    },
+    {
+      "question": "Найти файлы по имени:",
+      "options": ["grep -R", "find . -name", "locate -n", "which -a"],
+      "correct": 1
+    },
+    {
+      "question": "Удалить *.log старше 7 дней:",
+      "options": ["find -mtime +7 -delete", "rm -7d *.log", "del --days 7", "clean -t 7"],
+      "correct": 0
+    },
+    {
+      "question": "xargs обычно…",
+      "options": ["Фильтрует", "Сортирует", "Подаёт в cmd", "Архивирует"],
+      "correct": 2
+    },
+    {
+      "question": "Рекурсивный grep:",
+      "options": ["grep -n", "grep -R", "grep -l", "grep -i"],
+      "correct": 1
+    },
+    {
+      "question": "sed замена на месте:",
+      "options": ["sed 's/a/b/'", "sed -i 's/a/b/'", "sed -e 'a/b'", "sed -r a=b"],
+      "correct": 1
+    },
+    {
+      "question": "awk печать 1-го столбца:",
+      "options": ["awk '{print $0}'", "awk '{print $1}'", "awk '{print $NF}'", "awk -F1"],
+      "correct": 1
+    },
+    {
+      "question": "Одинарные vs двойные кавычки:",
+      "options": ["Обе экранир.", "Оба расширяют", "Двойные расширяют", "Одинарные расширяют"],
+      "correct": 2
+    },
+    {
+      "question": "${VAR:-def} означает…",
+      "options": ["Всегда def", "Если пусто — def", "Если set — def", "Обрезать def"],
       "correct": 1
     }
   ],
@@ -607,11 +727,6 @@
     }
   ],
   "Практика DevOps на Linux": [
-    {
-      "question": "Какой объект отвечает за постоянный перезапуск подов при их падении?",
-      "options": ["Service", "Deployment", "ConfigMap", "Node"],
-      "correct": 1
-    },
     {
       "question": "Компонент, который распределяет поды по нодам кластера:",
       "options": ["kube-proxy", "scheduler", "kubelet", "controller-manager"],
