@@ -170,8 +170,12 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
             f" *Правильный ответ:* _{right}_"
         )
 
+    topic_name = data["topic"]
+
     await cb.message.answer(
-        f"🏁 Конец!\nПравильных: *{data['score']}* из *{len(data['results'])}*\n\n"
+        f"🏁 Конец!\n"
+        f"📚 Тема: *{topic_name}*\n"
+        f"Правильных: *{data['score']}* из *{len(data['results'])}*\n\n"
         + "\n\n".join(lines)
     )
     await state.clear()
