@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import random
+import re
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher
@@ -12,7 +13,6 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.utils.markdown import escape_md
 from aiogram.types import (
     BotCommand,
     CallbackQuery,
@@ -21,6 +21,13 @@ from aiogram.types import (
     Message,
     BotCommandScopeDefault,
 )
+
+
+def escape_md(text: str) -> str:
+    """
+    Экранирует спецсимволы MarkdownV2 для Telegram.
+    """
+    return re.sub(r"([_*\[\]()~`>#+\-=|{}.!])", r"\\\1", text)
 
 
 ENV = os.getenv("ENV", "dev").lower()
@@ -170,8 +177,8 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
         mark = "✅" if item["correct"] else "❌"
         right = q_obj["options"][q_obj["correct"]]
         lines.append(
-            f"{mark} *Вопрос {i}:* {q_obj['question']}\n"
-            f" *Правильный ответ:* _{right}_"
+            f"{mark} *Вопрос {i}:* {escape_md(q_obj['question'])}\n"
+            f" *Правильный ответ:* _{escape_md(right)}_"
         )
 
     topic_name = data["topic"]
@@ -224,8 +231,8 @@ async def handle_feedback(msg: Message, state: FSMContext) -> None:
 
         await bot.send_message(
             chat_id=FEEDBACK_CHANNEL_ID,
-            text=text,
-            parse_mode=ParseMode.MARKDOWN,
+            text=escape_md(text),
+            parse_mode=ParseMode.MARKDOWN_V2,
         )
     except Exception as e:
         logging.warning(f"❌ Не удалось отправить фидбек в канал: {e}")
