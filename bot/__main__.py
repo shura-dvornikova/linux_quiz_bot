@@ -12,6 +12,7 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.utils.markdown import escape_md
 from aiogram.types import (
     BotCommand,
     CallbackQuery,
@@ -40,7 +41,8 @@ with QUIZ_PATH.open(encoding="utf-8") as f:
     QUIZZES = json.load(f)
 
 
-bot = Bot(token=bot_token, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
+bot = Bot(token=bot_token, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2))
+
 dp = Dispatcher()
 
 
@@ -114,8 +116,8 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
 
     caption = (
         f"❓_Вопрос {idx + 1} из {len(QUIZZES[topic])}_\n\n"
-        f"*{q['question'].splitlines()[0]}*\n"
-        + "\n".join(q["question"].splitlines()[1:])
+        f"*{escape_md(q['question'].splitlines()[0])}*\n"
+        + "\n".join(escape_md(line) for line in q["question"].splitlines()[1:])
     )
     try:
         if q.get("file_id"):
