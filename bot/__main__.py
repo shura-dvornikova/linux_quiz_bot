@@ -85,6 +85,7 @@ async def cmd_start(msg: Message) -> None:
     await msg.answer(r"\*Привет\!\*\nВыбери тему викторины:", reply_markup=kb)
 
 
+
 @dp.message(Command("feedback"))
 async def cmd_feedback(msg: Message, state: FSMContext) -> None:
     await msg.answer("✍️ Напиши свой фидбек сообщением, я обязательно прочитаю!")
@@ -153,6 +154,7 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
         await cb.answer("❌ Ошибка обработки ответа")
         return
     if qidx != data["idx"]:
+        await cb.answer("⚠️ Этот вопрос уже пройден", show_alert=True)
         return
 
     q = QUIZZES[topic][qidx]
@@ -174,7 +176,7 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext) -> None:
     for i, item in enumerate(data["results"], start=1):
         q_obj = QUIZZES[topic][item["idx"]]
         mark = "✅" if item["correct"] else "❌"
-        right = q_obj["options"][q_obj["correct"]]
+        right = q_obj["options"][int(q_obj["correct"])]
         lines.append(
             f"{mark} *Вопрос {i}:* {escape_md(q_obj['question'])}\n"
             f" *Правильный ответ:* _{escape_md(right)}_"

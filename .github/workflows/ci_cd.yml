@@ -105,17 +105,23 @@ jobs:
       - name: Recreate container (dev)
         run: |
           docker compose -f docker-compose.dev.yml \
-                        --env-file .env.dev \
-                        -p dev \
-                        up -d --force-recreate --pull always
+                         --env-file .env.dev \
+                         -p dev \
+                         up -d --force-recreate --pull always
 
       - name: Show running image (dev)
-        run: docker ps --filter "name=linux-quiz-bot-dev" --format "{{.Image}}"
+        run: |
+          docker ps --filter "name=linux-quiz-bot-dev" --format "{{.Image}}"
 
       - name: Smoke test
         run: |
           sleep 5
           curl -sf http://localhost:8081/healthz || echo "no health-check"
+
+      - name: Cleanup unused images/containers (dev)
+        run: |
+          docker image prune -f
+          docker container prune -f
 
   # ==================== PROD (main) ====================
   deploy-prod:
@@ -150,14 +156,20 @@ jobs:
       - name: Recreate container (prod)
         run: |
           docker compose -f docker-compose.prod.yml \
-                        --env-file .env.prod \
-                        -p prod \
-                        up -d --force-recreate --pull always
+                         --env-file .env.prod \
+                         -p prod \
+                         up -d --force-recreate --pull always
 
       - name: Show running image (prod)
-        run: docker ps --filter "name=linux-quiz-bot-prod" --format "{{.Image}}"
+        run: |
+          docker ps --filter "name=linux-quiz-bot-prod" --format "{{.Image}}"
 
       - name: Smoke test
         run: |
           sleep 5
           curl -sf http://localhost:8080/healthz || echo "no health-check"
+
+      - name: Cleanup unused images/containers (prod)
+        run: |
+          docker image prune -f
+          docker container prune -f
