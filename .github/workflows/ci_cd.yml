@@ -93,7 +93,7 @@ jobs:
         run: |
           cat > .env.dev <<EOF
           ENV=dev
-          BOT_TOKEN_DEV=${{ secrets.BOT_TOKEN_DEV }}
+          BOT_TOKEN=${{ secrets.BOT_TOKEN_DEV }}
           LOG_LEVEL=INFO
           EOF
 
@@ -136,7 +136,7 @@ jobs:
         run: |
           cat > .env.prod <<EOF
           ENV=prod
-          BOT_TOKEN_PROD=${{ secrets.BOT_TOKEN_PROD }}
+          BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }}
           LOG_LEVEL=INFO
           EOF
 

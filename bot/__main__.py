@@ -33,10 +33,9 @@ def escape_md(text: str) -> str:
 ENV = os.getenv("ENV", "dev").lower()
 FEEDBACK_RECEIVER_ID = 299416948
 FEEDBACK_CHANNEL_ID = -1003033348229
-bot_token = os.getenv("BOT_TOKEN_PROD") if ENV == "prod" else os.getenv("BOT_TOKEN_DEV")
+bot_token = os.getenv("BOT_TOKEN")
 if not bot_token:
-    raise RuntimeError(f"❌ Не задан токен для окружения ENV={ENV}")
-
+    raise RuntimeError("❌ Не задан BOT_TOKEN")
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG").upper()
 logging.basicConfig(level=LOG_LEVEL)
