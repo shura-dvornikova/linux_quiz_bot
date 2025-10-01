@@ -85,7 +85,6 @@ async def cmd_start(msg: Message) -> None:
     await msg.answer(r"\*Привет\!\*\nВыбери тему викторины:", reply_markup=kb)
 
 
-
 @dp.message(Command("feedback"))
 async def cmd_feedback(msg: Message, state: FSMContext) -> None:
     await msg.answer("✍️ Напиши свой фидбек сообщением, я обязательно прочитаю!")
