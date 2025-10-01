@@ -41,7 +41,9 @@ with QUIZ_PATH.open(encoding="utf-8") as f:
     QUIZZES = json.load(f)
 
 
-bot = Bot(token=bot_token, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2))
+bot = Bot(
+    token=bot_token, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2)
+)
 
 dp = Dispatcher()
 
