@@ -78,7 +78,6 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     runs-on: [ self-hosted ]
 
-    # эти переменные попадут внутрь docker-compose.dev.yml
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
@@ -88,6 +87,9 @@ jobs:
 
       - name: Pull fresh image
         run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
+
+      - name: Remove old image
+        run: docker rmi -f docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest || true
 
       - name: Create .env.dev from secrets
         run: |
@@ -103,18 +105,17 @@ jobs:
       - name: Recreate container (dev)
         run: |
           docker compose -f docker-compose.dev.yml \
-                         --env-file .env.dev \
-                         -p dev \
-                         up -d --force-recreate
+                        --env-file .env.dev \
+                        -p dev \
+                        up -d --force-recreate --pull always
 
-      - name: Show resolved image (dev)
-        run: docker compose -f docker-compose.dev.yml --env-file .env.dev config | grep -i 'image:'
+      - name: Show running image (dev)
+        run: docker ps --filter "name=linux-quiz-bot-dev" --format "{{.Image}}"
 
       - name: Smoke test
         run: |
           sleep 5
           curl -sf http://localhost:8081/healthz || echo "no health-check"
-
 
   # ==================== PROD (main) ====================
   deploy-prod:
@@ -132,6 +133,9 @@ jobs:
       - name: Pull fresh image
         run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
 
+      - name: Remove old image
+        run: docker rmi -f docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest || true
+
       - name: Create .env.prod from secrets
         run: |
           cat > .env.prod <<EOF
@@ -146,12 +150,12 @@ jobs:
       - name: Recreate container (prod)
         run: |
           docker compose -f docker-compose.prod.yml \
-                         --env-file .env.prod \
-                         -p prod \
-                         up -d --force-recreate
+                        --env-file .env.prod \
+                        -p prod \
+                        up -d --force-recreate --pull always
 
-      - name: Show resolved image (prod)
-        run: docker compose -f docker-compose.prod.yml --env-file .env.prod config | grep -i 'image:'
+      - name: Show running image (prod)
+        run: docker ps --filter "name=linux-quiz-bot-prod" --format "{{.Image}}"
 
       - name: Smoke test
         run: |
