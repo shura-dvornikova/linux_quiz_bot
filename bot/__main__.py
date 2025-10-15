@@ -92,7 +92,7 @@ async def cmd_start(msg: Message) -> None:
             for topic in topics
         ]
     )
-    await msg.answer(r"\*Привет\!\*\nВыбери тему викторины:", reply_markup=kb)
+    await msg.answer(r"Привет! Выбери тему викторины:", reply_markup=kb)
 
 
 @dp.message(Command("feedback"))
