@@ -55,6 +55,16 @@ dp = Dispatcher()
 
 
 async def on_startup(bot: Bot) -> None:
+    # 💡 Очищаем старые вебхуки и апдейты (опционально, но полезно)
+    await bot.delete_webhook(drop_pending_updates=True)
+
+    # 🔎 Получаем информацию о текущем боте
+    me = await bot.get_me()
+    logging.info(
+        f"🚀 Бот запущен: ENV={ENV}, bot_id={me.id}, username=@{me.username}, name={me.first_name}"
+    )
+
+    # 📜 Устанавливаем команды меню
     await bot.set_my_commands(
         commands=[
             BotCommand(command="start", description="🦄 Начать викторину заново"),
@@ -62,7 +72,7 @@ async def on_startup(bot: Bot) -> None:
         ],
         scope=BotCommandScopeDefault(),
     )
-    logging.info("Меню команд обновлено")
+    logging.info("✅ Меню команд обновлено")
 
 
 dp.startup.register(on_startup)
