@@ -45,7 +45,7 @@ jobs:
   docker-build:
     needs: lint-and-test
     if: github.event_name == 'push'
-    runs-on: [ self-hosted ]
+    runs-on: ubuntu-latest
 
     outputs:
       image_tag: ${{ steps.vars.outputs.tag }}
@@ -76,7 +76,8 @@ jobs:
   deploy-dev:
     needs: docker-build
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-    runs-on: [ self-hosted ]
+    # важно: эти ЛЕЙБЛЫ должны быть только на серверном раннере
+    runs-on: [ self-hosted, linux, bots, dev ]
 
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -88,12 +89,12 @@ jobs:
       - name: Pull fresh image
         run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
 
-      - name: Remove old image
+      - name: Remove old image tag
         run: docker rmi -f docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest || true
 
       - name: Create .env.dev from secrets
         run: |
-          cat > .env.dev <<EOF
+          cat > .env.dev <<'EOF'
           ENV=dev
           BOT_TOKEN=${{ secrets.BOT_TOKEN_DEV }}
           LOG_LEVEL=INFO
@@ -101,17 +102,16 @@ jobs:
 
       - name: Stop and remove old container (dev)
         run: docker rm -f linux-quiz-bot-dev || true
-      
+
       - name: Recreate container (dev)
         run: |
           docker compose -f docker-compose.dev.yml \
                          --env-file .env.dev \
-                         -p dev \
+                         -p linux-quiz-bot-dev \
                          up -d --force-recreate --pull always
 
       - name: Show running image (dev)
-        run: |
-          docker ps --filter "name=linux-quiz-bot-dev" --format "{{.Image}}"
+        run: docker ps --filter "name=linux-quiz-bot-dev" --format "{{.Image}}"
 
       - name: Smoke test
         run: |
@@ -127,7 +127,8 @@ jobs:
   deploy-prod:
     needs: docker-build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: [ self-hosted ]
+    # важно: эти ЛЕЙБЛЫ должны быть только на серверном раннере
+    runs-on: [ self-hosted, linux, bots, prod ]
 
     env:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -139,12 +140,12 @@ jobs:
       - name: Pull fresh image
         run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
 
-      - name: Remove old image
+      - name: Remove old image tag
         run: docker rmi -f docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest || true
 
       - name: Create .env.prod from secrets
         run: |
-          cat > .env.prod <<EOF
+          cat > .env.prod <<'EOF'
           ENV=prod
           BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }}
           LOG_LEVEL=INFO
@@ -157,12 +158,11 @@ jobs:
         run: |
           docker compose -f docker-compose.prod.yml \
                          --env-file .env.prod \
-                         -p prod \
+                         -p linux-quiz-bot-prod \
                          up -d --force-recreate --pull always
 
       - name: Show running image (prod)
-        run: |
-          docker ps --filter "name=linux-quiz-bot-prod" --format "{{.Image}}"
+        run: docker ps --filter "name=linux-quiz-bot-prod" --format "{{.Image}}"
 
       - name: Smoke test
         run: |
