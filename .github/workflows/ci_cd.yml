@@ -45,7 +45,7 @@ jobs:
   docker-build:
     needs: lint-and-test
     if: github.event_name == 'push'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    # сборка на github-hosted, не затрагивает self-hosted
 
     outputs:
       image_tag: ${{ steps.vars.outputs.tag }}
@@ -76,34 +76,42 @@ jobs:
   deploy-dev:
     needs: docker-build
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-    # важно: эти ЛЕЙБЛЫ должны быть только на серверном раннере
-    runs-on: [ self-hosted, linux, bots, dev ]
-
+    runs-on: [ self-hosted ]
     env:
+      # имя СЕРВЕРНОГО раннера (только на нём выполнять деплой)
+      SERVER_RUNNER_DEV: shura-telegram-bots-prod
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Who am I
+        run: echo "Running on: ${{ runner.name }} (expect ${{ env.SERVER_RUNNER_DEV }})"
+
       - name: Pull fresh image
+        if: runner.name == env.SERVER_RUNNER_DEV
         run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
 
       - name: Remove old image tag
+        if: runner.name == env.SERVER_RUNNER_DEV
         run: docker rmi -f docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest || true
 
       - name: Create .env.dev from secrets
+        if: runner.name == env.SERVER_RUNNER_DEV
         run: |
-          cat > .env.dev <<'EOF'
+          cat > .env.dev <<EOF
           ENV=dev
           BOT_TOKEN=${{ secrets.BOT_TOKEN_DEV }}
           LOG_LEVEL=INFO
           EOF
 
       - name: Stop and remove old container (dev)
+        if: runner.name == env.SERVER_RUNNER_DEV
         run: docker rm -f linux-quiz-bot-dev || true
 
       - name: Recreate container (dev)
+        if: runner.name == env.SERVER_RUNNER_DEV
         run: |
           docker compose -f docker-compose.dev.yml \
                          --env-file .env.dev \
@@ -111,14 +119,17 @@ jobs:
                          up -d --force-recreate --pull always
 
       - name: Show running image (dev)
+        if: runner.name == env.SERVER_RUNNER_DEV
         run: docker ps --filter "name=linux-quiz-bot-dev" --format "{{.Image}}"
 
       - name: Smoke test
+        if: runner.name == env.SERVER_RUNNER_DEV
         run: |
           sleep 5
           curl -sf http://localhost:8081/healthz || echo "no health-check"
 
       - name: Cleanup unused images/containers (dev)
+        if: runner.name == env.SERVER_RUNNER_DEV
         run: |
           docker image prune -f
           docker container prune -f
@@ -127,34 +138,41 @@ jobs:
   deploy-prod:
     needs: docker-build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    # важно: эти ЛЕЙБЛЫ должны быть только на серверном раннере
-    runs-on: [ self-hosted, linux, bots, prod ]
-
+    runs-on: [ self-hosted ]
     env:
+      SERVER_RUNNER_PROD: shura-telegram-bots-prod
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Who am I
+        run: echo "Running on: ${{ runner.name }} (expect ${{ env.SERVER_RUNNER_PROD }})"
+
       - name: Pull fresh image
+        if: runner.name == env.SERVER_RUNNER_PROD
         run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
 
       - name: Remove old image tag
+        if: runner.name == env.SERVER_RUNNER_PROD
         run: docker rmi -f docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest || true
 
       - name: Create .env.prod from secrets
+        if: runner.name == env.SERVER_RUNNER_PROD
         run: |
-          cat > .env.prod <<'EOF'
+          cat > .env.prod <<EOF
           ENV=prod
           BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }}
           LOG_LEVEL=INFO
           EOF
 
       - name: Stop and remove old container (prod)
+        if: runner.name == env.SERVER_RUNNER_PROD
         run: docker rm -f linux-quiz-bot-prod || true
 
       - name: Recreate container (prod)
+        if: runner.name == env.SERVER_RUNNER_PROD
         run: |
           docker compose -f docker-compose.prod.yml \
                          --env-file .env.prod \
@@ -162,14 +180,17 @@ jobs:
                          up -d --force-recreate --pull always
 
       - name: Show running image (prod)
+        if: runner.name == env.SERVER_RUNNER_PROD
         run: docker ps --filter "name=linux-quiz-bot-prod" --format "{{.Image}}"
 
       - name: Smoke test
+        if: runner.name == env.SERVER_RUNNER_PROD
         run: |
           sleep 5
           curl -sf http://localhost:8080/healthz || echo "no health-check"
 
       - name: Cleanup unused images/containers (prod)
+        if: runner.name == env.SERVER_RUNNER_PROD
         run: |
           docker image prune -f
           docker container prune -f
