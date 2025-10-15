@@ -45,7 +45,7 @@ jobs:
   docker-build:
     needs: lint-and-test
     if: github.event_name == 'push'
-    runs-on: ubuntu-latest    # сборка на github-hosted, не затрагивает self-hosted
+    runs-on: ubuntu-latest
 
     outputs:
       image_tag: ${{ steps.vars.outputs.tag }}
@@ -78,7 +78,6 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     runs-on: [ self-hosted ]
     env:
-      # имя СЕРВЕРНОГО раннера (только на нём выполнять деплой)
       SERVER_RUNNER_DEV: shura-telegram-bots-prod
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       IMAGE_TAG: ${{ needs.docker-build.outputs.image_tag }}
@@ -87,7 +86,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Who am I
-        run: echo "Running on: ${{ runner.name }} (expect ${{ env.SERVER_RUNNER_DEV }})"
+        run: |
+          echo "Runner name = ${{ runner.name }}"
+          echo "Expected    = ${{ env.SERVER_RUNNER_DEV }}"
 
       - name: Pull fresh image
         if: runner.name == env.SERVER_RUNNER_DEV
@@ -148,7 +149,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Who am I
-        run: echo "Running on: ${{ runner.name }} (expect ${{ env.SERVER_RUNNER_PROD }})"
+        run: |
+          echo "Runner name = ${{ runner.name }}"
+          echo "Expected    = ${{ env.SERVER_RUNNER_PROD }}"
 
       - name: Pull fresh image
         if: runner.name == env.SERVER_RUNNER_PROD
