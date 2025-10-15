@@ -246,7 +246,7 @@ async def handle_feedback(msg: Message, state: FSMContext) -> None:
         )
     except Exception as e:
         logging.warning(f"❌ Не удалось отправить фидбек в канал: {e}")
-    await msg.answer("Спасибо за фидбек! 💌")
+    await msg.answer("Спасибо за фидбек! 💌💌💌")
     await state.clear()
 
 
