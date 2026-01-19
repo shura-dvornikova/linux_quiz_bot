@@ -2,673 +2,553 @@
   "file_systems": {
     "title": "Файловые системы",
     "junior": [
-      {
-        "question": "Какой каталог является корневым в Linux?",
-        "options": ["/root", "/home", "/", "/usr"],
-        "correct": 2
-      },
-      {
-        "question": "Какой командой можно просмотреть содержимое каталога?",
-        "options": ["cd", "ls", "cat", "pwd"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает команда `pwd`?",
-        "options": ["Меняет директорию", "Показывает текущий путь", "Создаёт файл", "Удаляет файл"],
-        "correct": 1
-      },
-      {
-        "question": "Какой файл содержит информацию о монтировании файловых систем при загрузке?",
-        "options": ["/etc/fstab", "/etc/mtab", "/etc/rc.local", "/boot/grub.cfg"],
-        "correct": 0
-      },
-      {
-        "question": "Чем отличается soft link от hard link?",
-        "options": ["inode общий", "inode разный, soft link - символическая ссылка", "RW права", "Нет различий"],
-        "correct": 1
-      }
+      {"question": "Какой каталог является корневым в Linux?", "options": ["/root", "/home", "/", "/usr"], "correct": 2},
+      {"question": "Какой командой можно просмотреть содержимое каталога?", "options": ["cd", "ls", "cat", "pwd"], "correct": 1},
+      {"question": "Что делает команда `pwd`?", "options": ["Меняет директорию", "Показывает текущий путь", "Создаёт файл", "Удаляет файл"], "correct": 1},
+      {"question": "Какой командой перейти в другой каталог?", "options": ["ls", "cd", "mv", "cp"], "correct": 1},
+      {"question": "Где обычно находятся домашние каталоги пользователей?", "options": ["/root", "/home", "/usr", "/var"], "correct": 1},
+      {"question": "Какой командой создать новый каталог?", "options": ["touch", "mkdir", "mkfile", "newdir"], "correct": 1},
+      {"question": "Какой командой удалить пустой каталог?", "options": ["rm", "rmdir", "del", "remove"], "correct": 1},
+      {"question": "Что хранится в каталоге /etc?", "options": ["Логи", "Конфигурационные файлы", "Домашние каталоги", "Временные файлы"], "correct": 1},
+      {"question": "Какой командой скопировать файл?", "options": ["mv", "cp", "copy", "duplicate"], "correct": 1},
+      {"question": "Какой командой переместить или переименовать файл?", "options": ["cp", "mv", "rename", "move"], "correct": 1},
+      {"question": "Что хранится в каталоге /tmp?", "options": ["Логи системы", "Временные файлы", "Конфиги", "Ядро"], "correct": 1},
+      {"question": "Какой командой создать пустой файл?", "options": ["touch", "create", "new", "mkfile"], "correct": 0},
+      {"question": "Какой каталог содержит исполняемые файлы системных команд?", "options": ["/home", "/bin и /usr/bin", "/etc", "/var"], "correct": 1},
+      {"question": "Что означает `.` (точка) в пути?", "options": ["Корневой каталог", "Текущий каталог", "Родительский каталог", "Домашний каталог"], "correct": 1},
+      {"question": "Что означает `..` (две точки) в пути?", "options": ["Корневой каталог", "Текущий каталог", "Родительский каталог", "Домашний каталог"], "correct": 2},
+      {"question": "Какой символ обозначает домашний каталог пользователя?", "options": ["/", "~", ".", "*"], "correct": 1},
+      {"question": "Где хранятся логи системы?", "options": ["/etc", "/var/log", "/tmp", "/home"], "correct": 1},
+      {"question": "Какой командой удалить файл?", "options": ["del", "rm", "remove", "erase"], "correct": 1},
+      {"question": "Что делает команда `cat`?", "options": ["Создаёт файл", "Выводит содержимое файла", "Копирует файл", "Удаляет файл"], "correct": 1},
+      {"question": "Какой каталог содержит файлы устройств?", "options": ["/etc", "/dev", "/bin", "/opt"], "correct": 1}
     ],
     "middle": [
-      {
-        "question": "Какой каталог содержит конфиги ядра, смонтированные как псевдо-ФС?",
-        "options": ["/proc", "/sys", "/run", "/dev"],
-        "correct": 1
-      },
-      {
-        "question": "Что покажет `uname -r`?",
-        "options": ["Версию ОС", "Версию ядра", "Хостнейм", "Архитектуру"],
-        "correct": 1
-      },
-      {
-        "question": "`chmod 640 file` выдаёт права…",
-        "options": ["rw-r-----", "rw-r--r--", "rwxr-x---", "rw-rw----"],
-        "correct": 0
-      },
-      {
-        "question": "Каким инструментом измерить I/O диска в реальном времени?",
-        "options": ["htop", "iostat", "vmstat", "strace"],
-        "correct": 1
-      },
-      {
-        "question": "Слой copy-on-write используют…",
-        "options": ["LVM", "OverlayFS", "ext4", "NFS"],
-        "correct": 1
-      }
+      {"question": "Какой файл содержит информацию о монтировании файловых систем при загрузке?", "options": ["/etc/fstab", "/etc/mtab", "/etc/rc.local", "/boot/grub.cfg"], "correct": 0},
+      {"question": "Чем отличается soft link от hard link?", "options": ["inode общий", "inode разный, soft link - символическая ссылка", "RW права", "Нет различий"], "correct": 1},
+      {"question": "Какой каталог содержит конфиги ядра, смонтированные как псевдо-ФС?", "options": ["/proc", "/sys", "/run", "/dev"], "correct": 1},
+      {"question": "Каким инструментом измерить I/O диска в реальном времени?", "options": ["htop", "iostat", "vmstat", "strace"], "correct": 1},
+      {"question": "Слой copy-on-write используют…", "options": ["LVM", "OverlayFS", "ext4", "NFS"], "correct": 1},
+      {"question": "Какая команда показывает смонтированные файловые системы?", "options": ["ls /mnt", "mount", "df", "mount и df"], "correct": 3},
+      {"question": "Как создать символическую ссылку?", "options": ["ln file link", "ln -s target link", "link -s file", "symlink file link"], "correct": 1},
+      {"question": "Что показывает команда `lsblk`?", "options": ["Список файлов", "Блочные устройства", "Сетевые интерфейсы", "Процессы"], "correct": 1},
+      {"question": "Какая файловая система используется по умолчанию в большинстве дистрибутивов?", "options": ["NTFS", "ext4", "FAT32", "XFS"], "correct": 1},
+      {"question": "Что делает команда `df -h`?", "options": ["Показывает скрытые файлы", "Показывает использование дисков в читаемом формате", "Форматирует диск", "Удаляет файлы"], "correct": 1},
+      {"question": "Что делает команда `du -sh *`?", "options": ["Удаляет файлы", "Показывает размер каждого элемента в текущем каталоге", "Создаёт архив", "Монтирует диск"], "correct": 1},
+      {"question": "Какой командой отмонтировать файловую систему?", "options": ["unmount", "umount", "dismount", "eject"], "correct": 1},
+      {"question": "Что такое /proc?", "options": ["Обычный каталог", "Виртуальная ФС с информацией о процессах и ядре", "Каталог для программ", "Swap раздел"], "correct": 1},
+      {"question": "Какой командой проверить целостность файловой системы?", "options": ["chkdsk", "fsck", "scandisk", "checkfs"], "correct": 1},
+      {"question": "Что такое LVM?", "options": ["Тип файловой системы", "Менеджер логических томов", "Загрузчик", "Архиватор"], "correct": 1},
+      {"question": "Какой флаг ls показывает скрытые файлы?", "options": ["-l", "-a", "-h", "-r"], "correct": 1},
+      {"question": "Что содержит файл /etc/mtab?", "options": ["Пользователей", "Текущие точки монтирования", "Сетевые настройки", "Пароли"], "correct": 1},
+      {"question": "Какой командой создать файловую систему ext4?", "options": ["format ext4", "mkfs.ext4", "newfs ext4", "createfs ext4"], "correct": 1},
+      {"question": "Что такое точка монтирования?", "options": ["Корень диска", "Каталог, куда подключается ФС", "Раздел диска", "Тип ФС"], "correct": 1},
+      {"question": "Какой опцией mount сделать ФС только для чтения?", "options": ["-o rw", "-o ro", "-r", "-o ro или -r"], "correct": 3}
     ],
     "senior": [
-      {
-        "question": "Что делает `chroot /mnt`?",
-        "options": ["Меняет pidns", "Меняет root dir", "Меняет user", "Меняет cwd"],
-        "correct": 1
-      },
-      {
-        "question": "Утилита для перезаписи MBR нулями:",
-        "options": ["fsck", "mkfs", "dd", "hdparm"],
-        "correct": 2
-      },
-      {
-        "question": "Какой флаг mount делает ФС только для чтения?",
-        "options": ["-o ro", "-o rw", "-r", "-w"],
-        "correct": 0
-      },
-      {
-        "question": "Что такое inode в файловой системе?",
-        "options": ["Имя файла", "Структура с метаданными файла", "Блок данных", "Таблица разделов"],
-        "correct": 1
-      },
-      {
-        "question": "Какая команда покажет использование inodes?",
-        "options": ["df -h", "df -i", "du -h", "ls -i"],
-        "correct": 1
-      }
+      {"question": "Что делает `chroot /mnt`?", "options": ["Меняет pidns", "Меняет корневой каталог для процесса", "Меняет user", "Меняет cwd"], "correct": 1},
+      {"question": "Утилита для перезаписи MBR нулями:", "options": ["fsck", "mkfs", "dd", "hdparm"], "correct": 2},
+      {"question": "Что такое inode в файловой системе?", "options": ["Имя файла", "Структура с метаданными файла", "Блок данных", "Таблица разделов"], "correct": 1},
+      {"question": "Какая команда покажет использование inodes?", "options": ["df -h", "df -i", "du -h", "ls -i"], "correct": 1},
+      {"question": "Что такое журналирование в файловой системе?", "options": ["Логирование доступа", "Запись изменений для восстановления после сбоя", "Шифрование", "Сжатие данных"], "correct": 1},
+      {"question": "Какая ФС поддерживает снапшоты на уровне ФС?", "options": ["ext4", "Btrfs и ZFS", "FAT32", "NTFS"], "correct": 1},
+      {"question": "Что делает команда `tune2fs`?", "options": ["Форматирует диск", "Настраивает параметры ext2/3/4", "Монтирует ФС", "Проверяет диск"], "correct": 1},
+      {"question": "Как посмотреть UUID раздела?", "options": ["ls /dev", "blkid", "fdisk -l", "lsblk"], "correct": 1},
+      {"question": "Что такое sparse file?", "options": ["Сжатый файл", "Файл с дырами, не занимающими место", "Зашифрованный файл", "Символическая ссылка"], "correct": 1},
+      {"question": "Какой командой изменить размер файловой системы ext4?", "options": ["fsresize", "resize2fs", "extresize", "growfs"], "correct": 1},
+      {"question": "Что делает опция монтирования noatime?", "options": ["Запрещает запись", "Не обновляет время доступа", "Отключает журнал", "Включает шифрование"], "correct": 1},
+      {"question": "Какой инструмент для работы с разделами GPT?", "options": ["fdisk", "gdisk или parted", "cfdisk", "sfdisk"], "correct": 1},
+      {"question": "Что такое bind mount?", "options": ["Сетевое монтирование", "Монтирование каталога в другую точку", "Шифрованное монтирование", "Временное монтирование"], "correct": 1},
+      {"question": "Как смонтировать ISO образ?", "options": ["mount -o loop file.iso /mnt", "iso-mount file.iso", "losetup file.iso", "mount --iso file.iso"], "correct": 0},
+      {"question": "Что такое RAID 5?", "options": ["Зеркалирование", "Чередование с контролем чётности", "Просто чередование", "Комбинация RAID 0 и 1"], "correct": 1},
+      {"question": "Какой командой создать RAID массив в Linux?", "options": ["raid-create", "mdadm", "raidctl", "mkraid"], "correct": 1},
+      {"question": "Что делает команда `xfs_repair`?", "options": ["Форматирует XFS", "Восстанавливает XFS", "Монтирует XFS", "Дефрагментирует XFS"], "correct": 1},
+      {"question": "Как включить квоты на файловой системе?", "options": ["quota on", "mount с usrquota/grpquota и quotaon", "enable quota", "quotactl"], "correct": 1},
+      {"question": "Что такое ACL в контексте файловых систем?", "options": ["Журнал доступа", "Расширенные списки контроля доступа", "Тип шифрования", "Метод сжатия"], "correct": 1},
+      {"question": "Какой командой установить расширенные атрибуты файла?", "options": ["chmod", "chattr", "setfattr", "xattr"], "correct": 2}
     ]
   },
   "permissions": {
     "title": "Права и пользователи",
     "junior": [
-      {
-        "question": "Что делает команда `chmod +x script.sh`?",
-        "options": ["Удаляет файл", "Меняет владельца файла", "Добавляет право на исполнение", "Показывает содержимое файла"],
-        "correct": 2
-      },
-      {
-        "question": "Команда для отображения групп пользователя:",
-        "options": ["id -nG", "whoami", "groups -l", "passwd -l"],
-        "correct": 0
-      },
-      {
-        "question": "Какой файл содержит информацию о пользователях системы?",
-        "options": ["/etc/passwd", "/etc/shadow", "/etc/group", "/etc/users"],
-        "correct": 0
-      },
-      {
-        "question": "Какая команда меняет владельца файла?",
-        "options": ["chmod", "chown", "chgrp", "usermod"],
-        "correct": 1
-      },
-      {
-        "question": "Что означает права 755?",
-        "options": ["rwxr-xr-x", "rw-r--r--", "rwxrwxrwx", "r-xr-xr-x"],
-        "correct": 0
-      }
+      {"question": "Какой командой посмотреть права на файл?", "options": ["ls -l", "chmod", "chown", "stat"], "correct": 0},
+      {"question": "Что делает команда `chmod +x script.sh`?", "options": ["Удаляет файл", "Меняет владельца", "Добавляет право на исполнение", "Показывает содержимое"], "correct": 2},
+      {"question": "Какой файл содержит информацию о пользователях системы?", "options": ["/etc/passwd", "/etc/shadow", "/etc/group", "/etc/users"], "correct": 0},
+      {"question": "Какая команда меняет владельца файла?", "options": ["chmod", "chown", "chgrp", "usermod"], "correct": 1},
+      {"question": "Что означает права 755?", "options": ["rwxr-xr-x", "rw-r--r--", "rwxrwxrwx", "r-xr-xr-x"], "correct": 0},
+      {"question": "Кто такой root в Linux?", "options": ["Обычный пользователь", "Суперпользователь с полными правами", "Группа", "Сервис"], "correct": 1},
+      {"question": "Какой командой создать нового пользователя?", "options": ["adduser или useradd", "newuser", "createuser", "mkuser"], "correct": 0},
+      {"question": "Что означает `r` в правах доступа?", "options": ["Run", "Read (чтение)", "Remove", "Root"], "correct": 1},
+      {"question": "Что означает `w` в правах доступа?", "options": ["Wait", "Write (запись)", "Watch", "Work"], "correct": 1},
+      {"question": "Что означает `x` в правах доступа?", "options": ["Exit", "Execute (исполнение)", "Export", "Exclude"], "correct": 1},
+      {"question": "Команда для отображения текущего пользователя:", "options": ["who", "whoami", "id", "user"], "correct": 1},
+      {"question": "Команда для отображения групп пользователя:", "options": ["id -nG или groups", "whoami", "usermod", "passwd"], "correct": 0},
+      {"question": "Какой командой сменить пароль?", "options": ["password", "passwd", "chpass", "setpass"], "correct": 1},
+      {"question": "Что делает команда `su`?", "options": ["Создаёт пользователя", "Переключает пользователя", "Удаляет пользователя", "Показывает пользователей"], "correct": 1},
+      {"question": "Что делает команда `sudo`?", "options": ["Переключает пользователя", "Выполняет команду от имени другого пользователя", "Создаёт пользователя", "Меняет права"], "correct": 1},
+      {"question": "Какой файл содержит информацию о группах?", "options": ["/etc/passwd", "/etc/shadow", "/etc/group", "/etc/groups"], "correct": 2},
+      {"question": "Что означает права 644?", "options": ["rwxr--r--", "rw-r--r--", "rw-rw-r--", "r--r--r--"], "correct": 1},
+      {"question": "Какой командой удалить пользователя?", "options": ["rmuser", "userdel", "deluser", "userdel или deluser"], "correct": 3},
+      {"question": "Что такое группа в Linux?", "options": ["Тип файла", "Набор пользователей с общими правами", "Каталог", "Процесс"], "correct": 1},
+      {"question": "Какой командой изменить группу файла?", "options": ["chmod", "chown", "chgrp", "groupmod"], "correct": 2}
     ],
     "middle": [
-      {
-        "question": "Файл для задания ulimits глобально:",
-        "options": ["/etc/security/limits.conf", "/etc/profile", "/etc/fstab", "/etc/login.defs"],
-        "correct": 0
-      },
-      {
-        "question": "Какой файл хранит зашифрованные пароли пользователей?",
-        "options": ["/etc/passwd", "/etc/shadow", "/etc/group", "/etc/gshadow"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает SUID бит на исполняемом файле?",
-        "options": ["Запускает от имени владельца", "Запускает от имени группы", "Запрещает выполнение", "Делает файл неизменяемым"],
-        "correct": 0
-      },
-      {
-        "question": "Как добавить пользователя в группу без удаления из других групп?",
-        "options": ["usermod -G", "usermod -aG", "groupadd", "useradd -g"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает sticky bit на каталоге?",
-        "options": ["Только владелец может удалять свои файлы", "Запрещает запись", "Разрешает выполнение", "Скрывает каталог"],
-        "correct": 0
-      }
+      {"question": "Файл для задания ulimits глобально:", "options": ["/etc/security/limits.conf", "/etc/profile", "/etc/fstab", "/etc/login.defs"], "correct": 0},
+      {"question": "Какой файл хранит зашифрованные пароли пользователей?", "options": ["/etc/passwd", "/etc/shadow", "/etc/group", "/etc/gshadow"], "correct": 1},
+      {"question": "Что делает SUID бит на исполняемом файле?", "options": ["Запускает от имени владельца", "Запускает от имени группы", "Запрещает выполнение", "Делает файл неизменяемым"], "correct": 0},
+      {"question": "Как добавить пользователя в группу без удаления из других групп?", "options": ["usermod -G", "usermod -aG", "groupadd", "useradd -g"], "correct": 1},
+      {"question": "Что делает sticky bit на каталоге?", "options": ["Только владелец может удалять свои файлы", "Запрещает запись", "Разрешает выполнение", "Скрывает каталог"], "correct": 0},
+      {"question": "Как установить SUID бит?", "options": ["chmod +s file", "chmod u+s file", "chmod 4755 file", "Все варианты верны"], "correct": 3},
+      {"question": "Что означает SGID бит на каталоге?", "options": ["Файлы наследуют группу каталога", "Запрет записи", "Запрет чтения", "Скрытый каталог"], "correct": 0},
+      {"question": "Какой командой заблокировать учётную запись?", "options": ["usermod -L", "passwd -l", "Оба варианта", "lock user"], "correct": 2},
+      {"question": "Что такое umask?", "options": ["Маска сети", "Маска прав по умолчанию для новых файлов", "Маска процессов", "Тип шифрования"], "correct": 1},
+      {"question": "Какой umask даст права 644 для файлов?", "options": ["022", "077", "002", "000"], "correct": 0},
+      {"question": "Где настраивается sudo?", "options": ["/etc/sudo", "/etc/sudoers", "/etc/su.conf", "/etc/root.conf"], "correct": 1},
+      {"question": "Какой командой безопасно редактировать sudoers?", "options": ["nano /etc/sudoers", "visudo", "vim /etc/sudoers", "edit sudoers"], "correct": 1},
+      {"question": "Что означает запись `%wheel ALL=(ALL) ALL` в sudoers?", "options": ["Блокирует группу wheel", "Группа wheel может выполнять любые команды через sudo", "Удаляет группу wheel", "Создаёт группу wheel"], "correct": 1},
+      {"question": "Как узнать UID пользователя?", "options": ["whoami", "id", "uid", "getuid"], "correct": 1},
+      {"question": "Какой UID у root?", "options": ["1", "0", "1000", "-1"], "correct": 1},
+      {"question": "Что делает команда `newgrp`?", "options": ["Создаёт группу", "Меняет текущую группу пользователя", "Удаляет группу", "Показывает группы"], "correct": 1},
+      {"question": "Как установить срок действия пароля?", "options": ["passwd -e", "chage", "usermod -e", "chage или passwd -x"], "correct": 3},
+      {"question": "Что такое /etc/login.defs?", "options": ["Список пользователей", "Настройки по умолчанию для создания пользователей", "Логи входа", "Конфиг SSH"], "correct": 1},
+      {"question": "Как найти файлы с SUID битом?", "options": ["find / -type f -perm -4000", "ls -suid", "locate suid", "search suid"], "correct": 0},
+      {"question": "Что делает команда `id -u`?", "options": ["Показывает имя пользователя", "Показывает UID пользователя", "Показывает группы", "Показывает всё"], "correct": 1}
     ],
     "senior": [
-      {
-        "question": "Какая подсистема Linux управляет мандатным контролем доступа?",
-        "options": ["iptables", "SELinux/AppArmor", "PAM", "sudo"],
-        "correct": 1
-      },
-      {
-        "question": "Что такое capabilities в Linux?",
-        "options": ["Права пользователя", "Разделённые привилегии root", "Группы пользователей", "ACL записи"],
-        "correct": 1
-      },
-      {
-        "question": "Какой командой установить capability CAP_NET_BIND_SERVICE?",
-        "options": ["chmod", "setcap", "chown", "setfacl"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает команда `getfacl`?",
-        "options": ["Устанавливает ACL", "Показывает ACL", "Удаляет ACL", "Копирует ACL"],
-        "correct": 1
-      },
-      {
-        "question": "PAM модуль для ограничения ресурсов пользователя:",
-        "options": ["pam_limits", "pam_unix", "pam_env", "pam_wheel"],
-        "correct": 0
-      }
+      {"question": "Какая подсистема Linux управляет мандатным контролем доступа?", "options": ["iptables", "SELinux/AppArmor", "PAM", "sudo"], "correct": 1},
+      {"question": "Что такое capabilities в Linux?", "options": ["Права пользователя", "Разделённые привилегии root", "Группы пользователей", "ACL записи"], "correct": 1},
+      {"question": "Какой командой установить capability CAP_NET_BIND_SERVICE?", "options": ["chmod", "setcap", "chown", "setfacl"], "correct": 1},
+      {"question": "Что делает команда `getfacl`?", "options": ["Устанавливает ACL", "Показывает ACL", "Удаляет ACL", "Копирует ACL"], "correct": 1},
+      {"question": "PAM модуль для ограничения ресурсов пользователя:", "options": ["pam_limits", "pam_unix", "pam_env", "pam_wheel"], "correct": 0},
+      {"question": "Что такое SELinux context?", "options": ["Права файла", "Метка безопасности объекта", "Группа пользователя", "Тип ФС"], "correct": 1},
+      {"question": "Какой командой изменить SELinux context файла?", "options": ["chmod", "chcon", "selinux-set", "setcontext"], "correct": 1},
+      {"question": "Что делает команда `restorecon`?", "options": ["Восстанавливает файл", "Восстанавливает SELinux контекст по умолчанию", "Перезапускает SELinux", "Отключает SELinux"], "correct": 1},
+      {"question": "Как посмотреть capabilities файла?", "options": ["ls -cap", "getcap", "filecap", "capget"], "correct": 1},
+      {"question": "Что такое namespace в контексте безопасности?", "options": ["DNS зона", "Изоляция ресурсов процесса", "Группа пользователей", "Тип шифрования"], "correct": 1},
+      {"question": "Какой PAM модуль используется для аутентификации через LDAP?", "options": ["pam_unix", "pam_ldap или pam_sss", "pam_env", "pam_wheel"], "correct": 1},
+      {"question": "Что делает команда `setfacl -m u:user:rwx file`?", "options": ["Удаляет права", "Добавляет ACL запись для пользователя", "Меняет владельца", "Создаёт файл"], "correct": 1},
+      {"question": "Как удалить все ACL с файла?", "options": ["setfacl -b file", "setfacl -x file", "rmacl file", "delacl file"], "correct": 0},
+      {"question": "Что такое AppArmor profile?", "options": ["Профиль пользователя", "Набор правил ограничения для программы", "Тип ФС", "Сетевой профиль"], "correct": 1},
+      {"question": "Какой командой перевести SELinux в permissive режим?", "options": ["selinux --permissive", "setenforce 0", "sestatus permissive", "permissive on"], "correct": 1},
+      {"question": "Что такое seccomp?", "options": ["Сжатие данных", "Фильтрация системных вызовов", "Шифрование", "Сетевой протокол"], "correct": 1},
+      {"question": "Как проверить, включён ли SELinux?", "options": ["selinux status", "getenforce или sestatus", "selinux --check", "is-selinux"], "correct": 1},
+      {"question": "Что делает capability CAP_SYS_ADMIN?", "options": ["Даёт права admin", "Даёт широкий набор привилегий", "Только сетевые права", "Только права на файлы"], "correct": 1},
+      {"question": "Как настроить двухфакторную аутентификацию через PAM?", "options": ["Добавить pam_google_authenticator или подобный модуль", "Включить 2fa в passwd", "Настроить в sudoers", "Изменить /etc/shadow"], "correct": 0},
+      {"question": "Что такое audit в Linux?", "options": ["Проверка диска", "Система аудита безопасности и логирования событий", "Тип ФС", "Антивирус"], "correct": 1}
     ]
   },
   "processes": {
     "title": "Процессы",
     "junior": [
-      {
-        "question": "Какой процесс имеет PID 1 в Linux?",
-        "options": ["systemd/init", "kernel", "sshd", "bash"],
-        "correct": 0
-      },
-      {
-        "question": "Какая команда показывает запущенные процессы?",
-        "options": ["ls", "ps", "top", "ps и top"],
-        "correct": 3
-      },
-      {
-        "question": "Как завершить процесс по PID?",
-        "options": ["stop PID", "kill PID", "end PID", "close PID"],
-        "correct": 1
-      },
-      {
-        "question": "Что возвращает `$?` в bash?",
-        "options": ["PID", "Exit code", "Кол-во аргументов", "UID"],
-        "correct": 1
-      },
-      {
-        "question": "Какой командой запустить процесс в фоне?",
-        "options": ["command &", "bg command", "nohup command", "command & и nohup"],
-        "correct": 0
-      }
+      {"question": "Какой процесс имеет PID 1 в Linux?", "options": ["systemd/init", "kernel", "sshd", "bash"], "correct": 0},
+      {"question": "Какая команда показывает запущенные процессы?", "options": ["ls", "ps", "top", "ps и top"], "correct": 3},
+      {"question": "Как завершить процесс по PID?", "options": ["stop PID", "kill PID", "end PID", "close PID"], "correct": 1},
+      {"question": "Что возвращает `$?` в bash?", "options": ["PID", "Exit code последней команды", "Кол-во аргументов", "UID"], "correct": 1},
+      {"question": "Какой командой запустить процесс в фоне?", "options": ["command &", "bg command", "background command", "run -bg command"], "correct": 0},
+      {"question": "Что такое PID?", "options": ["Имя процесса", "Идентификатор процесса", "Приоритет процесса", "Память процесса"], "correct": 1},
+      {"question": "Какая команда показывает процессы в реальном времени?", "options": ["ps", "top или htop", "proc", "watch ps"], "correct": 1},
+      {"question": "Как остановить процесс, запущенный на переднем плане?", "options": ["Ctrl+Z", "Ctrl+C", "Ctrl+D", "Ctrl+X"], "correct": 1},
+      {"question": "Как приостановить процесс на переднем плане?", "options": ["Ctrl+Z", "Ctrl+C", "Ctrl+S", "Ctrl+P"], "correct": 0},
+      {"question": "Какой командой возобновить приостановленный процесс на переднем плане?", "options": ["fg", "bg", "resume", "continue"], "correct": 0},
+      {"question": "Какой командой возобновить приостановленный процесс в фоне?", "options": ["fg", "bg", "resume", "back"], "correct": 1},
+      {"question": "Как посмотреть список фоновых задач?", "options": ["ps", "jobs", "bg", "tasks"], "correct": 1},
+      {"question": "Что делает команда `ps aux`?", "options": ["Показывает файлы", "Показывает все процессы с деталями", "Убивает процессы", "Запускает процесс"], "correct": 1},
+      {"question": "Какой командой найти процесс по имени?", "options": ["ps | grep name", "pgrep name", "Оба варианта", "findproc name"], "correct": 2},
+      {"question": "Что делает команда `killall`?", "options": ["Убивает все процессы", "Убивает процессы по имени", "Перезагружает систему", "Останавливает службы"], "correct": 1},
+      {"question": "Какой сигнал отправляется по умолчанию командой kill?", "options": ["SIGKILL", "SIGTERM", "SIGHUP", "SIGINT"], "correct": 1},
+      {"question": "Что означает состояние процесса S (sleeping)?", "options": ["Остановлен", "Ожидает событие", "Зомби", "Работает"], "correct": 1},
+      {"question": "Что такое PPID?", "options": ["Приоритет процесса", "PID родительского процесса", "ID группы процессов", "Память процесса"], "correct": 1},
+      {"question": "Какой командой убить процесс принудительно?", "options": ["kill PID", "kill -9 PID", "stop PID", "terminate PID"], "correct": 1},
+      {"question": "Что показывает столбец %CPU в top?", "options": ["Общую загрузку CPU", "Использование CPU процессом", "Количество ядер", "Частоту CPU"], "correct": 1}
     ],
     "middle": [
-      {
-        "question": "Какой ключ `ps` выводит дерево процессов?",
-        "options": ["-e", "-f", "-u", "--forest или -H"],
-        "correct": 3
-      },
-      {
-        "question": "Какой сигнал безопасно завершает процесс для сохранения данных?",
-        "options": ["SIGKILL", "SIGSTOP", "SIGTERM", "SIGHUP"],
-        "correct": 2
-      },
-      {
-        "question": "`nice -n -10` делает процесс…",
-        "options": ["Менее приоритетным", "Более приоритетным", "Останавливает", "Убивает"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает команда `nohup`?",
-        "options": ["Запускает с низким приоритетом", "Игнорирует SIGHUP", "Запускает в фоне", "Останавливает процесс"],
-        "correct": 1
-      },
-      {
-        "question": "Как посмотреть открытые файлы процесса?",
-        "options": ["ps -f", "lsof -p PID", "top -p PID", "cat /proc/PID"],
-        "correct": 1
-      }
+      {"question": "Какой ключ `ps` выводит дерево процессов?", "options": ["-e", "-f", "-u", "--forest или -H"], "correct": 3},
+      {"question": "Какой сигнал безопасно завершает процесс?", "options": ["SIGKILL", "SIGSTOP", "SIGTERM", "SIGHUP"], "correct": 2},
+      {"question": "`nice -n -10` делает процесс…", "options": ["Менее приоритетным", "Более приоритетным", "Останавливает", "Убивает"], "correct": 1},
+      {"question": "Что делает команда `nohup`?", "options": ["Запускает с низким приоритетом", "Игнорирует SIGHUP при закрытии терминала", "Запускает в фоне", "Останавливает процесс"], "correct": 1},
+      {"question": "Как посмотреть открытые файлы процесса?", "options": ["ps -f", "lsof -p PID", "top -p PID", "files PID"], "correct": 1},
+      {"question": "Что такое nice value?", "options": ["Имя процесса", "Значение приоритета процесса", "ID процесса", "Память процесса"], "correct": 1},
+      {"question": "Диапазон nice value:", "options": ["-20 до 19", "0 до 100", "-100 до 100", "1 до 99"], "correct": 0},
+      {"question": "Какой командой изменить приоритет запущенного процесса?", "options": ["nice", "renice", "priority", "setnice"], "correct": 1},
+      {"question": "Что делает команда `pstree`?", "options": ["Показывает файлы", "Показывает дерево процессов", "Создаёт процесс", "Убивает процесс"], "correct": 1},
+      {"question": "Как отправить сигнал всем процессам группы?", "options": ["kill -PID", "kill -PGID или kill -g", "killall", "pkill -g PGID"], "correct": 3},
+      {"question": "Что такое daemon процесс?", "options": ["Зомби процесс", "Фоновый процесс без терминала", "Процесс ядра", "Приостановленный процесс"], "correct": 1},
+      {"question": "Как найти PID по порту?", "options": ["ps port", "lsof -i :port или ss -tlnp", "netstat port", "findport"], "correct": 1},
+      {"question": "Что означает load average?", "options": ["Загрузка RAM", "Среднее количество процессов в очереди", "Загрузка диска", "Сетевая нагрузка"], "correct": 1},
+      {"question": "Что делает SIGHUP для демонов?", "options": ["Завершает процесс", "Часто перечитывает конфиг", "Останавливает процесс", "Убивает принудительно"], "correct": 1},
+      {"question": "Как ограничить CPU время процесса?", "options": ["nice", "ulimit -t", "cpulimit", "ulimit -t или cpulimit"], "correct": 3},
+      {"question": "Что показывает /proc/PID/cmdline?", "options": ["Статус процесса", "Командную строку запуска", "Открытые файлы", "Память процесса"], "correct": 1},
+      {"question": "Как запустить процесс с определённым nice value?", "options": ["nice -n VALUE command", "renice VALUE command", "run -nice VALUE", "priority VALUE command"], "correct": 0},
+      {"question": "Что такое сессия процесса (session)?", "options": ["Группа связанных процессов", "Время работы", "Память процесса", "Приоритет"], "correct": 0},
+      {"question": "Какой командой отслеживать системные вызовы процесса?", "options": ["ps -s", "strace", "syscall", "trace"], "correct": 1},
+      {"question": "Что показывает /proc/PID/fd/?", "options": ["Память процесса", "Открытые файловые дескрипторы", "CPU использование", "Сетевые соединения"], "correct": 1}
     ],
     "senior": [
-      {
-        "question": "Что такое zombie процесс?",
-        "options": ["Процесс без памяти", "Завершённый, но не собранный родителем", "Процесс в swap", "Процесс без CPU"],
-        "correct": 1
-      },
-      {
-        "question": "Какой системный вызов создаёт новый процесс?",
-        "options": ["exec", "fork", "spawn", "clone"],
-        "correct": 1
-      },
-      {
-        "question": "Что такое cgroups?",
-        "options": ["Группы пользователей", "Контрольные группы для ограничения ресурсов", "Группы процессов", "Группы файлов"],
-        "correct": 1
-      },
-      {
-        "question": "Как ограничить CPU для процесса через cgroups v2?",
-        "options": ["cpu.max", "cpu.shares", "cpu.limit", "cpu.quota"],
-        "correct": 0
-      },
-      {
-        "question": "Что делает системный вызов `execve`?",
-        "options": ["Создаёт процесс", "Заменяет образ процесса", "Завершает процесс", "Клонирует процесс"],
-        "correct": 1
-      }
+      {"question": "Что такое zombie процесс?", "options": ["Процесс без памяти", "Завершённый, но не собранный родителем", "Процесс в swap", "Процесс без CPU"], "correct": 1},
+      {"question": "Какой системный вызов создаёт новый процесс?", "options": ["exec", "fork", "spawn", "create"], "correct": 1},
+      {"question": "Что такое cgroups?", "options": ["Группы пользователей", "Контрольные группы для ограничения ресурсов", "Группы процессов", "Группы файлов"], "correct": 1},
+      {"question": "Как ограничить CPU для процесса через cgroups v2?", "options": ["cpu.max", "cpu.shares", "cpu.limit", "cpu.quota"], "correct": 0},
+      {"question": "Что делает системный вызов `execve`?", "options": ["Создаёт процесс", "Заменяет образ процесса", "Завершает процесс", "Клонирует процесс"], "correct": 1},
+      {"question": "Как создать zombie процесс?", "options": ["kill -9", "Дочерний процесс завершается, родитель не вызывает wait()", "fork без exec", "Бесконечный цикл"], "correct": 1},
+      {"question": "Что делает системный вызов wait()?", "options": ["Ждёт ввода", "Собирает статус завершённого дочернего процесса", "Останавливает процесс", "Ждёт сигнал"], "correct": 1},
+      {"question": "Что такое OOM score?", "options": ["Оценка производительности", "Вероятность быть убитым OOM Killer", "Приоритет процесса", "Использование памяти"], "correct": 1},
+      {"question": "Как защитить процесс от OOM Killer?", "options": ["nice -20", "Установить oom_score_adj в -1000", "SIGKILL", "chroot"], "correct": 1},
+      {"question": "Что такое namespaces в Linux?", "options": ["Имена процессов", "Механизм изоляции ресурсов", "Группы процессов", "Файловые системы"], "correct": 1},
+      {"question": "Какие типы namespaces существуют?", "options": ["Только PID", "PID, NET, MNT, UTS, IPC, USER, CGROUP", "Только NET и PID", "Только USER"], "correct": 1},
+      {"question": "Как запустить процесс в новом PID namespace?", "options": ["unshare --pid", "nsenter --pid", "clone CLONE_NEWPID", "unshare --pid или clone"], "correct": 3},
+      {"question": "Что делает команда `nsenter`?", "options": ["Создаёт namespace", "Входит в существующий namespace", "Удаляет namespace", "Показывает namespaces"], "correct": 1},
+      {"question": "Как ограничить память через cgroups v2?", "options": ["memory.max", "memory.limit", "mem.max", "memory.size"], "correct": 0},
+      {"question": "Что такое процесс init в контейнере?", "options": ["Ядро", "PID 1 внутри PID namespace контейнера", "systemd", "Docker daemon"], "correct": 1},
+      {"question": "Как посмотреть namespace процесса?", "options": ["ps namespace", "ls -la /proc/PID/ns/", "nslist PID", "getns PID"], "correct": 1},
+      {"question": "Что делает SIGCHLD?", "options": ["Убивает дочерний процесс", "Уведомляет родителя о завершении дочернего", "Останавливает процесс", "Перезапускает процесс"], "correct": 1},
+      {"question": "Как создать процесс без fork?", "options": ["exec", "clone", "spawn", "clone или vfork"], "correct": 3},
+      {"question": "Что такое process group leader?", "options": ["Процесс с наивысшим приоритетом", "Процесс, чей PID равен PGID группы", "Root процесс", "Init процесс"], "correct": 1},
+      {"question": "Как изолировать сеть процесса?", "options": ["chroot", "unshare --net", "setns NET", "unshare --net или network namespace"], "correct": 3}
     ]
   },
   "resources": {
     "title": "Системные ресурсы",
     "junior": [
-      {
-        "question": "Какая команда показывает использование дискового пространства?",
-        "options": ["ls -l", "df -h", "du", "df -h и du"],
-        "correct": 3
-      },
-      {
-        "question": "Какая команда показывает использование памяти?",
-        "options": ["mem", "free", "ram", "memory"],
-        "correct": 1
-      },
-      {
-        "question": "Что показывает команда `top`?",
-        "options": ["Файлы", "Процессы и ресурсы в реальном времени", "Сеть", "Диски"],
-        "correct": 1
-      },
-      {
-        "question": "Какая команда показывает загрузку CPU?",
-        "options": ["cpu", "uptime", "load", "cpuinfo"],
-        "correct": 1
-      },
-      {
-        "question": "Что такое swap в Linux?",
-        "options": ["Кэш диска", "Область подкачки на диске", "RAM диск", "Буфер сети"],
-        "correct": 1
-      }
+      {"question": "Какая команда показывает использование дискового пространства?", "options": ["ls -l", "df -h", "du", "df -h и du"], "correct": 3},
+      {"question": "Какая команда показывает использование памяти?", "options": ["mem", "free", "ram", "memory"], "correct": 1},
+      {"question": "Что показывает команда `top`?", "options": ["Файлы", "Процессы и ресурсы в реальном времени", "Сеть", "Диски"], "correct": 1},
+      {"question": "Какая команда показывает загрузку системы?", "options": ["cpu", "uptime", "load", "sysload"], "correct": 1},
+      {"question": "Что такое swap в Linux?", "options": ["Кэш диска", "Область подкачки на диске", "RAM диск", "Буфер сети"], "correct": 1},
+      {"question": "Как посмотреть информацию о CPU?", "options": ["cpuinfo", "cat /proc/cpuinfo или lscpu", "cpu --info", "getcpu"], "correct": 1},
+      {"question": "Что показывает `free -h`?", "options": ["Свободные файлы", "Память в читаемом формате", "Свободное место на диске", "Свободные порты"], "correct": 1},
+      {"question": "Как узнать время работы системы?", "options": ["runtime", "uptime", "sysinfo", "boottime"], "correct": 1},
+      {"question": "Что такое RAM?", "options": ["Жёсткий диск", "Оперативная память", "Процессор", "Видеокарта"], "correct": 1},
+      {"question": "Какая команда показывает информацию о системе?", "options": ["sysinfo", "uname -a", "info", "system"], "correct": 1},
+      {"question": "Что показывает столбец %MEM в top?", "options": ["Общую память", "Использование памяти процессом", "Swap", "Кэш"], "correct": 1},
+      {"question": "Какой командой посмотреть версию ядра?", "options": ["kernel -v", "uname -r", "version", "sysctl kernel"], "correct": 1},
+      {"question": "Что такое buffer в контексте памяти?", "options": ["Swap", "Кэш для блочных устройств", "RAM диск", "Виртуальная память"], "correct": 1},
+      {"question": "Что такое cache в контексте памяти?", "options": ["Swap", "Кэш для файлов и данных", "RAM диск", "Буфер сети"], "correct": 1},
+      {"question": "Как посмотреть количество ядер CPU?", "options": ["cpuinfo", "nproc или lscpu", "cores", "getcores"], "correct": 1},
+      {"question": "Что показывает команда `df`?", "options": ["Файлы", "Использование файловых систем", "Память", "Процессы"], "correct": 1},
+      {"question": "Что показывает команда `du`?", "options": ["Диски", "Использование места файлами/каталогами", "Память", "Процессы"], "correct": 1},
+      {"question": "Как выйти из top?", "options": ["Ctrl+C", "q", "exit", "q или Ctrl+C"], "correct": 3},
+      {"question": "Что такое виртуальная память?", "options": ["RAM", "Абстракция памяти, включающая RAM и swap", "Только swap", "Кэш"], "correct": 1},
+      {"question": "Какая утилита - улучшенная версия top?", "options": ["btop", "htop", "atop", "Все перечисленные"], "correct": 3}
     ],
     "middle": [
-      {
-        "question": "Что показывает load average 1.0 на одноядерной системе?",
-        "options": ["50% загрузка", "100% загрузка", "Перегрузка", "Простой"],
-        "correct": 1
-      },
-      {
-        "question": "Какой файл показывает информацию о памяти?",
-        "options": ["/proc/meminfo", "/proc/cpuinfo", "/sys/memory", "/etc/memory"],
-        "correct": 0
-      },
-      {
-        "question": "Что такое OOM Killer?",
-        "options": ["Антивирус", "Механизм завершения процессов при нехватке памяти", "Планировщик", "Драйвер"],
-        "correct": 1
-      },
-      {
-        "question": "Какая утилита показывает I/O по процессам?",
-        "options": ["top", "iotop", "htop", "atop"],
-        "correct": 1
-      },
-      {
-        "question": "Что показывает vmstat?",
-        "options": ["Только VM", "Статистику памяти, CPU, I/O", "Только диски", "Только сеть"],
-        "correct": 1
-      }
+      {"question": "Что показывает load average 1.0 на одноядерной системе?", "options": ["50% загрузка", "100% загрузка/очередь", "Перегрузка", "Простой"], "correct": 1},
+      {"question": "Какой файл показывает информацию о памяти?", "options": ["/proc/meminfo", "/proc/cpuinfo", "/sys/memory", "/etc/memory"], "correct": 0},
+      {"question": "Что такое OOM Killer?", "options": ["Антивирус", "Механизм завершения процессов при нехватке памяти", "Планировщик", "Драйвер"], "correct": 1},
+      {"question": "Какая утилита показывает I/O по процессам?", "options": ["top", "iotop", "htop", "atop"], "correct": 1},
+      {"question": "Что показывает vmstat?", "options": ["Только VM", "Статистику памяти, CPU, I/O", "Только диски", "Только сеть"], "correct": 1},
+      {"question": "Как интерпретировать load average?", "options": ["Процент CPU", "Среднее число процессов, ожидающих CPU/IO", "Память", "Температура"], "correct": 1},
+      {"question": "Что означает load average 4.0 на 4-ядерной системе?", "options": ["Перегрузка", "Оптимальная загрузка", "Недозагрузка", "Ошибка"], "correct": 1},
+      {"question": "Какой командой отслеживать использование swap?", "options": ["free", "vmstat", "swapon -s", "Все варианты"], "correct": 3},
+      {"question": "Что такое page fault?", "options": ["Ошибка диска", "Обращение к странице не в RAM", "Ошибка сети", "Ошибка процесса"], "correct": 1},
+      {"question": "Разница между major и minor page fault?", "options": ["Нет разницы", "Major требует чтения с диска", "Minor требует чтения с диска", "Major быстрее"], "correct": 1},
+      {"question": "Какой командой посмотреть температуру CPU?", "options": ["temp", "sensors", "cpuinfo", "thermal"], "correct": 1},
+      {"question": "Что показывает команда `iostat`?", "options": ["Только CPU", "Статистику CPU и дисков", "Только память", "Только сеть"], "correct": 1},
+      {"question": "Как посмотреть использование памяти процессом?", "options": ["free PID", "ps aux или top или /proc/PID/status", "mem PID", "getmem PID"], "correct": 1},
+      {"question": "Что такое resident memory (RSS)?", "options": ["Виртуальная память", "Память в RAM", "Swap память", "Общая память"], "correct": 1},
+      {"question": "Что такое virtual memory (VSZ)?", "options": ["Только RAM", "Всё адресное пространство процесса", "Только swap", "Кэш"], "correct": 1},
+      {"question": "Какой параметр sysctl управляет swappiness?", "options": ["vm.swap", "vm.swappiness", "kernel.swap", "memory.swap"], "correct": 1},
+      {"question": "Что означает swappiness=0?", "options": ["Swap отключён", "Swap используется только при необходимости", "Swap всегда используется", "Ошибка"], "correct": 1},
+      {"question": "Какой командой создать swap файл?", "options": ["mkswap", "dd и mkswap", "swapcreate", "newswap"], "correct": 1},
+      {"question": "Как включить swap?", "options": ["swapon", "mount swap", "enable swap", "swap on"], "correct": 0},
+      {"question": "Что показывает /proc/loadavg?", "options": ["Память", "Load average и количество процессов", "CPU info", "Диски"], "correct": 1}
     ],
     "senior": [
-      {
-        "question": "Как настроить oom_score_adj для процесса?",
-        "options": ["nice", "echo значение > /proc/PID/oom_score_adj", "renice", "choom"],
-        "correct": 1
-      },
-      {
-        "question": "Что такое NUMA?",
-        "options": ["Тип памяти", "Архитектура неравномерного доступа к памяти", "Файловая система", "Сетевой протокол"],
-        "correct": 1
-      },
-      {
-        "question": "Какой параметр ядра отключает swap?",
-        "options": ["swapoff", "vm.swappiness=0", "noswap", "swap=off"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает параметр vm.overcommit_memory?",
-        "options": ["Управляет кэшем", "Управляет выделением виртуальной памяти", "Управляет swap", "Управляет hugepages"],
-        "correct": 1
-      },
-      {
-        "question": "Как включить huge pages?",
-        "options": ["hugepages=on", "vm.nr_hugepages", "enable_hugepages", "hugepages.enable"],
-        "correct": 1
-      }
+      {"question": "Как настроить oom_score_adj для процесса?", "options": ["nice", "echo значение > /proc/PID/oom_score_adj", "renice", "choom"], "correct": 1},
+      {"question": "Что такое NUMA?", "options": ["Тип памяти", "Архитектура неравномерного доступа к памяти", "Файловая система", "Сетевой протокол"], "correct": 1},
+      {"question": "Какой параметр ядра управляет overcommit?", "options": ["swapoff", "vm.overcommit_memory", "noswap", "memory.overcommit"], "correct": 1},
+      {"question": "Что делает параметр vm.overcommit_memory=2?", "options": ["Всегда overcommit", "Никогда не overcommit, строгий режим", "Автоматический режим", "Отключает память"], "correct": 1},
+      {"question": "Как включить huge pages?", "options": ["hugepages=on", "vm.nr_hugepages", "enable_hugepages", "hugepages.enable"], "correct": 1},
+      {"question": "Что такое transparent huge pages (THP)?", "options": ["Большие файлы", "Автоматическое использование huge pages ядром", "Тип ФС", "Сжатие памяти"], "correct": 1},
+      {"question": "Как отключить THP?", "options": ["thp off", "echo never > /sys/kernel/mm/transparent_hugepage/enabled", "sysctl thp=0", "disable thp"], "correct": 1},
+      {"question": "Что такое memory cgroup?", "options": ["Группа памяти", "Контрольная группа для ограничения памяти", "Тип RAM", "Кэш"], "correct": 1},
+      {"question": "Как посмотреть NUMA топологию?", "options": ["numactl --hardware или lstopo", "numa info", "cat /proc/numa", "numa --show"], "correct": 0},
+      {"question": "Что такое memory pressure?", "options": ["Сжатие памяти", "Нехватка памяти, вызывающая paging", "Давление на диск", "Нагрузка CPU"], "correct": 1},
+      {"question": "Какой интерфейс показывает pressure stall information (PSI)?", "options": ["/proc/loadavg", "/proc/pressure/", "/sys/pressure", "/proc/psi"], "correct": 1},
+      {"question": "Как ограничить I/O bandwidth через cgroups?", "options": ["io.max", "blkio.limit", "io.bandwidth", "disk.max"], "correct": 0},
+      {"question": "Что такое ksmd (Kernel Same-page Merging)?", "options": ["Драйвер диска", "Дедупликация одинаковых страниц памяти", "Сжатие swap", "Кэш ядра"], "correct": 1},
+      {"question": "Как включить KSM?", "options": ["ksm on", "echo 1 > /sys/kernel/mm/ksm/run", "sysctl ksm=1", "enable ksm"], "correct": 1},
+      {"question": "Что такое zswap?", "options": ["Сжатый swap", "Кэш сжатых страниц перед swap", "Тип ФС", "Драйвер"], "correct": 1},
+      {"question": "Как посмотреть статистику memory reclaim?", "options": ["/proc/meminfo", "/proc/vmstat", "/sys/memory", "Оба /proc/meminfo и /proc/vmstat"], "correct": 3},
+      {"question": "Что такое dirty pages?", "options": ["Повреждённые страницы", "Изменённые страницы, не записанные на диск", "Страницы в swap", "Кэш страницы"], "correct": 1},
+      {"question": "Какой параметр управляет dirty page writeback?", "options": ["vm.dirty_ratio и vm.dirty_background_ratio", "disk.writeback", "io.dirty", "memory.dirty"], "correct": 0},
+      {"question": "Как проверить поддержку hugepages?", "options": ["hugepages --check", "cat /proc/meminfo | grep Huge", "sysctl hugepages", "huge --info"], "correct": 1},
+      {"question": "Что такое slab allocator?", "options": ["Тип диска", "Механизм выделения памяти ядром для объектов", "Swap allocator", "RAM диск"], "correct": 1}
     ]
   },
   "systemd": {
     "title": "Сервисы (systemd)",
     "junior": [
-      {
-        "question": "Что такое systemd?",
-        "options": ["Файловая система", "Система инициализации и менеджер служб", "Сетевой протокол", "База данных"],
-        "correct": 1
-      },
-      {
-        "question": "Как запустить сервис через systemd?",
-        "options": ["systemd start nginx", "systemctl start nginx", "service nginx start", "start nginx"],
-        "correct": 1
-      },
-      {
-        "question": "Как проверить статус сервиса?",
-        "options": ["systemctl status nginx", "systemd status nginx", "nginx status", "service nginx"],
-        "correct": 0
-      },
-      {
-        "question": "Как включить автозапуск сервиса?",
-        "options": ["systemctl enable nginx", "systemctl autostart nginx", "systemctl boot nginx", "enable nginx"],
-        "correct": 0
-      },
-      {
-        "question": "Где находятся файлы сервисов systemd?",
-        "options": ["/etc/init.d", "/etc/systemd/system и /lib/systemd/system", "/etc/services", "/var/systemd"],
-        "correct": 1
-      }
+      {"question": "Что такое systemd?", "options": ["Файловая система", "Система инициализации и менеджер служб", "Сетевой протокол", "База данных"], "correct": 1},
+      {"question": "Как запустить сервис через systemd?", "options": ["systemd start nginx", "systemctl start nginx", "service nginx start", "start nginx"], "correct": 1},
+      {"question": "Как проверить статус сервиса?", "options": ["systemctl status nginx", "systemd status nginx", "nginx status", "service nginx"], "correct": 0},
+      {"question": "Как включить автозапуск сервиса?", "options": ["systemctl enable nginx", "systemctl autostart nginx", "systemctl boot nginx", "enable nginx"], "correct": 0},
+      {"question": "Где находятся файлы сервисов systemd?", "options": ["/etc/init.d", "/etc/systemd/system и /lib/systemd/system", "/etc/services", "/var/systemd"], "correct": 1},
+      {"question": "Как остановить сервис?", "options": ["systemctl stop nginx", "systemd stop nginx", "stop nginx", "nginx stop"], "correct": 0},
+      {"question": "Как перезапустить сервис?", "options": ["systemctl restart nginx", "systemd restart nginx", "restart nginx", "nginx restart"], "correct": 0},
+      {"question": "Как отключить автозапуск сервиса?", "options": ["systemctl disable nginx", "systemctl remove nginx", "disable nginx", "systemctl off nginx"], "correct": 0},
+      {"question": "Что такое unit в systemd?", "options": ["Единица измерения", "Объект управления (сервис, таймер и т.д.)", "Пользователь", "Группа"], "correct": 1},
+      {"question": "Какое расширение у файлов сервисов?", "options": [".conf", ".service", ".unit", ".sys"], "correct": 1},
+      {"question": "Как посмотреть список всех сервисов?", "options": ["systemctl list-units", "systemctl list-units --type=service", "systemd list", "services list"], "correct": 1},
+      {"question": "Как перезагрузить конфиг сервиса без перезапуска?", "options": ["systemctl restart", "systemctl reload nginx", "systemctl refresh", "reload nginx"], "correct": 1},
+      {"question": "Что делает systemctl daemon-reload?", "options": ["Перезапускает все сервисы", "Перечитывает unit файлы", "Перезагружает систему", "Останавливает демоны"], "correct": 1},
+      {"question": "Как посмотреть логи сервиса?", "options": ["cat /var/log/nginx", "journalctl -u nginx", "systemctl logs nginx", "logs nginx"], "correct": 1},
+      {"question": "Что такое journalctl?", "options": ["Редактор", "Утилита просмотра логов systemd", "Менеджер сервисов", "Конфигуратор"], "correct": 1},
+      {"question": "Как посмотреть последние 100 строк логов?", "options": ["journalctl -n 100", "journalctl --last 100", "journalctl -l 100", "tail -100 journal"], "correct": 0},
+      {"question": "Как следить за логами в реальном времени?", "options": ["journalctl -f", "journalctl --live", "journalctl -w", "journalctl --follow"], "correct": 0},
+      {"question": "Что означает состояние active (running)?", "options": ["Сервис запускается", "Сервис работает", "Сервис остановлен", "Сервис с ошибкой"], "correct": 1},
+      {"question": "Что означает состояние inactive (dead)?", "options": ["Сервис работает", "Сервис остановлен", "Сервис с ошибкой", "Сервис не существует"], "correct": 1},
+      {"question": "Как проверить, включён ли автозапуск сервиса?", "options": ["systemctl is-enabled nginx", "systemctl status nginx", "systemctl check nginx", "is-enabled nginx"], "correct": 0}
     ],
     "middle": [
-      {
-        "question": "Что делает `journalctl -u nginx`?",
-        "options": ["Фильтр логов по unit", "Очистка лога", "Перезапуск", "Сжатие"],
-        "correct": 0
-      },
-      {
-        "question": "Где systemd хранит юниты пользователя?",
-        "options": ["~/.config/systemd/user", "/usr/lib/systemd", "/etc/init.d", "/run/systemd"],
-        "correct": 0
-      },
-      {
-        "question": "Какой runlevel отвечает за многопользовательский режим с сетью?",
-        "options": ["1", "3", "5", "6"],
-        "correct": 1
-      },
-      {
-        "question": "Как перезагрузить конфигурацию systemd?",
-        "options": ["systemctl reload", "systemctl daemon-reload", "systemd reload", "reload systemd"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает директива Restart=always в unit файле?",
-        "options": ["Перезапуск при любом завершении", "Перезапуск при ошибке", "Никогда не перезапускать", "Перезапуск по таймеру"],
-        "correct": 0
-      }
+      {"question": "Что делает `journalctl -u nginx`?", "options": ["Фильтрует логи по unit", "Очищает логи", "Перезапускает", "Сжимает логи"], "correct": 0},
+      {"question": "Где systemd хранит юниты пользователя?", "options": ["~/.config/systemd/user", "/usr/lib/systemd", "/etc/init.d", "/run/systemd"], "correct": 0},
+      {"question": "Какой target отвечает за многопользовательский режим?", "options": ["single-user.target", "multi-user.target", "graphical.target", "network.target"], "correct": 1},
+      {"question": "Как перезагрузить конфигурацию systemd?", "options": ["systemctl reload", "systemctl daemon-reload", "systemd reload", "reload systemd"], "correct": 1},
+      {"question": "Что делает директива Restart=always в unit файле?", "options": ["Перезапуск при любом завершении", "Перезапуск при ошибке", "Никогда не перезапускать", "Перезапуск по таймеру"], "correct": 0},
+      {"question": "Что такое target в systemd?", "options": ["Цель сборки", "Группа юнитов, аналог runlevel", "Лог файл", "Конфиг сети"], "correct": 1},
+      {"question": "Какой target соответствует runlevel 3?", "options": ["rescue.target", "multi-user.target", "graphical.target", "poweroff.target"], "correct": 1},
+      {"question": "Какой target соответствует runlevel 5?", "options": ["rescue.target", "multi-user.target", "graphical.target", "reboot.target"], "correct": 2},
+      {"question": "Как посмотреть текущий target?", "options": ["systemctl get-target", "systemctl get-default", "systemctl target", "current-target"], "correct": 1},
+      {"question": "Как изменить target по умолчанию?", "options": ["systemctl set-default multi-user.target", "systemctl default multi-user", "default-target multi-user", "set-target multi-user"], "correct": 0},
+      {"question": "Что делает директива After= в unit файле?", "options": ["Запуск после указанного юнита", "Запуск перед указанным юнитом", "Зависимость", "Конфликт"], "correct": 0},
+      {"question": "Что делает директива Requires=?", "options": ["Мягкая зависимость", "Жёсткая зависимость", "Конфликт", "Порядок запуска"], "correct": 1},
+      {"question": "Что делает директива Wants=?", "options": ["Мягкая зависимость", "Жёсткая зависимость", "Конфликт", "Порядок запуска"], "correct": 0},
+      {"question": "Как посмотреть зависимости сервиса?", "options": ["systemctl deps nginx", "systemctl list-dependencies nginx", "systemctl requires nginx", "deps nginx"], "correct": 1},
+      {"question": "Что делает директива ExecStart=?", "options": ["Команда остановки", "Команда запуска сервиса", "Команда перезагрузки", "Команда проверки"], "correct": 1},
+      {"question": "Что делает директива ExecStop=?", "options": ["Команда остановки сервиса", "Команда запуска", "Команда перезагрузки", "Команда проверки"], "correct": 0},
+      {"question": "Как маскировать сервис?", "options": ["systemctl mask nginx", "systemctl hide nginx", "systemctl block nginx", "mask nginx"], "correct": 0},
+      {"question": "Что делает маскирование сервиса?", "options": ["Скрывает из списка", "Полностью блокирует запуск", "Удаляет сервис", "Отключает логи"], "correct": 1},
+      {"question": "Как размаскировать сервис?", "options": ["systemctl unmask nginx", "systemctl unhide nginx", "systemctl unblock nginx", "unmask nginx"], "correct": 0},
+      {"question": "Что такое socket activation в systemd?", "options": ["Сетевая настройка", "Запуск сервиса при подключении к сокету", "Тип сервиса", "Логирование"], "correct": 1}
     ],
     "senior": [
-      {
-        "question": "Что такое systemd target?",
-        "options": ["Цель сборки", "Группа юнитов, аналог runlevel", "Лог файл", "Конфиг сети"],
-        "correct": 1
-      },
-      {
-        "question": "Как создать таймер systemd для периодического запуска?",
-        "options": ["crontab", "Создать .timer unit", "systemctl timer", "at"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает директива PrivateTmp=true?",
-        "options": ["Шифрует /tmp", "Изолирует /tmp для сервиса", "Удаляет /tmp", "Монтирует tmpfs"],
-        "correct": 1
-      },
-      {
-        "question": "Как ограничить память для сервиса в systemd?",
-        "options": ["MemoryLimit", "MemoryMax", "LimitMEM", "MemoryHigh"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает директива Type=notify?",
-        "options": ["Отправляет email", "Сервис сообщает о готовности через sd_notify", "Логирует в journald", "Запускает в фоне"],
-        "correct": 1
-      }
+      {"question": "Как создать таймер systemd для периодического запуска?", "options": ["crontab", "Создать .timer unit", "systemctl timer", "at"], "correct": 1},
+      {"question": "Что делает директива PrivateTmp=true?", "options": ["Шифрует /tmp", "Изолирует /tmp для сервиса", "Удаляет /tmp", "Монтирует tmpfs"], "correct": 1},
+      {"question": "Как ограничить память для сервиса в systemd?", "options": ["MemoryLimit", "MemoryMax", "LimitMEM", "MaxMemory"], "correct": 1},
+      {"question": "Что делает директива Type=notify?", "options": ["Отправляет email", "Сервис сообщает о готовности через sd_notify", "Логирует в journald", "Запускает в фоне"], "correct": 1},
+      {"question": "Какие типы Type= существуют?", "options": ["Только simple", "simple, forking, oneshot, notify, dbus, idle", "simple, daemon", "Только notify"], "correct": 1},
+      {"question": "Что делает Type=forking?", "options": ["Не форкается", "Родительский процесс завершается после fork", "Запуск в foreground", "Одноразовый запуск"], "correct": 1},
+      {"question": "Что делает Type=oneshot?", "options": ["Непрерывная работа", "Выполняется один раз и завершается", "Форк процесса", "Notify режим"], "correct": 1},
+      {"question": "Как настроить автоматический перезапуск с задержкой?", "options": ["RestartSec=5", "RestartDelay=5", "Restart=5", "WaitRestart=5"], "correct": 0},
+      {"question": "Что делает директива ProtectSystem=strict?", "options": ["Блокирует сеть", "Делает /usr, /boot, /etc read-only", "Шифрует данные", "Изолирует процессы"], "correct": 1},
+      {"question": "Что делает директива ProtectHome=true?", "options": ["Шифрует /home", "Скрывает /home от сервиса", "Бэкапит /home", "Монтирует /home"], "correct": 1},
+      {"question": "Как ограничить CPU для сервиса?", "options": ["CPULimit", "CPUQuota=50%", "LimitCPU", "MaxCPU"], "correct": 1},
+      {"question": "Что делает директива NoNewPrivileges=true?", "options": ["Блокирует сеть", "Запрещает повышение привилегий", "Отключает логи", "Изолирует файлы"], "correct": 1},
+      {"question": "Как настроить лимит открытых файлов для сервиса?", "options": ["LimitNOFILE=65536", "MaxFiles", "OpenFiles", "FilesLimit"], "correct": 0},
+      {"question": "Что делает директива User= и Group=?", "options": ["Владелец файлов", "Запуск сервиса от указанного пользователя/группы", "Права доступа", "Логирование"], "correct": 1},
+      {"question": "Как создать drop-in override для сервиса?", "options": ["Редактировать оригинал", "Создать /etc/systemd/system/nginx.service.d/*.conf", "systemctl override nginx", "override.conf"], "correct": 1},
+      {"question": "Что делает systemctl edit nginx?", "options": ["Редактирует оригинал", "Создаёт drop-in override", "Удаляет сервис", "Показывает конфиг"], "correct": 1},
+      {"question": "Что такое slice в systemd?", "options": ["Тип сервиса", "Иерархическая группа для cgroups", "Конфиг файл", "Лог файл"], "correct": 1},
+      {"question": "Как посмотреть использование ресурсов по slice?", "options": ["systemctl status", "systemd-cgtop", "cgroup-top", "slice-top"], "correct": 1},
+      {"question": "Что делает директива Environment=?", "options": ["Логирование среды", "Устанавливает переменные окружения для сервиса", "Изолирует среду", "Проверяет среду"], "correct": 1},
+      {"question": "Как передать переменные из файла?", "options": ["Environment=file", "EnvironmentFile=/path/to/file", "EnvFile", "LoadEnv"], "correct": 1}
     ]
   },
   "networking": {
     "title": "Сети",
     "junior": [
-      {
-        "question": "SSH (Secure Shell) - это...",
-        "options": ["Файловая система", "Протокол для безопасного удалённого управления", "База данных", "Веб-сервер"],
-        "correct": 1
-      },
-      {
-        "question": "`/etc/hosts` читается раньше, чем…",
-        "options": ["DNS", "ARP", "DHCP", "NTP"],
-        "correct": 0
-      },
-      {
-        "question": "Какая команда показывает сетевые интерфейсы?",
-        "options": ["netstat", "ip a", "ifconfig", "ip a и ifconfig"],
-        "correct": 3
-      },
-      {
-        "question": "Какой порт по умолчанию у SSH?",
-        "options": ["21", "22", "23", "80"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает команда `ping`?",
-        "options": ["Сканирует порты", "Проверяет доступность хоста", "Передаёт файлы", "Настраивает сеть"],
-        "correct": 1
-      }
+      {"question": "SSH (Secure Shell) - это...", "options": ["Файловая система", "Протокол для безопасного удалённого управления", "База данных", "Веб-сервер"], "correct": 1},
+      {"question": "Какой порт по умолчанию у SSH?", "options": ["21", "22", "23", "80"], "correct": 1},
+      {"question": "Какая команда показывает сетевые интерфейсы?", "options": ["netstat", "ip a", "ifconfig", "ip a и ifconfig"], "correct": 3},
+      {"question": "Что делает команда `ping`?", "options": ["Сканирует порты", "Проверяет доступность хоста", "Передаёт файлы", "Настраивает сеть"], "correct": 1},
+      {"question": "`/etc/hosts` читается раньше, чем…", "options": ["DNS", "ARP", "DHCP", "NTP"], "correct": 0},
+      {"question": "Что такое IP адрес?", "options": ["MAC адрес", "Уникальный адрес устройства в сети", "Порт", "Протокол"], "correct": 1},
+      {"question": "Что такое localhost?", "options": ["Удалённый сервер", "Локальный хост (127.0.0.1)", "DNS сервер", "Шлюз"], "correct": 1},
+      {"question": "Какой командой подключиться по SSH?", "options": ["connect user@host", "ssh user@host", "remote user@host", "login user@host"], "correct": 1},
+      {"question": "Что делает команда `wget`?", "options": ["Отправляет email", "Скачивает файлы из интернета", "Настраивает сеть", "Сканирует порты"], "correct": 1},
+      {"question": "Что делает команда `curl`?", "options": ["Сжимает файлы", "Передаёт данные по URL", "Настраивает DNS", "Сканирует сеть"], "correct": 1},
+      {"question": "Какой порт у HTTP?", "options": ["22", "443", "80", "21"], "correct": 2},
+      {"question": "Какой порт у HTTPS?", "options": ["22", "443", "80", "8080"], "correct": 1},
+      {"question": "Что такое DNS?", "options": ["Протокол передачи", "Система преобразования имён в IP адреса", "Файловая система", "Тип шифрования"], "correct": 1},
+      {"question": "Какой файл содержит настройки DNS резолвера?", "options": ["/etc/hosts", "/etc/resolv.conf", "/etc/dns", "/etc/network"], "correct": 1},
+      {"question": "Что такое шлюз (gateway)?", "options": ["Файрвол", "Маршрутизатор для выхода в другие сети", "DNS сервер", "Прокси"], "correct": 1},
+      {"question": "Какой командой посмотреть маршруты?", "options": ["route", "ip route", "netstat -r", "Все варианты"], "correct": 3},
+      {"question": "Что такое MAC адрес?", "options": ["IP адрес", "Физический адрес сетевого интерфейса", "Порт", "Маска сети"], "correct": 1},
+      {"question": "Какой командой проверить путь до хоста?", "options": ["ping", "traceroute или tracepath", "route", "path"], "correct": 1},
+      {"question": "Что такое порт в контексте сети?", "options": ["Физический разъём", "Номер для идентификации сервиса", "IP адрес", "MAC адрес"], "correct": 1},
+      {"question": "Что такое DHCP?", "options": ["DNS сервер", "Протокол автоматической настройки сети", "Файрвол", "VPN"], "correct": 1}
     ],
     "middle": [
-      {
-        "question": "Команда, показывающая открытые порты и PID:",
-        "options": ["top", "ss -tlnp", "lsof", "du"],
-        "correct": 1
-      },
-      {
-        "question": "`ssh -L 8080:localhost:80 user@host` это…",
-        "options": ["Dynamic port forwarding", "Reverse tunnel", "Local port forwarding", "SOCKS proxy"],
-        "correct": 2
-      },
-      {
-        "question": "Как показать только IP адреса интерфейсов?",
-        "options": ["ip a", "ip -brief a", "ifconfig", "route -n"],
-        "correct": 1
-      },
-      {
-        "question": "Какой файл описывает static network в systemd-networkd?",
-        "options": ["*.network", "*.link", "*.netdev", "*.service"],
-        "correct": 0
-      },
-      {
-        "question": "`grep -E \"^#?Port\" /etc/ssh/sshd_config` ищет…",
-        "options": ["Настройку порта SSH", "SSH ключ", "Пользователя", "Subsystem"],
-        "correct": 0
-      }
+      {"question": "Команда, показывающая открытые порты и PID:", "options": ["top", "ss -tlnp", "lsof", "du"], "correct": 1},
+      {"question": "`ssh -L 8080:localhost:80 user@host` это…", "options": ["Dynamic port forwarding", "Reverse tunnel", "Local port forwarding", "SOCKS proxy"], "correct": 2},
+      {"question": "Как показать только IP адреса интерфейсов?", "options": ["ip a", "ip -brief a", "ifconfig -short", "ip show"], "correct": 1},
+      {"question": "Какой файл описывает static network в systemd-networkd?", "options": ["*.network", "*.link", "*.netdev", "*.service"], "correct": 0},
+      {"question": "`grep -E \"^#?Port\" /etc/ssh/sshd_config` ищет…", "options": ["Настройку порта SSH", "SSH ключ", "Пользователя", "Subsystem"], "correct": 0},
+      {"question": "Что такое reverse SSH tunnel?", "options": ["Обычный SSH", "Туннель от удалённого хоста к локальному", "SOCKS прокси", "VPN"], "correct": 1},
+      {"question": "Как создать reverse tunnel?", "options": ["ssh -L", "ssh -R", "ssh -D", "ssh -T"], "correct": 1},
+      {"question": "Что делает ssh -D?", "options": ["Local forwarding", "Remote forwarding", "SOCKS прокси (dynamic forwarding)", "Отключает forwarding"], "correct": 2},
+      {"question": "Как скопировать файл по SSH?", "options": ["ssh copy", "scp или rsync", "cp ssh:", "remote cp"], "correct": 1},
+      {"question": "Что такое SSH ключ?", "options": ["Пароль", "Пара криптографических ключей для аутентификации", "Сертификат", "Токен"], "correct": 1},
+      {"question": "Где хранится публичный SSH ключ на сервере?", "options": ["/etc/ssh/keys", "~/.ssh/authorized_keys", "/var/ssh/pubkeys", "~/.ssh/id_rsa.pub"], "correct": 1},
+      {"question": "Как сгенерировать SSH ключ?", "options": ["ssh keygen", "ssh-keygen", "keygen ssh", "generate-ssh-key"], "correct": 1},
+      {"question": "Что делает команда `netstat -tlnp`?", "options": ["Показывает файлы", "Показывает listening TCP порты с PID", "Настраивает сеть", "Сканирует порты"], "correct": 1},
+      {"question": "Чем ss лучше netstat?", "options": ["Ничем", "Быстрее и новее", "Больше функций", "ss устарел"], "correct": 1},
+      {"question": "Как посмотреть все соединения?", "options": ["ss -a", "netstat -a", "connections", "Оба ss -a и netstat -a"], "correct": 3},
+      {"question": "Что такое MTU?", "options": ["Скорость сети", "Максимальный размер пакета", "Тип кабеля", "MAC адрес"], "correct": 1},
+      {"question": "Как изменить MTU интерфейса?", "options": ["mtu set", "ip link set dev eth0 mtu 1500", "ifconfig mtu", "setmtu"], "correct": 1},
+      {"question": "Что такое bonding/teaming?", "options": ["Тип кабеля", "Объединение сетевых интерфейсов", "VPN", "Файрвол"], "correct": 1},
+      {"question": "Как посмотреть ARP таблицу?", "options": ["arp -a или ip neigh", "arp show", "show arp", "getarp"], "correct": 0},
+      {"question": "Что такое VLAN?", "options": ["VPN", "Виртуальная локальная сеть", "Тип кабеля", "Протокол"], "correct": 1}
     ],
     "senior": [
-      {
-        "question": "Что такое network namespace в Linux?",
-        "options": ["DNS зона", "Изолированный сетевой стек", "VLAN", "Подсеть"],
-        "correct": 1
-      },
-      {
-        "question": "Как создать veth пару интерфейсов?",
-        "options": ["ip link add", "brctl addbr", "veth create", "netns add"],
-        "correct": 0
-      },
-      {
-        "question": "Что делает iptables -t nat -A POSTROUTING -j MASQUERADE?",
-        "options": ["Блокирует трафик", "NAT для исходящего трафика", "Перенаправляет порты", "Логирует пакеты"],
-        "correct": 1
-      },
-      {
-        "question": "Какая подсистема заменяет iptables в новых ядрах?",
-        "options": ["firewalld", "nftables", "ufw", "ipset"],
-        "correct": 1
-      },
-      {
-        "question": "Что такое eBPF в контексте сетей?",
-        "options": ["Файловая система", "Программируемый фильтр пакетов в ядре", "DNS сервер", "VPN протокол"],
-        "correct": 1
-      }
+      {"question": "Что такое network namespace в Linux?", "options": ["DNS зона", "Изолированный сетевой стек", "VLAN", "Подсеть"], "correct": 1},
+      {"question": "Как создать veth пару интерфейсов?", "options": ["ip link add type veth", "brctl addbr", "veth create", "netns add"], "correct": 0},
+      {"question": "Что делает iptables -t nat -A POSTROUTING -j MASQUERADE?", "options": ["Блокирует трафик", "NAT для исходящего трафика", "Перенаправляет порты", "Логирует пакеты"], "correct": 1},
+      {"question": "Какая подсистема заменяет iptables в новых ядрах?", "options": ["firewalld", "nftables", "ufw", "ipset"], "correct": 1},
+      {"question": "Что такое eBPF в контексте сетей?", "options": ["Файловая система", "Программируемый фильтр пакетов в ядре", "DNS сервер", "VPN протокол"], "correct": 1},
+      {"question": "Как создать network namespace?", "options": ["netns create", "ip netns add name", "create namespace", "namespace new"], "correct": 1},
+      {"question": "Как выполнить команду в network namespace?", "options": ["netns exec", "ip netns exec name command", "nsenter --net", "Оба варианта"], "correct": 3},
+      {"question": "Что такое bridge в Linux?", "options": ["VPN", "Виртуальный коммутатор L2", "Роутер", "Файрвол"], "correct": 1},
+      {"question": "Как создать bridge?", "options": ["brctl addbr или ip link add type bridge", "bridge create", "mkbridge", "newbridge"], "correct": 0},
+      {"question": "Что такое tc (traffic control)?", "options": ["Терминал", "Управление трафиком и QoS", "Тест соединения", "Конфиг сети"], "correct": 1},
+      {"question": "Как ограничить bandwidth с помощью tc?", "options": ["tc limit", "tc qdisc add с tbf или htb", "tc bandwidth", "limit-bw"], "correct": 1},
+      {"question": "Что такое conntrack?", "options": ["Трекер процессов", "Отслеживание сетевых соединений", "Логирование", "Маршрутизация"], "correct": 1},
+      {"question": "Как посмотреть conntrack таблицу?", "options": ["conntrack -L", "cat /proc/net/nf_conntrack", "Оба варианта", "netstat -c"], "correct": 2},
+      {"question": "Что такое IPVS?", "options": ["VPN", "IP Virtual Server для load balancing", "Файловая система", "Протокол"], "correct": 1},
+      {"question": "Как настроить DNAT с iptables?", "options": ["iptables -t nat -A PREROUTING -j DNAT --to-destination", "iptables -A FORWARD -j DNAT", "iptables -t filter -j DNAT", "dnat set"], "correct": 0},
+      {"question": "Что такое XDP (eXpress Data Path)?", "options": ["Протокол", "Высокопроизводительная обработка пакетов через eBPF", "Драйвер", "Файловая система"], "correct": 1},
+      {"question": "Как включить IP forwarding?", "options": ["ip forward on", "echo 1 > /proc/sys/net/ipv4/ip_forward или sysctl", "forward enable", "route forward"], "correct": 1},
+      {"question": "Что такое GRE туннель?", "options": ["Шифрованный туннель", "Инкапсуляция пакетов без шифрования", "VPN протокол", "L2 туннель"], "correct": 1},
+      {"question": "Как создать GRE туннель?", "options": ["gre create", "ip tunnel add mode gre", "tunnel gre", "mkgre"], "correct": 1},
+      {"question": "Что такое WireGuard?", "options": ["Файрвол", "Современный VPN протокол", "IDS", "Прокси"], "correct": 1}
     ]
   },
   "boot": {
     "title": "Загрузка ОС",
     "junior": [
-      {
-        "question": "Какой загрузчик чаще всего используется в Linux?",
-        "options": ["LILO", "GRUB", "BOOTMGR", "NTLDR"],
-        "correct": 1
-      },
-      {
-        "question": "Где находится конфигурация GRUB?",
-        "options": ["/boot/grub/grub.cfg", "/etc/grub.conf", "/boot/loader", "/grub/config"],
-        "correct": 0
-      },
-      {
-        "question": "Что такое initramfs?",
-        "options": ["Файловая система", "Начальный RAM-диск для загрузки", "Swap раздел", "Кэш загрузки"],
-        "correct": 1
-      },
-      {
-        "question": "Какой runlevel отвечает за перезагрузку?",
-        "options": ["0", "1", "5", "6"],
-        "correct": 3
-      },
-      {
-        "question": "Что делает команда `reboot`?",
-        "options": ["Выключает систему", "Перезагружает систему", "Переходит в спящий режим", "Выходит из сессии"],
-        "correct": 1
-      }
+      {"question": "Какой загрузчик чаще всего используется в Linux?", "options": ["LILO", "GRUB", "BOOTMGR", "NTLDR"], "correct": 1},
+      {"question": "Где находится конфигурация GRUB?", "options": ["/boot/grub/grub.cfg", "/etc/grub.conf", "/boot/loader", "/grub/config"], "correct": 0},
+      {"question": "Что такое initramfs?", "options": ["Файловая система", "Начальный RAM-диск для загрузки", "Swap раздел", "Кэш загрузки"], "correct": 1},
+      {"question": "Какой runlevel отвечает за перезагрузку?", "options": ["0", "1", "5", "6"], "correct": 3},
+      {"question": "Что делает команда `reboot`?", "options": ["Выключает систему", "Перезагружает систему", "Переходит в спящий режим", "Выходит из сессии"], "correct": 1},
+      {"question": "Что такое BIOS?", "options": ["Операционная система", "Базовая система ввода-вывода", "Загрузчик", "Ядро"], "correct": 1},
+      {"question": "Что такое UEFI?", "options": ["Тип диска", "Современная замена BIOS", "Загрузчик", "Файловая система"], "correct": 1},
+      {"question": "Какой runlevel отвечает за выключение?", "options": ["0", "1", "5", "6"], "correct": 0},
+      {"question": "Что делает команда `shutdown -h now`?", "options": ["Перезагрузка", "Немедленное выключение", "Спящий режим", "Выход из системы"], "correct": 1},
+      {"question": "Что такое ядро (kernel)?", "options": ["Загрузчик", "Центральная часть ОС", "Файловая система", "Драйвер"], "correct": 1},
+      {"question": "Где обычно находится ядро Linux?", "options": ["/etc/kernel", "/boot/vmlinuz*", "/usr/kernel", "/kernel"], "correct": 1},
+      {"question": "Что такое runlevel 1 (single user)?", "options": ["Многопользовательский режим", "Режим восстановления с минимумом сервисов", "Графический режим", "Сетевой режим"], "correct": 1},
+      {"question": "Какая команда выключает систему?", "options": ["poweroff или shutdown -h", "exit", "logout", "halt"], "correct": 0},
+      {"question": "Что загружается первым при старте компьютера?", "options": ["Ядро", "BIOS/UEFI", "Загрузчик", "Init"], "correct": 1},
+      {"question": "В каком порядке происходит загрузка?", "options": ["Ядро→BIOS→Загрузчик→Init", "BIOS/UEFI→Загрузчик→Ядро→Init", "Загрузчик→BIOS→Ядро→Init", "Init→Ядро→Загрузчик→BIOS"], "correct": 1},
+      {"question": "Что такое MBR?", "options": ["Тип ФС", "Master Boot Record - первый сектор диска", "Менеджер загрузки", "Раздел диска"], "correct": 1},
+      {"question": "Что такое GPT?", "options": ["Графический интерфейс", "GUID Partition Table - таблица разделов", "Загрузчик", "Тип ФС"], "correct": 1},
+      {"question": "Где находится ESP раздел?", "options": ["/boot", "/boot/efi", "/efi", "/esp"], "correct": 1},
+      {"question": "Что такое ESP?", "options": ["Тип ФС", "EFI System Partition", "Загрузчик", "Ядро"], "correct": 1},
+      {"question": "Какая файловая система используется для ESP?", "options": ["ext4", "FAT32 (vfat)", "NTFS", "XFS"], "correct": 1}
     ],
     "middle": [
-      {
-        "question": "Как обновить конфигурацию GRUB после изменений?",
-        "options": ["grub-install", "update-grub или grub-mkconfig", "grub-update", "rebuild-grub"],
-        "correct": 1
-      },
-      {
-        "question": "Что такое UEFI?",
-        "options": ["Файловая система", "Интерфейс между ОС и прошивкой", "Загрузчик", "Драйвер"],
-        "correct": 1
-      },
-      {
-        "question": "Где хранятся загрузочные файлы UEFI?",
-        "options": ["/boot", "/boot/efi (ESP раздел)", "/efi", "/uefi"],
-        "correct": 1
-      },
-      {
-        "question": "Как загрузиться в single user mode через GRUB?",
-        "options": ["Добавить single или 1 к параметрам ядра", "Нажать F8", "Выбрать recovery", "Изменить runlevel"],
-        "correct": 0
-      },
-      {
-        "question": "Что делает параметр ядра quiet?",
-        "options": ["Отключает звук", "Скрывает сообщения загрузки", "Отключает логи", "Ускоряет загрузку"],
-        "correct": 1
-      }
+      {"question": "Как обновить конфигурацию GRUB после изменений?", "options": ["grub-install", "update-grub или grub-mkconfig -o", "grub-update", "rebuild-grub"], "correct": 1},
+      {"question": "Что такое UEFI Secure Boot?", "options": ["Шифрование диска", "Проверка подписи загрузчика", "Пароль BIOS", "Быстрая загрузка"], "correct": 1},
+      {"question": "Где хранятся загрузочные файлы UEFI?", "options": ["/boot", "/boot/efi (ESP раздел)", "/efi", "/uefi"], "correct": 1},
+      {"question": "Как загрузиться в single user mode через GRUB?", "options": ["Добавить single или 1 к параметрам ядра", "Нажать F8", "Выбрать recovery", "Изменить runlevel"], "correct": 0},
+      {"question": "Что делает параметр ядра quiet?", "options": ["Отключает звук", "Скрывает сообщения загрузки", "Отключает логи", "Тихий режим работы"], "correct": 1},
+      {"question": "Что делает параметр ядра splash?", "options": ["Показывает логи", "Показывает графическую заставку", "Ускоряет загрузку", "Отключает графику"], "correct": 1},
+      {"question": "Как отредактировать параметры ядра в GRUB?", "options": ["Нажать 'e' в меню GRUB", "Изменить /boot/grub/grub.cfg", "Нажать F2", "grub-edit"], "correct": 0},
+      {"question": "Где настраиваются параметры GRUB по умолчанию?", "options": ["/boot/grub/grub.cfg", "/etc/default/grub", "/etc/grub.conf", "/boot/grub.conf"], "correct": 1},
+      {"question": "Что делает параметр ядра init=/bin/bash?", "options": ["Меняет shell", "Запускает bash вместо init системы", "Отключает systemd", "Включает отладку"], "correct": 1},
+      {"question": "Как посмотреть сообщения загрузки ядра?", "options": ["bootlog", "dmesg", "kernel-log", "boot --log"], "correct": 1},
+      {"question": "Что такое kernel panic?", "options": ["Перезагрузка", "Критическая ошибка ядра", "Медленная загрузка", "Ошибка GRUB"], "correct": 1},
+      {"question": "Какой командой посмотреть логи загрузки через journald?", "options": ["journalctl -b", "journalctl --boot", "boot-log", "Оба journalctl -b и --boot"], "correct": 3},
+      {"question": "Что такое initrd?", "options": ["Init daemon", "Initial RAM disk (предшественник initramfs)", "Init script", "Драйвер"], "correct": 1},
+      {"question": "Как пересобрать initramfs в Debian/Ubuntu?", "options": ["mkinitrd", "update-initramfs -u", "dracut", "rebuild-initramfs"], "correct": 1},
+      {"question": "Как пересобрать initramfs в RHEL/Fedora?", "options": ["mkinitrd", "update-initramfs", "dracut -f", "rebuild-initramfs"], "correct": 2},
+      {"question": "Что такое Plymouth?", "options": ["Загрузчик", "Система отображения загрузочной заставки", "Init система", "Драйвер"], "correct": 1},
+      {"question": "Как отключить Plymouth для отладки?", "options": ["plymouth off", "Убрать splash и quiet из параметров ядра", "systemctl disable plymouth", "rm plymouth"], "correct": 1},
+      {"question": "Что делает параметр ядра rd.break?", "options": ["Перезагрузка", "Остановка в initramfs для отладки", "Отключает диски", "Ломает загрузку"], "correct": 1},
+      {"question": "Как загрузить предыдущее ядро?", "options": ["kernel --old", "Выбрать в меню GRUB (Advanced options)", "previous-kernel", "boot-old"], "correct": 1},
+      {"question": "Что такое kexec?", "options": ["Загрузчик", "Быстрая перезагрузка в новое ядро без BIOS", "Ядро", "Init система"], "correct": 1}
     ],
     "senior": [
-      {
-        "question": "Что такое Secure Boot?",
-        "options": ["Шифрование диска", "Проверка подписи загрузчика и ядра", "Пароль BIOS", "Firewall"],
-        "correct": 1
-      },
-      {
-        "question": "Как подписать ядро для Secure Boot?",
-        "options": ["gpg --sign", "sbsign или pesign", "openssl sign", "kernel-sign"],
-        "correct": 1
-      },
-      {
-        "question": "Что такое dracut?",
-        "options": ["Загрузчик", "Генератор initramfs", "Менеджер пакетов", "Файловая система"],
-        "correct": 1
-      },
-      {
-        "question": "Как добавить модуль в initramfs?",
-        "options": ["modprobe", "Изменить конфиг dracut/mkinitcpio и пересобрать", "insmod", "lsmod"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает параметр ядра init=/bin/bash?",
-        "options": ["Запускает bash вместо init", "Меняет shell по умолчанию", "Отключает systemd", "Включает отладку"],
-        "correct": 0
-      }
+      {"question": "Что такое Secure Boot?", "options": ["Шифрование диска", "Проверка подписи загрузчика и ядра", "Пароль BIOS", "Firewall"], "correct": 1},
+      {"question": "Как подписать ядро для Secure Boot?", "options": ["gpg --sign", "sbsign или pesign", "openssl sign", "kernel-sign"], "correct": 1},
+      {"question": "Что такое dracut?", "options": ["Загрузчик", "Генератор initramfs", "Менеджер пакетов", "Файловая система"], "correct": 1},
+      {"question": "Как добавить модуль в initramfs?", "options": ["modprobe", "Изменить конфиг dracut/mkinitcpio и пересобрать", "insmod", "lsmod"], "correct": 1},
+      {"question": "Что такое MOK (Machine Owner Key)?", "options": ["Мастер ключ", "Ключ для подписи модулей при Secure Boot", "Ключ шифрования", "SSH ключ"], "correct": 1},
+      {"question": "Как зарегистрировать MOK?", "options": ["mok-register", "mokutil --import", "add-mok", "mok --add"], "correct": 1},
+      {"question": "Что такое shim в контексте UEFI?", "options": ["Прокладка между firmware и загрузчиком для Secure Boot", "Загрузчик", "Ядро", "Драйвер"], "correct": 0},
+      {"question": "Как отключить Secure Boot из Linux?", "options": ["secureboot off", "Нельзя, только из BIOS/UEFI настроек", "mokutil --disable", "efibootmgr --secure off"], "correct": 1},
+      {"question": "Что делает efibootmgr?", "options": ["Управляет загрузчиком", "Управляет UEFI boot записями", "Настраивает Secure Boot", "Форматирует ESP"], "correct": 1},
+      {"question": "Как посмотреть UEFI boot записи?", "options": ["bootctl", "efibootmgr -v", "uefi-list", "boot-entries"], "correct": 1},
+      {"question": "Что такое systemd-boot?", "options": ["Сервис systemd", "Простой UEFI загрузчик", "Boot target", "Init скрипт"], "correct": 1},
+      {"question": "Где конфигурация systemd-boot?", "options": ["/boot/grub", "/boot/loader/", "/etc/systemd/boot", "/boot/systemd"], "correct": 1},
+      {"question": "Что такое BLS (Boot Loader Specification)?", "options": ["Тип загрузчика", "Стандарт конфигурации загрузки", "Secure Boot", "Тип раздела"], "correct": 1},
+      {"question": "Как восстановить GRUB после установки Windows?", "options": ["grub-restore", "Загрузиться с Live USB и grub-install", "fix-grub", "grub --repair"], "correct": 1},
+      {"question": "Что такое GRUB rescue mode?", "options": ["Полный GRUB", "Минимальная среда при повреждении GRUB", "Recovery mode", "Debug mode"], "correct": 1},
+      {"question": "Команды для выхода из GRUB rescue?", "options": ["exit", "set prefix, set root, insmod normal, normal", "boot", "reboot"], "correct": 1},
+      {"question": "Что такое kernel command line?", "options": ["Терминал", "Параметры, передаваемые ядру при загрузке", "Консоль ядра", "Shell"], "correct": 1},
+      {"question": "Как посмотреть текущие параметры ядра?", "options": ["kernel-params", "cat /proc/cmdline", "sysctl -a", "cmdline"], "correct": 1},
+      {"question": "Что делает параметр ядра nosmp?", "options": ["Отключает сеть", "Отключает многопроцессорность (один CPU)", "Отключает swap", "Отключает модули"], "correct": 1},
+      {"question": "Что такое early userspace?", "options": ["Init система", "Среда initramfs до монтирования корня", "GRUB", "Ядро"], "correct": 1}
     ]
   },
   "bash": {
     "title": "Bash и автоматизация",
     "junior": [
-      {
-        "question": "Что делает `set -e` в bash-скрипте?",
-        "options": ["Игнорирует ошибки", "Выход при ошибке", "Трассировка", "Экспорт переменных"],
-        "correct": 1
-      },
-      {
-        "question": "Правильный shebang для bash:",
-        "options": ["#!/bin/sh", "#!/usr/bin/env bash", "#!bash", "#!/bin/zsh"],
-        "correct": 1
-      },
-      {
-        "question": "Перенаправить stderr в stdout:",
-        "options": ["1>&2", "2>&1", "&>1", "2>1"],
-        "correct": 1
-      },
-      {
-        "question": "Синтаксис here-doc:",
-        "options": ["<<EOF", "<>EOF", "<<<EOF", "<<|EOF"],
-        "correct": 0
-      },
-      {
-        "question": "Запустить скрипт без +x:",
-        "options": ["run script", "bash script.sh", "./script.sh", "exec script"],
-        "correct": 1
-      }
+      {"question": "Что делает `set -e` в bash-скрипте?", "options": ["Игнорирует ошибки", "Выход при первой ошибке", "Трассировка", "Экспорт переменных"], "correct": 1},
+      {"question": "Правильный shebang для bash:", "options": ["#!/bin/sh", "#!/usr/bin/env bash", "#!bash", "#!/bin/zsh"], "correct": 1},
+      {"question": "Перенаправить stderr в stdout:", "options": ["1>&2", "2>&1", "&>1", "2>1"], "correct": 1},
+      {"question": "Синтаксис here-doc:", "options": ["<<EOF", "<>EOF", "<<<EOF", "<<|EOF"], "correct": 0},
+      {"question": "Запустить скрипт без +x:", "options": ["run script", "bash script.sh", "./script.sh", "exec script"], "correct": 1},
+      {"question": "Как объявить переменную?", "options": ["var NAME=value", "NAME=value", "set NAME=value", "$NAME=value"], "correct": 1},
+      {"question": "Как вывести значение переменной?", "options": ["echo NAME", "echo $NAME", "print NAME", "show $NAME"], "correct": 1},
+      {"question": "Что означает `$0` в скрипте?", "options": ["Первый аргумент", "Имя скрипта", "Код возврата", "PID"], "correct": 1},
+      {"question": "Что означает `$1` в скрипте?", "options": ["Имя скрипта", "Первый аргумент", "Код возврата", "Количество аргументов"], "correct": 1},
+      {"question": "Что означает `$#` в скрипте?", "options": ["PID", "Все аргументы", "Количество аргументов", "Код возврата"], "correct": 2},
+      {"question": "Что означает `$@` в скрипте?", "options": ["PID", "Все аргументы", "Количество аргументов", "Код возврата"], "correct": 1},
+      {"question": "Как добавить комментарий в скрипт?", "options": ["// комментарий", "# комментарий", "/* комментарий */", "-- комментарий"], "correct": 1},
+      {"question": "Как сделать скрипт исполняемым?", "options": ["chmod +x script.sh", "exec script.sh", "run script.sh", "enable script.sh"], "correct": 0},
+      {"question": "Что делает команда `echo`?", "options": ["Читает ввод", "Выводит текст", "Копирует файл", "Ищет текст"], "correct": 1},
+      {"question": "Как прочитать ввод пользователя?", "options": ["input VAR", "read VAR", "get VAR", "scan VAR"], "correct": 1},
+      {"question": "Что такое exit code 0?", "options": ["Ошибка", "Успешное выполнение", "Предупреждение", "Файл не найден"], "correct": 1},
+      {"question": "Как завершить скрипт с кодом 1?", "options": ["return 1", "exit 1", "quit 1", "end 1"], "correct": 1},
+      {"question": "Синтаксис условия if:", "options": ["if condition then", "if [ condition ]; then", "if (condition)", "if {condition}"], "correct": 1},
+      {"question": "Как закрыть блок if?", "options": ["end", "fi", "endif", "}"], "correct": 1},
+      {"question": "Синтаксис цикла for:", "options": ["for i in list; do", "for (i in list)", "for i: list", "foreach i list"], "correct": 0}
     ],
     "middle": [
-      {
-        "question": "Что делает `set -u` в bash?",
-        "options": ["Игнорирует переменные", "Ошибка при использовании неопределённой переменной", "Трассировка", "Ничего"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает `set -o pipefail`?",
-        "options": ["Возвращает 0 при успехе", "Возвращает ошибку если любая команда в pipe упала", "Фоновый режим", "Alias"],
-        "correct": 1
-      },
-      {
-        "question": "Записать stdout+stderr в файл:",
-        "options": [">file 2>&1 или &>file", "1>file", "2>file", ">>file"],
-        "correct": 0
-      },
-      {
-        "question": "${VAR:-default} означает…",
-        "options": ["Всегда default", "Если VAR пусто или не задано — default", "Если VAR задано — default", "Обрезать default"],
-        "correct": 1
-      },
-      {
-        "question": "Одинарные vs двойные кавычки:",
-        "options": ["Обе экранируют", "Обе раскрывают переменные", "Двойные раскрывают переменные", "Одинарные раскрывают"],
-        "correct": 2
-      }
+      {"question": "Что делает `set -u` в bash?", "options": ["Игнорирует переменные", "Ошибка при использовании неопределённой переменной", "Трассировка", "Ничего"], "correct": 1},
+      {"question": "Что делает `set -o pipefail`?", "options": ["Возвращает 0 при успехе", "Возвращает ошибку если любая команда в pipe упала", "Фоновый режим", "Alias"], "correct": 1},
+      {"question": "Записать stdout+stderr в файл:", "options": [">file 2>&1 или &>file", "1>file", "2>file", ">>file"], "correct": 0},
+      {"question": "${VAR:-default} означает…", "options": ["Всегда default", "Если VAR пусто или не задано — default", "Если VAR задано — default", "Обрезать default"], "correct": 1},
+      {"question": "Одинарные vs двойные кавычки:", "options": ["Обе экранируют", "Обе раскрывают переменные", "Двойные раскрывают переменные", "Одинарные раскрывают"], "correct": 2},
+      {"question": "Что делает ${VAR:=default}?", "options": ["Только возвращает default", "Присваивает default если VAR не задана", "Удаляет VAR", "Проверяет VAR"], "correct": 1},
+      {"question": "Что делает ${VAR:+value}?", "options": ["Присваивает value", "Возвращает value если VAR задана", "Удаляет VAR", "Проверяет VAR"], "correct": 1},
+      {"question": "Как получить длину строки?", "options": ["len $VAR", "${#VAR}", "strlen VAR", "$VAR.length"], "correct": 1},
+      {"question": "Как извлечь подстроку?", "options": ["substr VAR 0 5", "${VAR:0:5}", "$VAR[0:5]", "cut VAR 0 5"], "correct": 1},
+      {"question": "Синтаксис замены в строке:", "options": ["VAR.replace", "${VAR/old/new}", "sed VAR", "replace VAR"], "correct": 1},
+      {"question": "Как заменить все вхождения в строке?", "options": ["${VAR/old/new}", "${VAR//old/new}", "sed -g", "replace -a"], "correct": 1},
+      {"question": "Что такое массив в bash?", "options": ["Список файлов", "Набор значений с индексами", "Хеш таблица", "Строка"], "correct": 1},
+      {"question": "Как объявить массив?", "options": ["array=(a b c)", "array=[a,b,c]", "array={a,b,c}", "@array=(a b c)"], "correct": 0},
+      {"question": "Как получить элемент массива?", "options": ["$array[0]", "${array[0]}", "array.get(0)", "$array(0)"], "correct": 1},
+      {"question": "Как получить все элементы массива?", "options": ["$array", "${array[@]}", "${array[*]}", "${array[@]} и ${array[*]}"], "correct": 3},
+      {"question": "Что такое ассоциативный массив?", "options": ["Обычный массив", "Массив с ключами-строками", "Список файлов", "Кортеж"], "correct": 1},
+      {"question": "Как объявить ассоциативный массив?", "options": ["array=()", "declare -A array", "assoc array", "hash array"], "correct": 1},
+      {"question": "Синтаксис while цикла:", "options": ["while condition do", "while [ condition ]; do", "while (condition)", "loop while condition"], "correct": 1},
+      {"question": "Как прервать цикл?", "options": ["stop", "break", "exit", "return"], "correct": 1},
+      {"question": "Как перейти к следующей итерации?", "options": ["next", "continue", "skip", "pass"], "correct": 1}
     ],
     "senior": [
-      {
-        "question": "Что делает trap в bash?",
-        "options": ["Ловит ошибки", "Обрабатывает сигналы", "Создаёт подпроцесс", "Логирует"],
-        "correct": 1
-      },
-      {
-        "question": "Как запустить команду в subshell?",
-        "options": ["{ cmd; }", "( cmd )", "cmd &", "[cmd]"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает eval в bash?",
-        "options": ["Проверяет синтаксис", "Выполняет строку как команду", "Экспортирует переменную", "Читает файл"],
-        "correct": 1
-      },
-      {
-        "question": "Как получить PID последнего фонового процесса?",
-        "options": ["$?", "$!", "$$", "$0"],
-        "correct": 1
-      },
-      {
-        "question": "Что делает set -x?",
-        "options": ["Выход при ошибке", "Печатает каждую команду перед выполнением", "Отключает алиасы", "Включает strict mode"],
-        "correct": 1
-      }
+      {"question": "Что делает trap в bash?", "options": ["Ловит ошибки", "Обрабатывает сигналы", "Создаёт подпроцесс", "Логирует"], "correct": 1},
+      {"question": "Как запустить команду в subshell?", "options": ["{ cmd; }", "( cmd )", "cmd &", "[cmd]"], "correct": 1},
+      {"question": "Что делает eval в bash?", "options": ["Проверяет синтаксис", "Выполняет строку как команду", "Экспортирует переменную", "Читает файл"], "correct": 1},
+      {"question": "Как получить PID последнего фонового процесса?", "options": ["$?", "$!", "$$", "$0"], "correct": 1},
+      {"question": "Что делает set -x?", "options": ["Выход при ошибке", "Печатает каждую команду перед выполнением", "Отключает алиасы", "Включает strict mode"], "correct": 1},
+      {"question": "Что такое process substitution?", "options": ["Замена процесса", "Передача вывода как файла: <(cmd)", "Фоновый процесс", "Pipe"], "correct": 1},
+      {"question": "Разница между { } и ( )?", "options": ["Нет разницы", "{ } — текущий shell, ( ) — subshell", "( ) — текущий shell, { } — subshell", "{ } для массивов"], "correct": 1},
+      {"question": "Как создать функцию в bash?", "options": ["def func()", "function func() { } или func() { }", "func := {}", "create function func"], "correct": 1},
+      {"question": "Как вернуть значение из функции?", "options": ["return value", "echo value (захватить через $())", "yield value", "Оба return и echo"], "correct": 1},
+      {"question": "Что такое local в функции?", "options": ["Глобальная переменная", "Локальная переменная функции", "Константа", "Статическая переменная"], "correct": 1},
+      {"question": "Как передать массив в функцию?", "options": ["func $array", "func \"${array[@]}\"", "func array", "func @array"], "correct": 1},
+      {"question": "Что делает trap EXIT?", "options": ["Ловит Ctrl+C", "Выполняет код при выходе из скрипта", "Завершает скрипт", "Игнорирует выход"], "correct": 1},
+      {"question": "Как поймать SIGINT (Ctrl+C)?", "options": ["trap SIGINT", "trap 'code' SIGINT или trap 'code' INT", "catch SIGINT", "on SIGINT"], "correct": 1},
+      {"question": "Что делает coproc?", "options": ["Копирует процесс", "Создаёт сопроцесс с двунаправленным pipe", "Параллельный запуск", "Фоновый процесс"], "correct": 1},
+      {"question": "Как читать файл построчно?", "options": ["for line in file", "while read line; do ... done < file", "readlines file", "cat file | foreach"], "correct": 1},
+      {"question": "Что такое IFS?", "options": ["Файловая система", "Internal Field Separator — разделитель полей", "Интерфейс", "Флаг"], "correct": 1},
+      {"question": "Как разбить строку на массив?", "options": ["split string", "IFS=':' read -ra array <<< \"$string\"", "array=split(string)", "string.split"], "correct": 1},
+      {"question": "Что делает exec в скрипте?", "options": ["Выполняет и возвращается", "Заменяет текущий процесс", "Создаёт подпроцесс", "Фоновый запуск"], "correct": 1},
+      {"question": "Как перенаправить весь вывод скрипта в файл?", "options": ["script > file", "exec > file 2>&1 в начале скрипта", "redirect all file", "output file"], "correct": 1},
+      {"question": "Что такое strict mode в bash?", "options": ["Режим отладки", "set -euo pipefail для строгой обработки ошибок", "Режим безопасности", "Режим совместимости"], "correct": 1}
     ]
   }
 }
