@@ -15,8 +15,14 @@ venv/
 .DS_Store
 
 # Secrets
+.env
 .env.prod
 .env.dev
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Docker
 *.log
