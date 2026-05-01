@@ -141,7 +141,7 @@
     "title": "Процессы",
     "junior": [
       {"question": "Какой процесс имеет PID 1 в Linux?", "options": ["systemd/init", "kernel", "sshd", "bash"], "correct": 0},
-      {"question": "Какая команда показывает запущенные процессы?", "options": ["ls", "ps", "top", "ps и top"], "correct": 3},
+      {"question": "Какая команда показывает запущенные процессы?", "options": ["ls", "ps", "top", "ps, top, htop"], "correct": 3},
       {"question": "Как завершить процесс по PID?", "options": ["stop PID", "kill PID", "end PID", "close PID"], "correct": 1},
       {"question": "Что возвращает `$?` в bash?", "options": ["PID", "Exit code последней команды", "Кол-во аргументов", "UID"], "correct": 1},
       {"question": "Какой командой запустить процесс в фоне?", "options": ["command &", "bg command", "background command", "run -bg command"], "correct": 0},
