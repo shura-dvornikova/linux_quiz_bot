@@ -8,7 +8,11 @@ from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 from aiogram.exceptions import TelegramBadRequest
 
 from bot.states import QuizState
-from bot.keyboards import build_answers_keyboard, build_restart_keyboard
+from bot.keyboards import (
+    build_answers_keyboard,
+    build_restart_keyboard,
+    build_topics_keyboard,
+)
 from bot.keyboards.builders import get_topic_name, get_level_name
 from bot.services.quiz_service import QuizService
 from bot.services.user_service import UserService, escape_md
@@ -73,7 +77,11 @@ async def choose_topic(cb: CallbackQuery, state: FSMContext) -> None:
     # Initialize quiz state
     await state.update_data(topic=topic, level=level, idx=0, score=0, results=[])
 
-    await cb.message.edit_text(
+    topics_keyboard = build_topics_keyboard(selected_topic=topic)
+    if cb.message.reply_markup != topics_keyboard:
+        await cb.message.edit_reply_markup(reply_markup=topics_keyboard)
+
+    await cb.message.answer(
         f"📚 *{escape_md(get_topic_name(topic))}*\n"
         f"Уровень: *{get_level_name(level)}*\n"
         f"Вопросов: {question_count}\n\n"

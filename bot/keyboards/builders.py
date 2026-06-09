@@ -31,11 +31,16 @@ def build_level_keyboard() -> InlineKeyboardMarkup:
     )
 
 
-def build_topics_keyboard() -> InlineKeyboardMarkup:
-    """Build keyboard for topic selection."""
+def build_topics_keyboard(selected_topic: str | None = None) -> InlineKeyboardMarkup:
+    """Build topic selection keyboard and mark the selected topic."""
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text=name, callback_data=f"topic:{key}")]
+            [
+                InlineKeyboardButton(
+                    text=f"👀 {name}" if key == selected_topic else name,
+                    callback_data=f"topic:{key}",
+                )
+            ]
             for key, name in TOPICS.items()
         ]
     )
