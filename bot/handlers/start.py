@@ -50,9 +50,7 @@ async def cmd_level(msg: Message, state: FSMContext) -> None:
         return
 
     await state.clear()
-    await msg.answer(
-        "Выбери уровень сложности:", reply_markup=build_level_keyboard()
-    )
+    await msg.answer("Выбери уровень сложности:", reply_markup=build_level_keyboard())
     await state.set_state(QuizState.selecting_level)
 
 
@@ -64,16 +62,13 @@ async def cmd_theme(msg: Message, state: FSMContext) -> None:
         await msg.answer("Сначала запусти бота командой /start")
         return
 
-    data = await state.get_data()
-    level = data.get("level") or user.level
+    level = user.level
+    await state.clear()
     if not level:
-        await msg.answer(
-            "Сначала выбери уровень:", reply_markup=build_level_keyboard()
-        )
+        await msg.answer("Сначала выбери уровень:", reply_markup=build_level_keyboard())
         await state.set_state(QuizState.selecting_level)
         return
 
-    await state.clear()
     await state.update_data(level=level)
     await msg.answer(
         f"Уровень: *{get_level_name(level)}*\n\nВыбери тему:",
