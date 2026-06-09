@@ -41,6 +41,48 @@ async def cmd_start(msg: Message, state: FSMContext) -> None:
         await state.set_state(QuizState.entering_name)
 
 
+@router.message(Command("level"))
+async def cmd_level(msg: Message, state: FSMContext) -> None:
+    """Open level selection from the bot commands menu."""
+    user = UserService.get_user(msg.from_user.id)
+    if not user:
+        await msg.answer("Сначала запусти бота командой /start")
+        return
+
+    await state.clear()
+    await msg.answer(
+        "Выбери уровень сложности:", reply_markup=build_level_keyboard()
+    )
+    await state.set_state(QuizState.selecting_level)
+
+
+@router.message(Command("theme"))
+async def cmd_theme(msg: Message, state: FSMContext) -> None:
+    """Open topic selection from the bot commands menu."""
+    user = UserService.get_user(msg.from_user.id)
+    if not user:
+        await msg.answer("Сначала запусти бота командой /start")
+        return
+
+    data = await state.get_data()
+    level = data.get("level") or user.level
+    if not level:
+        await msg.answer(
+            "Сначала выбери уровень:", reply_markup=build_level_keyboard()
+        )
+        await state.set_state(QuizState.selecting_level)
+        return
+
+    await state.clear()
+    await state.update_data(level=level)
+    await msg.answer(
+        f"Уровень: *{get_level_name(level)}*\n\nВыбери тему:",
+        reply_markup=build_topics_keyboard(),
+        parse_mode="MarkdownV2",
+    )
+    await state.set_state(QuizState.selecting_topic)
+
+
 @router.message(QuizState.entering_name)
 async def process_name(msg: Message, state: FSMContext) -> None:
     """Process user's name input."""

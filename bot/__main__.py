@@ -47,6 +47,8 @@ async def on_startup(bot: Bot) -> None:
     await bot.set_my_commands(
         commands=[
             BotCommand(command="start", description="Начать тестирование"),
+            BotCommand(command="theme", description="Сменить тему"),
+            BotCommand(command="level", description="Сменить уровень"),
             BotCommand(command="feedback", description="Оставить отзыв"),
         ],
         scope=BotCommandScopeDefault(),
