@@ -80,6 +80,36 @@ def _build_answer_feedback(
     return text
 
 
+def _build_question_text(question: dict, index: int, total: int) -> str:
+    """Build the MarkdownV2 text shared by text and photo questions."""
+    lines = question["question"].splitlines()
+    text = f"❓ _Вопрос {index + 1} из {total}_\n\n*{escape_md(lines[0])}*"
+    if len(lines) > 1:
+        text += "\n" + "\n".join(escape_md(line) for line in lines[1:])
+    return text
+
+
+def _build_answered_question_text(
+    topic: str,
+    level: str,
+    question_idx: int,
+    is_correct: bool,
+    include_reference: bool = False,
+) -> str:
+    """Build the question followed by its answer and optional reference."""
+    question = QuizService.get_question(topic, level, question_idx)
+    if not question:
+        return _build_answer_feedback(
+            topic, level, question_idx, is_correct, include_reference
+        )
+
+    total = QuizService.get_question_count(topic, level)
+    return (
+        f"{_build_question_text(question, question_idx, total)}\n\n"
+        f"{_build_answer_feedback(topic, level, question_idx, is_correct, include_reference)}"
+    )
+
+
 def _build_reference_keyboard(
     topic: str, level: str, question_idx: int, is_correct: bool
 ) -> InlineKeyboardMarkup:
@@ -94,6 +124,27 @@ def _build_reference_keyboard(
             ]
         ]
     )
+
+
+def _build_answered_reference_keyboard(
+    keyboard: InlineKeyboardMarkup | None,
+    selected_callback_data: str,
+    topic: str,
+    level: str,
+    question_idx: int,
+    is_correct: bool,
+) -> InlineKeyboardMarkup:
+    """Mark the selected option and add the reference action below it."""
+    answered = _build_answered_keyboard(
+        keyboard, selected_callback_data, is_correct
+    )
+    rows = list(answered.inline_keyboard) if answered else []
+    rows.extend(
+        _build_reference_keyboard(
+            topic, level, question_idx, is_correct
+        ).inline_keyboard
+    )
+    return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
 @router.callback_query(QuizState.selecting_topic, F.data.startswith("topic:"))
@@ -147,12 +198,7 @@ async def ask_question(msg: Message, state: FSMContext) -> None:
     total = QuizService.get_question_count(topic, level)
     keyboard, _ = build_answers_keyboard(question["options"], idx)
 
-    # Format question text
-    question_text = question["question"]
-    lines = question_text.splitlines()
-    caption = f"❓ _Вопрос {idx + 1} из {total}_\n\n" f"*{escape_md(lines[0])}*"
-    if len(lines) > 1:
-        caption += "\n" + "\n".join(escape_md(line) for line in lines[1:])
+    caption = _build_question_text(question, idx, total)
 
     try:
         # Check if question has an image
@@ -203,27 +249,46 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext, bot: Bot) -> None:
         score = data.get("score", 0) + int(is_correct)
         await state.update_data(idx=next_idx, score=score, results=results)
 
+        reference_keyboard = _build_answered_reference_keyboard(
+            cb.message.reply_markup,
+            cb.data,
+            topic,
+            level,
+            qidx,
+            is_correct,
+        )
+        answered_text = _build_answered_question_text(
+            topic, level, qidx, is_correct
+        )
         try:
-            answered_keyboard = _build_answered_keyboard(
-                cb.message.reply_markup, cb.data, is_correct
-            )
-            await cb.message.edit_reply_markup(reply_markup=answered_keyboard)
-        except TelegramBadRequest:
-            # The state lock still prevents duplicate processing if the
-            # original message can no longer be edited.
-            pass
+            if cb.message.photo:
+                await cb.message.edit_caption(
+                    caption=answered_text,
+                    reply_markup=reference_keyboard,
+                    parse_mode="MarkdownV2",
+                )
+            else:
+                await cb.message.edit_text(
+                    answered_text,
+                    reply_markup=reference_keyboard,
+                    parse_mode="MarkdownV2",
+                )
+        except TelegramBadRequest as e:
+            # Keep the quiz usable if the original message cannot be edited.
+            logging.warning("Error adding answer to question message: %s", e)
+            try:
+                await cb.message.answer(
+                    _build_answer_feedback(topic, level, qidx, is_correct),
+                    reply_markup=_build_reference_keyboard(
+                        topic, level, qidx, is_correct
+                    ),
+                    parse_mode="MarkdownV2",
+                )
+            except TelegramBadRequest as fallback_error:
+                logging.warning("Error sending answer fallback: %s", fallback_error)
 
     # Notify user
     await cb.answer("✅ Верно!" if is_correct else "❌ Неверно")
-    try:
-        await cb.message.answer(
-            _build_answer_feedback(topic, level, qidx, is_correct),
-            reply_markup=_build_reference_keyboard(topic, level, qidx, is_correct),
-            parse_mode="MarkdownV2",
-        )
-    except TelegramBadRequest as e:
-        logging.warning("Error sending answer reference link: %s", e)
-
     # Check if quiz is complete
     total = QuizService.get_question_count(topic, level)
     if next_idx >= total:
@@ -249,13 +314,21 @@ async def show_reference(cb: CallbackQuery) -> None:
         return
 
     try:
-        await cb.message.edit_text(
-            _build_answer_feedback(
-                topic, level, qidx, is_correct, include_reference=True
-            ),
-            reply_markup=None,
-            parse_mode="MarkdownV2",
+        expanded_text = _build_answered_question_text(
+            topic, level, qidx, is_correct, include_reference=True
         )
+        if cb.message.photo:
+            await cb.message.edit_caption(
+                caption=expanded_text,
+                reply_markup=None,
+                parse_mode="MarkdownV2",
+            )
+        else:
+            await cb.message.edit_text(
+                expanded_text,
+                reply_markup=None,
+                parse_mode="MarkdownV2",
+            )
     except TelegramBadRequest as e:
         logging.warning("Error expanding answer reference: %s", e)
         await cb.answer("❌ Не удалось открыть справку", show_alert=True)

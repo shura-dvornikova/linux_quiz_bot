@@ -9,6 +9,8 @@ from bot.handlers.feedback import router as feedback_router
 from bot.handlers.fallback import router as fallback_router
 from bot.handlers.quiz import (
     _build_answer_feedback,
+    _build_answered_reference_keyboard,
+    _build_answered_question_text,
     _build_answered_keyboard,
     _build_reference_keyboard,
     handle_answer,
@@ -49,7 +51,10 @@ def test_duplicate_answers_are_processed_once():
         message = SimpleNamespace(
             chat=SimpleNamespace(id=10),
             answer=AsyncMock(),
+            edit_caption=AsyncMock(),
+            edit_text=AsyncMock(),
             edit_reply_markup=AsyncMock(),
+            photo=None,
             reply_markup=InlineKeyboardMarkup(
                 inline_keyboard=[
                     [InlineKeyboardButton(text="First", callback_data="ans:0:0")],
@@ -84,6 +89,10 @@ def test_duplicate_answers_are_processed_once():
                 return_value="Short reference",
             ),
             patch(
+                "bot.handlers.quiz.QuizService.get_question",
+                return_value={"question": "Test question"},
+            ),
+            patch(
                 "bot.handlers.quiz.ask_question", new_callable=AsyncMock
             ) as ask_question,
         ):
@@ -97,14 +106,24 @@ def test_duplicate_answers_are_processed_once():
         assert state.data["results"] == [{"idx": 0, "correct": True}]
         check_answer.assert_called_once()
         ask_question.assert_awaited_once()
-        message.answer.assert_awaited_once_with(
+        message.edit_text.assert_awaited_once_with(
+            "❓ _Вопрос 1 из 2_\n\n*Test question*\n\n"
             "✅ Верно\\!\n*Ответ:* Second",
-            reply_markup=_build_reference_keyboard("bash", "junior", 0, True),
+            reply_markup=_build_answered_reference_keyboard(
+                message.reply_markup,
+                "ans:0:1",
+                "bash",
+                "junior",
+                0,
+                True,
+            ),
             parse_mode="MarkdownV2",
         )
-        answered_keyboard = message.edit_reply_markup.await_args.kwargs["reply_markup"]
+        message.answer.assert_not_awaited()
+        answered_keyboard = message.edit_text.await_args.kwargs["reply_markup"]
         assert answered_keyboard.inline_keyboard[0][0].text == "First"
         assert answered_keyboard.inline_keyboard[1][0].text == "✅ Second"
+        assert answered_keyboard.inline_keyboard[2][0].text == "🔗 Краткая справка"
         answers = [first.answer.await_args.args, duplicate.answer.await_args.args]
         assert ("✅ Верно!",) in answers
         assert ("⚠️ Этот вопрос уже пройден",) in answers
@@ -150,7 +169,7 @@ def test_answer_feedback_expands_and_escapes_reference():
 
 def test_show_reference_expands_answer_message():
     async def run_test():
-        message = SimpleNamespace(edit_text=AsyncMock())
+        message = SimpleNamespace(edit_text=AsyncMock(), photo=None)
         callback = SimpleNamespace(
             data="ref:bash:junior:0:1",
             message=message,
@@ -160,8 +179,9 @@ def test_show_reference_expands_answer_message():
         with (
             patch(
                 "bot.handlers.quiz.QuizService.get_question",
-                return_value={"question": "Test"},
+                return_value={"question": "What does echo do?"},
             ),
+            patch("bot.handlers.quiz.QuizService.get_question_count", return_value=20),
             patch(
                 "bot.handlers.quiz.QuizService.get_correct_answer",
                 return_value="echo",
@@ -174,6 +194,7 @@ def test_show_reference_expands_answer_message():
             await show_reference(callback)
 
         message.edit_text.assert_awaited_once_with(
+            "❓ _Вопрос 1 из 20_\n\n*What does echo do?*\n\n"
             "✅ Верно\\!\n*Ответ:* echo\n\n"
             "*Краткая справка:*\n"
             "Выводит аргументы в стандартный поток вывода\\.",
@@ -181,5 +202,44 @@ def test_show_reference_expands_answer_message():
             parse_mode="MarkdownV2",
         )
         callback.answer.assert_awaited_once_with()
+
+    asyncio.run(run_test())
+
+
+def test_show_reference_edits_photo_caption():
+    async def run_test():
+        message = SimpleNamespace(edit_caption=AsyncMock(), photo=[object()])
+        callback = SimpleNamespace(
+            data="ref:bash:junior:0:0",
+            message=message,
+            answer=AsyncMock(),
+        )
+
+        with (
+            patch(
+                "bot.handlers.quiz.QuizService.get_question",
+                return_value={"question": "Photo question"},
+            ),
+            patch("bot.handlers.quiz.QuizService.get_question_count", return_value=1),
+            patch(
+                "bot.handlers.quiz.QuizService.get_correct_answer",
+                return_value="Answer",
+            ),
+            patch(
+                "bot.handlers.quiz.QuizService.get_reference",
+                return_value="Reference",
+            ),
+        ):
+            await show_reference(callback)
+
+        message.edit_caption.assert_awaited_once_with(
+            caption=(
+                "❓ _Вопрос 1 из 1_\n\n*Photo question*\n\n"
+                "❌ Неверно\\!\n*Ответ:* Answer\n\n"
+                "*Краткая справка:*\nReference"
+            ),
+            reply_markup=None,
+            parse_mode="MarkdownV2",
+        )
 
     asyncio.run(run_test())
