@@ -119,7 +119,7 @@ def _build_reference_keyboard(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="🔗 Краткая справка", callback_data=callback_data
+                    text="🔗", callback_data=callback_data
                 )
             ]
         ]
