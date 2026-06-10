@@ -58,6 +58,20 @@ def _build_answered_keyboard(
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 
+def _build_answer_feedback(
+    topic: str, level: str, question_idx: int, is_correct: bool
+) -> str:
+    """Build a persistent answer with a click-to-reveal short reference."""
+    status = "✅ Верно" if is_correct else "❌ Неверно"
+    answer = QuizService.get_correct_answer(topic, level, question_idx) or "N/A"
+    reference = QuizService.get_reference(topic, level, question_idx)
+    return (
+        f"{status}\\!\n"
+        f"*Ответ:* {escape_md(answer)}\n"
+        f"🔗 *Краткая справка:* ||{escape_md(reference)}||"
+    )
+
+
 @router.callback_query(QuizState.selecting_topic, F.data.startswith("topic:"))
 async def choose_topic(cb: CallbackQuery, state: FSMContext) -> None:
     """Handle topic selection and start quiz."""
@@ -177,6 +191,10 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext, bot: Bot) -> None:
 
     # Notify user
     await cb.answer("✅ Верно!" if is_correct else "❌ Неверно")
+    await cb.message.answer(
+        _build_answer_feedback(topic, level, qidx, is_correct),
+        parse_mode="MarkdownV2",
+    )
 
     # Check if quiz is complete
     total = QuizService.get_question_count(topic, level)
