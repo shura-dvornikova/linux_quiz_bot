@@ -10,9 +10,7 @@ from bot.handlers.fallback import router as fallback_router
 from bot.handlers.quiz import (
     _build_answer_feedback,
     _build_answered_reference_keyboard,
-    _build_answered_question_text,
     _build_answered_keyboard,
-    _build_reference_keyboard,
     handle_answer,
     show_reference,
 )
