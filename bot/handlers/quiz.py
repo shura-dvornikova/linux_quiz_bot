@@ -135,9 +135,7 @@ def _build_answered_reference_keyboard(
     is_correct: bool,
 ) -> InlineKeyboardMarkup:
     """Mark the selected option and add the reference action below it."""
-    answered = _build_answered_keyboard(
-        keyboard, selected_callback_data, is_correct
-    )
+    answered = _build_answered_keyboard(keyboard, selected_callback_data, is_correct)
     rows = list(answered.inline_keyboard) if answered else []
     rows.extend(
         _build_reference_keyboard(
@@ -257,9 +255,7 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext, bot: Bot) -> None:
             qidx,
             is_correct,
         )
-        answered_text = _build_answered_question_text(
-            topic, level, qidx, is_correct
-        )
+        answered_text = _build_answered_question_text(topic, level, qidx, is_correct)
         try:
             if cb.message.photo:
                 await cb.message.edit_caption(

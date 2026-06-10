@@ -105,8 +105,7 @@ def test_duplicate_answers_are_processed_once():
         check_answer.assert_called_once()
         ask_question.assert_awaited_once()
         message.edit_text.assert_awaited_once_with(
-            "❓ _Вопрос 1 из 2_\n\n*Test question*\n\n"
-            "✅ Верно\\!\n*Ответ:* Second",
+            "❓ _Вопрос 1 из 2_\n\n*Test question*\n\n" "✅ Верно\\!\n*Ответ:* Second",
             reply_markup=_build_answered_reference_keyboard(
                 message.reply_markup,
                 "ans:0:1",

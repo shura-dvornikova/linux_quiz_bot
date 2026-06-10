@@ -98,7 +98,9 @@ class QuizService:
 
         reference = question.get("reference")
         if not reference:
-            answer = cls.get_correct_answer(topic, level, question_idx) or "Этот вариант"
+            answer = (
+                cls.get_correct_answer(topic, level, question_idx) or "Этот вариант"
+            )
             hint = REFERENCE_HINTS.get(
                 topic, "Сопоставьте назначение ответа с условиями вопроса."
             )
