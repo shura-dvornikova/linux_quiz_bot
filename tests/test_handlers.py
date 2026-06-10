@@ -10,7 +10,9 @@ from bot.handlers.fallback import router as fallback_router
 from bot.handlers.quiz import (
     _build_answer_feedback,
     _build_answered_keyboard,
+    _build_reference_keyboard,
     handle_answer,
+    show_reference,
 )
 
 
@@ -96,7 +98,8 @@ def test_duplicate_answers_are_processed_once():
         check_answer.assert_called_once()
         ask_question.assert_awaited_once()
         message.answer.assert_awaited_once_with(
-            "✅ Верно\\!\n*Ответ:* Second\n🔗 *Краткая справка:* ||Short reference||",
+            "✅ Верно\\!\n*Ответ:* Second",
+            reply_markup=_build_reference_keyboard("bash", "junior", 0, True),
             parse_mode="MarkdownV2",
         )
         answered_keyboard = message.edit_reply_markup.await_args.kwargs["reply_markup"]
@@ -123,7 +126,7 @@ def test_answered_keyboard_marks_incorrect_selection():
     assert answered_keyboard.inline_keyboard[1][0].text == "Second"
 
 
-def test_answer_feedback_escapes_markdown_and_uses_spoiler():
+def test_answer_feedback_expands_and_escapes_reference():
     with (
         patch(
             "bot.handlers.quiz.QuizService.get_correct_answer",
@@ -134,10 +137,49 @@ def test_answer_feedback_escapes_markdown_and_uses_spoiler():
             return_value="Показывает файлы, включая .скрытые",
         ),
     ):
-        text = _build_answer_feedback("bash", "junior", 0, False)
+        text = _build_answer_feedback(
+            "bash", "junior", 0, False, include_reference=True
+        )
 
     assert text == (
         "❌ Неверно\\!\n"
-        "*Ответ:* ls \\-la\n"
-        "🔗 *Краткая справка:* ||Показывает файлы, включая \\.скрытые||"
+        "*Ответ:* ls \\-la\n\n"
+        "*Краткая справка:*\nПоказывает файлы, включая \\.скрытые"
     )
+
+
+def test_show_reference_expands_answer_message():
+    async def run_test():
+        message = SimpleNamespace(edit_text=AsyncMock())
+        callback = SimpleNamespace(
+            data="ref:bash:junior:0:1",
+            message=message,
+            answer=AsyncMock(),
+        )
+
+        with (
+            patch(
+                "bot.handlers.quiz.QuizService.get_question",
+                return_value={"question": "Test"},
+            ),
+            patch(
+                "bot.handlers.quiz.QuizService.get_correct_answer",
+                return_value="echo",
+            ),
+            patch(
+                "bot.handlers.quiz.QuizService.get_reference",
+                return_value="Выводит аргументы в стандартный поток вывода.",
+            ),
+        ):
+            await show_reference(callback)
+
+        message.edit_text.assert_awaited_once_with(
+            "✅ Верно\\!\n*Ответ:* echo\n\n"
+            "*Краткая справка:*\n"
+            "Выводит аргументы в стандартный поток вывода\\.",
+            reply_markup=None,
+            parse_mode="MarkdownV2",
+        )
+        callback.answer.assert_awaited_once_with()
+
+    asyncio.run(run_test())

@@ -4,7 +4,12 @@ import weakref
 
 from aiogram import Router, F, Bot
 from aiogram.fsm.context import FSMContext
-from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
+from aiogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 from aiogram.exceptions import TelegramBadRequest
 
 from bot.states import QuizState
@@ -59,16 +64,35 @@ def _build_answered_keyboard(
 
 
 def _build_answer_feedback(
-    topic: str, level: str, question_idx: int, is_correct: bool
+    topic: str,
+    level: str,
+    question_idx: int,
+    is_correct: bool,
+    include_reference: bool = False,
 ) -> str:
-    """Build a persistent answer with a click-to-reveal short reference."""
+    """Build answer text, optionally including the expanded reference."""
     status = "✅ Верно" if is_correct else "❌ Неверно"
     answer = QuizService.get_correct_answer(topic, level, question_idx) or "N/A"
-    reference = QuizService.get_reference(topic, level, question_idx)
-    return (
-        f"{status}\\!\n"
-        f"*Ответ:* {escape_md(answer)}\n"
-        f"🔗 *Краткая справка:* ||{escape_md(reference)}||"
+    text = f"{status}\\!\n*Ответ:* {escape_md(answer)}"
+    if include_reference:
+        reference = QuizService.get_reference(topic, level, question_idx)
+        text += f"\n\n*Краткая справка:*\n{escape_md(reference)}"
+    return text
+
+
+def _build_reference_keyboard(
+    topic: str, level: str, question_idx: int, is_correct: bool
+) -> InlineKeyboardMarkup:
+    """Build the action that expands a question's short reference."""
+    callback_data = f"ref:{topic}:{level}:{question_idx}:{int(is_correct)}"
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🔗 Краткая справка", callback_data=callback_data
+                )
+            ]
+        ]
     )
 
 
@@ -191,10 +215,14 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext, bot: Bot) -> None:
 
     # Notify user
     await cb.answer("✅ Верно!" if is_correct else "❌ Неверно")
-    await cb.message.answer(
-        _build_answer_feedback(topic, level, qidx, is_correct),
-        parse_mode="MarkdownV2",
-    )
+    try:
+        await cb.message.answer(
+            _build_answer_feedback(topic, level, qidx, is_correct),
+            reply_markup=_build_reference_keyboard(topic, level, qidx, is_correct),
+            parse_mode="MarkdownV2",
+        )
+    except TelegramBadRequest as e:
+        logging.warning("Error sending answer reference link: %s", e)
 
     # Check if quiz is complete
     total = QuizService.get_question_count(topic, level)
@@ -202,6 +230,38 @@ async def handle_answer(cb: CallbackQuery, state: FSMContext, bot: Bot) -> None:
         await show_results(cb.message, state, bot, cb.from_user.id)
     else:
         await ask_question(cb.message, state)
+
+
+@router.callback_query(F.data.startswith("ref:"))
+async def show_reference(cb: CallbackQuery) -> None:
+    """Expand the short reference below an answer."""
+    try:
+        _, topic, level, qidx_str, correct_str = cb.data.split(":")
+        qidx = int(qidx_str)
+        is_correct = bool(int(correct_str))
+    except (AttributeError, ValueError) as e:
+        logging.error("Invalid reference callback: %s - %s", cb.data, e)
+        await cb.answer("❌ Справка недоступна", show_alert=True)
+        return
+
+    if not QuizService.get_question(topic, level, qidx):
+        await cb.answer("❌ Справка недоступна", show_alert=True)
+        return
+
+    try:
+        await cb.message.edit_text(
+            _build_answer_feedback(
+                topic, level, qidx, is_correct, include_reference=True
+            ),
+            reply_markup=None,
+            parse_mode="MarkdownV2",
+        )
+    except TelegramBadRequest as e:
+        logging.warning("Error expanding answer reference: %s", e)
+        await cb.answer("❌ Не удалось открыть справку", show_alert=True)
+        return
+
+    await cb.answer()
 
 
 async def show_results(msg: Message, state: FSMContext, bot: Bot, user_id: int) -> None:
