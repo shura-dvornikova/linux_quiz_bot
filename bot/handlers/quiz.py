@@ -18,7 +18,7 @@ from bot.keyboards import (
     build_restart_keyboard,
     build_topics_keyboard,
 )
-from bot.keyboards.builders import get_topic_name, get_level_name
+from bot.keyboards.builders import LEVELS, TOPICS, get_topic_name, get_level_name
 from bot.services.quiz_service import QuizService
 from bot.services.user_service import UserService, escape_md
 
@@ -119,7 +119,7 @@ def _build_reference_keyboard(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="🔗", callback_data=callback_data
+                    text="🔗 Краткая справка", callback_data=callback_data
                 )
             ]
         ]
@@ -151,6 +151,10 @@ async def choose_topic(cb: CallbackQuery, state: FSMContext) -> None:
     topic = cb.data.split(":", 1)[1]
     data = await state.get_data()
     level = data.get("level", "junior")
+
+    if topic not in TOPICS or level not in LEVELS:
+        await cb.answer("Неизвестная тема или уровень", show_alert=True)
+        return
 
     # Check if there are questions for this topic/level
     question_count = QuizService.get_question_count(topic, level)

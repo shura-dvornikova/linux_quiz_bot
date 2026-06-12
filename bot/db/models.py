@@ -1,11 +1,14 @@
 import json
+import os
 from pathlib import Path
 from sqlalchemy import create_engine, Column, Integer, String, BigInteger
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
 Base = declarative_base()
 
-DB_PATH = Path(__file__).parent.parent / "data" / "quiz_bot.db"
+VALID_LEVELS = frozenset({"junior", "middle", "senior"})
+DEFAULT_DB_PATH = Path(__file__).parent.parent / "data" / "quiz_bot.db"
+DB_PATH = Path(os.getenv("DB_PATH", DEFAULT_DB_PATH))
 engine = create_engine(f"sqlite:///{DB_PATH}", echo=False)
 SessionLocal = sessionmaker(bind=engine)
 
@@ -30,13 +33,19 @@ class User(Base):
 
     def get_scores(self, level: str) -> dict:
         """Get scores for a specific level."""
-        scores_field = getattr(self, f"scores_{level}", None)
+        if level not in VALID_LEVELS:
+            raise ValueError(f"Unsupported quiz level: {level}")
+
+        scores_field = getattr(self, f"scores_{level}")
         if scores_field:
             return json.loads(scores_field)
         return {"correct": 0, "total": 0}
 
     def set_scores(self, level: str, correct: int, total: int) -> None:
         """Set scores for a specific level."""
+        if level not in VALID_LEVELS:
+            raise ValueError(f"Unsupported quiz level: {level}")
+
         setattr(
             self, f"scores_{level}", json.dumps({"correct": correct, "total": total})
         )

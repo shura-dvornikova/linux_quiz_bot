@@ -39,8 +39,8 @@ jobs:
       - name: Black (check-only)
         run: black --check .
 
-      - name: Pytest (skip-ok)
-        run: pytest -q || echo "no tests yet"
+      - name: Pytest
+        run: pytest -q
 
   docker-build:
     needs: lint-and-test
@@ -127,7 +127,7 @@ jobs:
         if: runner.name == env.SERVER_RUNNER_DEV
         run: |
           sleep 5
-          curl -sf http://localhost:8081/healthz || echo "no health-check"
+          docker inspect -f '{{.State.Running}}' linux-quiz-bot-dev | grep -qx true
 
       - name: Cleanup unused images/containers (dev)
         if: runner.name == env.SERVER_RUNNER_DEV
@@ -190,7 +190,7 @@ jobs:
         if: runner.name == env.SERVER_RUNNER_PROD
         run: |
           sleep 5
-          curl -sf http://localhost:8080/healthz || echo "no health-check"
+          docker inspect -f '{{.State.Running}}' linux-quiz-bot-prod | grep -qx true
 
       - name: Cleanup unused images/containers (prod)
         if: runner.name == env.SERVER_RUNNER_PROD

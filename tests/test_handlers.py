@@ -14,6 +14,8 @@ from bot.handlers.quiz import (
     handle_answer,
     show_reference,
 )
+from bot.handlers.start import process_level, process_name
+from bot.db.models import User
 
 
 class FakeState:
@@ -140,6 +142,44 @@ def test_answered_keyboard_marks_incorrect_selection():
 
     assert answered_keyboard.inline_keyboard[0][0].text == "❌ First"
     assert answered_keyboard.inline_keyboard[1][0].text == "Second"
+
+
+def test_non_text_name_is_rejected():
+    async def run_test():
+        message = SimpleNamespace(text=None, answer=AsyncMock())
+        state = FakeState({})
+
+        await process_name(message, state)
+
+        message.answer.assert_awaited_once_with(
+            "Пожалуйста, введи корректное имя (до 100 символов):"
+        )
+
+    asyncio.run(run_test())
+
+
+def test_unknown_level_callback_is_rejected():
+    async def run_test():
+        callback = SimpleNamespace(data="level:invalid", answer=AsyncMock())
+
+        await process_level(callback, FakeState({}), AsyncMock())
+
+        callback.answer.assert_awaited_once_with(
+            "Неизвестный уровень", show_alert=True
+        )
+
+    asyncio.run(run_test())
+
+
+def test_user_scores_reject_unknown_level():
+    user = User()
+
+    try:
+        user.set_scores("invalid", 1, 1)
+    except ValueError as error:
+        assert str(error) == "Unsupported quiz level: invalid"
+    else:
+        raise AssertionError("Unknown level must not create an arbitrary model field")
 
 
 def test_answer_feedback_expands_and_escapes_reference():

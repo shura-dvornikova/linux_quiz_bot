@@ -7,13 +7,14 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.types import BotCommand, BotCommandScopeDefault
 
+from bot.config import bot_token
 from bot.db import init_db
 from bot.handlers import setup_routers
 
 # Configuration
 ENV = os.getenv("ENV", "dev").lower()
 LOG_LEVEL = os.getenv("LOG_LEVEL", "DEBUG").upper()
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = bot_token
 
 if not BOT_TOKEN:
     raise RuntimeError("BOT_TOKEN environment variable is not set")

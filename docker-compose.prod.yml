@@ -4,6 +4,10 @@ services:
     container_name: linux-quiz-bot-prod
     restart: unless-stopped
     env_file: .env.prod
-    ports:
-      - "8080:8080"
+    environment:
+      DB_PATH: /data/quiz_bot.db
+    volumes:
+      - linux-quiz-bot-prod-data:/data
 
+volumes:
+  linux-quiz-bot-prod-data:

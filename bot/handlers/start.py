@@ -5,7 +5,7 @@ from aiogram.types import Message, CallbackQuery
 
 from bot.states import QuizState
 from bot.keyboards import build_level_keyboard, build_topics_keyboard
-from bot.keyboards.builders import get_level_name
+from bot.keyboards.builders import LEVELS, get_level_name
 from bot.services.user_service import UserService, escape_md
 from bot.db.repository import UserRepository
 
@@ -81,7 +81,7 @@ async def cmd_theme(msg: Message, state: FSMContext) -> None:
 @router.message(QuizState.entering_name)
 async def process_name(msg: Message, state: FSMContext) -> None:
     """Process user's name input."""
-    name = msg.text.strip()
+    name = (msg.text or "").strip()
 
     if not name or len(name) > 100:
         await msg.answer("Пожалуйста, введи корректное имя (до 100 символов):")
@@ -102,6 +102,9 @@ async def process_name(msg: Message, state: FSMContext) -> None:
 async def process_level(cb: CallbackQuery, state: FSMContext, bot: Bot) -> None:
     """Process level selection."""
     level = cb.data.split(":", 1)[1]
+    if level not in LEVELS:
+        await cb.answer("Неизвестный уровень", show_alert=True)
+        return
 
     # Update user's level
     UserService.set_level(cb.from_user.id, level)
