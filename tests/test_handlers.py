@@ -164,9 +164,7 @@ def test_unknown_level_callback_is_rejected():
 
         await process_level(callback, FakeState({}), AsyncMock())
 
-        callback.answer.assert_awaited_once_with(
-            "Неизвестный уровень", show_alert=True
-        )
+        callback.answer.assert_awaited_once_with("Неизвестный уровень", show_alert=True)
 
     asyncio.run(run_test())
 
