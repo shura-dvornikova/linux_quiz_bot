@@ -40,7 +40,7 @@ jobs:
         run: black --check .
 
       - name: Pytest
-        run: pytest -q
+        run: python -m pytest -q
 
   docker-build:
     needs: lint-and-test
