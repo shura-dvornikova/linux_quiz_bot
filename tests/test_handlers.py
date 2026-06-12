@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, patch
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.handlers import setup_routers
-from bot.handlers.feedback import router as feedback_router
+from bot.handlers.feedback import handle_feedback, router as feedback_router
 from bot.handlers.fallback import router as fallback_router
 from bot.handlers.quiz import (
     _build_answer_feedback,
@@ -30,11 +30,67 @@ class FakeState:
         await asyncio.sleep(0)
         self.data.update(kwargs)
 
+    async def clear(self):
+        await asyncio.sleep(0)
+        self.data.clear()
+
 
 def test_feedback_router_is_registered_before_callback_fallback():
     routers = setup_routers().sub_routers
 
     assert routers.index(feedback_router) < routers.index(fallback_router)
+
+
+def test_feedback_is_delivered_to_configured_receiver():
+    async def run_test():
+        state = FakeState({"pending": True})
+        message = SimpleNamespace(
+            text="Great quiz!",
+            from_user=SimpleNamespace(
+                id=20, username="student", full_name="Test Student"
+            ),
+            answer=AsyncMock(),
+        )
+        bot = AsyncMock()
+
+        with (
+            patch("bot.handlers.feedback.feedback_bot_token", None),
+            patch("bot.handlers.feedback.feedback_receiver_id", "12345"),
+        ):
+            await handle_feedback(message, state, bot)
+
+        bot.send_message.assert_awaited_once()
+        assert bot.send_message.await_args.kwargs["chat_id"] == 12345
+        assert "Great quiz\\!" in bot.send_message.await_args.kwargs["text"]
+        message.answer.assert_awaited_once_with("Спасибо за отзыв! 💌")
+        assert state.data == {}
+
+    asyncio.run(run_test())
+
+
+def test_feedback_failure_is_reported_and_state_is_kept():
+    async def run_test():
+        state = FakeState({"pending": True})
+        message = SimpleNamespace(
+            text="Feedback",
+            from_user=SimpleNamespace(id=20, username=None, full_name="Student"),
+            answer=AsyncMock(),
+        )
+        bot = AsyncMock()
+        bot.send_message.side_effect = ValueError("invalid chat id")
+
+        with (
+            patch("bot.handlers.feedback.feedback_bot_token", None),
+            patch("bot.handlers.feedback.feedback_receiver_id", "invalid"),
+        ):
+            await handle_feedback(message, state, bot)
+
+        message.answer.assert_awaited_once_with(
+            "Не удалось отправить отзыв. Попробуй позже."
+        )
+        assert state.data == {"pending": True}
+
+    asyncio.run(run_test())
 
 
 def test_duplicate_answers_are_processed_once():

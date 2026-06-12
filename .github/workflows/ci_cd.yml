@@ -104,6 +104,8 @@ jobs:
           cat > .env.dev <<EOF
           ENV=dev
           BOT_TOKEN=${{ secrets.BOT_TOKEN_DEV }}
+          FEEDBACK_BOT_TOKEN=${{ secrets.FEEDBACK_BOT_TOKEN }}
+          FEEDBACK_RECEIVER_ID=${{ secrets.FEEDBACK_RECEIVER_ID }}
           LOG_LEVEL=INFO
           EOF
 
@@ -167,6 +169,8 @@ jobs:
           cat > .env.prod <<EOF
           ENV=prod
           BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }}
+          FEEDBACK_BOT_TOKEN=${{ secrets.FEEDBACK_BOT_TOKEN }}
+          FEEDBACK_RECEIVER_ID=${{ secrets.FEEDBACK_RECEIVER_ID }}
           LOG_LEVEL=INFO
           EOF
 
