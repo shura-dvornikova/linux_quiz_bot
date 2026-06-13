@@ -7,7 +7,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.types import BotCommand, BotCommandScopeDefault
 
-from bot.config import bot_token
+from bot.config import bot_token, feedback_channel_id
 from bot.db import init_db
 from bot.handlers import setup_routers
 
@@ -18,6 +18,9 @@ BOT_TOKEN = bot_token
 
 if not BOT_TOKEN:
     raise RuntimeError("BOT_TOKEN environment variable is not set")
+
+if not feedback_channel_id:
+    raise RuntimeError("FEEDBACK_CHANNEL_ID environment variable is not set")
 
 # Setup logging
 logging.basicConfig(

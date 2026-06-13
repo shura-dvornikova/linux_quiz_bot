@@ -100,11 +100,16 @@ jobs:
 
       - name: Create .env.dev from secrets
         if: runner.name == env.SERVER_RUNNER_DEV
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN_DEV }}
+          FEEDBACK_CHANNEL_ID: ${{ secrets.FEEDBACK_CHANNEL_ID }}
         run: |
+          test -n "$BOT_TOKEN"
+          test -n "$FEEDBACK_CHANNEL_ID"
           cat > .env.dev <<EOF
           ENV=dev
-          BOT_TOKEN=${{ secrets.BOT_TOKEN_DEV }}
-          FEEDBACK_CHANNEL_ID=${{ secrets.FEEDBACK_CHANNEL_ID }}
+          BOT_TOKEN=$BOT_TOKEN
+          FEEDBACK_CHANNEL_ID=$FEEDBACK_CHANNEL_ID
           LOG_LEVEL=INFO
           EOF
 
@@ -164,11 +169,16 @@ jobs:
 
       - name: Create .env.prod from secrets
         if: runner.name == env.SERVER_RUNNER_PROD
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN_PROD }}
+          FEEDBACK_CHANNEL_ID: ${{ secrets.FEEDBACK_CHANNEL_ID }}
         run: |
+          test -n "$BOT_TOKEN"
+          test -n "$FEEDBACK_CHANNEL_ID"
           cat > .env.prod <<EOF
           ENV=prod
-          BOT_TOKEN=${{ secrets.BOT_TOKEN_PROD }}
-          FEEDBACK_CHANNEL_ID=${{ secrets.FEEDBACK_CHANNEL_ID }}
+          BOT_TOKEN=$BOT_TOKEN
+          FEEDBACK_CHANNEL_ID=$FEEDBACK_CHANNEL_ID
           LOG_LEVEL=INFO
           EOF
 
