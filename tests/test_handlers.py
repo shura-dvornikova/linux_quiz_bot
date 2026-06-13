@@ -53,14 +53,11 @@ def test_feedback_is_delivered_to_configured_receiver():
         )
         bot = AsyncMock()
 
-        with (
-            patch("bot.handlers.feedback.feedback_bot_token", None),
-            patch("bot.handlers.feedback.feedback_receiver_id", "12345"),
-        ):
+        with patch("bot.handlers.feedback.feedback_channel_id", "-10012345"):
             await handle_feedback(message, state, bot)
 
         bot.send_message.assert_awaited_once()
-        assert bot.send_message.await_args.kwargs["chat_id"] == 12345
+        assert bot.send_message.await_args.kwargs["chat_id"] == -10012345
         assert "Great quiz\\!" in bot.send_message.await_args.kwargs["text"]
         message.answer.assert_awaited_once_with("Спасибо за отзыв! 💌")
         assert state.data == {}
@@ -79,10 +76,7 @@ def test_feedback_failure_is_reported_and_state_is_kept():
         bot = AsyncMock()
         bot.send_message.side_effect = ValueError("invalid chat id")
 
-        with (
-            patch("bot.handlers.feedback.feedback_bot_token", None),
-            patch("bot.handlers.feedback.feedback_receiver_id", "invalid"),
-        ):
+        with patch("bot.handlers.feedback.feedback_channel_id", "invalid"):
             await handle_feedback(message, state, bot)
 
         message.answer.assert_awaited_once_with(

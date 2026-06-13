@@ -7,7 +7,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.enums import ParseMode
 
-from bot.config import feedback_bot_token, feedback_receiver_id
+from bot.config import feedback_channel_id
 from bot.states import QuizState
 from bot.services.user_service import escape_md
 
@@ -37,8 +37,8 @@ async def handle_feedback(msg: Message, state: FSMContext, bot: Bot) -> None:
         await msg.answer("Пожалуйста, отправь отзыв текстовым сообщением.")
         return
 
-    if not feedback_receiver_id:
-        logging.error("FEEDBACK_RECEIVER_ID is not configured")
+    if not feedback_channel_id:
+        logging.error("FEEDBACK_CHANNEL_ID is not configured")
         await msg.answer("Не удалось отправить отзыв. Попробуй позже.")
         return
 
@@ -54,19 +54,11 @@ async def handle_feedback(msg: Message, state: FSMContext, bot: Bot) -> None:
     )
 
     try:
-        if feedback_bot_token:
-            async with Bot(token=feedback_bot_token) as feedback_bot:
-                await feedback_bot.send_message(
-                    chat_id=int(feedback_receiver_id),
-                    text=text,
-                    parse_mode=ParseMode.MARKDOWN_V2,
-                )
-        else:
-            await bot.send_message(
-                chat_id=int(feedback_receiver_id),
-                text=text,
-                parse_mode=ParseMode.MARKDOWN_V2,
-            )
+        await bot.send_message(
+            chat_id=int(feedback_channel_id),
+            text=text,
+            parse_mode=ParseMode.MARKDOWN_V2,
+        )
     except (TelegramAPIError, ValueError) as error:
         logging.exception("Failed to deliver feedback: %s", error)
         await msg.answer("Не удалось отправить отзыв. Попробуй позже.")
