@@ -43,14 +43,17 @@ def _feedback_error_message(error: Exception) -> str:
 @router.message(Command("feedback"))
 async def cmd_feedback(msg: Message, state: FSMContext) -> None:
     """Handle /feedback command."""
-    await msg.answer("✍️ Напиши свой отзыв сообщением, я обязательно прочитаю!")
+    await msg.answer(
+        "✍️ Напиши свой отзыв сообщением, я обязательно прочитаю!",
+        parse_mode=None,
+    )
     await state.set_state(QuizState.waiting_for_feedback)
 
 
 @router.callback_query(F.data == "feedback")
 async def callback_feedback(cb: CallbackQuery, state: FSMContext) -> None:
     """Handle feedback button click."""
-    await cb.message.answer("📝 Напиши сюда свой отзыв:")
+    await cb.message.answer("📝 Напиши сюда свой отзыв:", parse_mode=None)
     await state.set_state(QuizState.waiting_for_feedback)
     await cb.answer()
 
@@ -60,12 +63,14 @@ async def handle_feedback(msg: Message, state: FSMContext, bot: Bot) -> None:
     """Process feedback message."""
     feedback_text = (msg.text or "").strip()
     if not feedback_text:
-        await msg.answer("Пожалуйста, отправь отзыв текстовым сообщением.")
+        await msg.answer(
+            "Пожалуйста, отправь отзыв текстовым сообщением.", parse_mode=None
+        )
         return
 
     if not feedback_channel_id:
         logging.error("FEEDBACK_CHANNEL_ID is not configured")
-        await msg.answer("Не удалось отправить отзыв. Попробуй позже.")
+        await msg.answer("Не удалось отправить отзыв. Попробуй позже.", parse_mode=None)
         return
 
     username = msg.from_user.username
@@ -91,9 +96,9 @@ async def handle_feedback(msg: Message, state: FSMContext, bot: Bot) -> None:
             feedback_channel_id,
             error,
         )
-        await msg.answer(_feedback_error_message(error))
+        await msg.answer(_feedback_error_message(error), parse_mode=None)
         return
 
     logging.info("Feedback received from %s", sender)
-    await msg.answer("Спасибо за отзыв! 💌")
+    await msg.answer("Спасибо за отзыв! 💌", parse_mode=None)
     await state.clear()

@@ -5,7 +5,11 @@ from unittest.mock import AsyncMock, patch
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.handlers import setup_routers
-from bot.handlers.feedback import handle_feedback, router as feedback_router
+from bot.handlers.feedback import (
+    cmd_feedback,
+    handle_feedback,
+    router as feedback_router,
+)
 from bot.handlers.feedback import _feedback_error_message
 from bot.handlers.fallback import router as fallback_router
 from bot.handlers.quiz import (
@@ -49,6 +53,22 @@ def test_feedback_destination_accepts_id_and_channel_username():
     assert get_feedback_chat_id("@linux_quiz_feedback") == "@linux_quiz_feedback"
 
 
+def test_feedback_command_uses_plain_text_before_setting_state():
+    async def run_test():
+        message = SimpleNamespace(answer=AsyncMock())
+        state = AsyncMock()
+
+        await cmd_feedback(message, state)
+
+        message.answer.assert_awaited_once_with(
+            "✍️ Напиши свой отзыв сообщением, я обязательно прочитаю!",
+            parse_mode=None,
+        )
+        state.set_state.assert_awaited_once()
+
+    asyncio.run(run_test())
+
+
 def test_feedback_is_delivered_to_configured_receiver():
     async def run_test():
         state = FakeState({"pending": True})
@@ -68,7 +88,7 @@ def test_feedback_is_delivered_to_configured_receiver():
         assert bot.send_message.await_args.kwargs["chat_id"] == -10012345
         assert "Great quiz!" in bot.send_message.await_args.kwargs["text"]
         assert bot.send_message.await_args.kwargs["parse_mode"] is None
-        message.answer.assert_awaited_once_with("Спасибо за отзыв! 💌")
+        message.answer.assert_awaited_once_with("Спасибо за отзыв! 💌", parse_mode=None)
         assert state.data == {}
 
     asyncio.run(run_test())
@@ -89,7 +109,8 @@ def test_feedback_failure_is_reported_and_state_is_kept():
             await handle_feedback(message, state, bot)
 
         message.answer.assert_awaited_once_with(
-            "Неверный FEEDBACK_CHANNEL_ID. Нужен ID вида -100... или @username."
+            "Неверный FEEDBACK_CHANNEL_ID. Нужен ID вида -100... или @username.",
+            parse_mode=None,
         )
         assert state.data == {"pending": True}
 
