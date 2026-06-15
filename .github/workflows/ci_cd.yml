@@ -1,6 +1,7 @@
 name: CI-CD
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main", "develop" ]
   pull_request:
@@ -44,7 +45,7 @@ jobs:
 
   docker-build:
     needs: lint-and-test
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     outputs:
@@ -75,7 +76,9 @@ jobs:
   # ==================== DEV (develop) ====================
   deploy-dev:
     needs: docker-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    if: >-
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      github.ref == 'refs/heads/develop'
     runs-on: [ self-hosted ]
     env:
       SERVER_RUNNER_DEV: shura-telegram-bots-prod
@@ -137,7 +140,9 @@ jobs:
   # ==================== PROD (main) ====================
   deploy-prod:
     needs: docker-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: >-
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      github.ref == 'refs/heads/main'
     runs-on: [ self-hosted ]
     env:
       SERVER_RUNNER_PROD: shura-telegram-bots-prod
