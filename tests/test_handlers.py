@@ -6,6 +6,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.handlers import setup_routers
 from bot.handlers.feedback import handle_feedback, router as feedback_router
+from bot.handlers.feedback import _feedback_error_message
 from bot.handlers.fallback import router as fallback_router
 from bot.handlers.quiz import (
     _build_answer_feedback,
@@ -87,11 +88,19 @@ def test_feedback_failure_is_reported_and_state_is_kept():
             await handle_feedback(message, state, bot)
 
         message.answer.assert_awaited_once_with(
-            "Не удалось отправить отзыв. Попробуй позже."
+            "Неверный FEEDBACK_CHANNEL_ID. Нужен ID вида -100... или @username."
         )
         assert state.data == {"pending": True}
 
     asyncio.run(run_test())
+
+
+def test_feedback_chat_not_found_has_actionable_error():
+    error = RuntimeError("Bad Request: chat not found")
+
+    assert _feedback_error_message(error) == (
+        "Канал отзывов не найден. Проверь FEEDBACK_CHANNEL_ID."
+    )
 
 
 def test_duplicate_answers_are_processed_once():

@@ -1,7 +1,13 @@
 import logging
 
 from aiogram import Router, F, Bot
-from aiogram.exceptions import TelegramAPIError
+from aiogram.exceptions import (
+    TelegramAPIError,
+    TelegramBadRequest,
+    TelegramForbiddenError,
+    TelegramNetworkError,
+    TelegramNotFound,
+)
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
@@ -10,6 +16,26 @@ from bot.config import feedback_channel_id, get_feedback_chat_id
 from bot.states import QuizState
 
 router = Router()
+
+
+def _feedback_error_message(error: Exception) -> str:
+    """Return an actionable message for feedback delivery failures."""
+    description = str(error).lower()
+    if isinstance(error, TelegramForbiddenError):
+        return "Бот не имеет доступа к каналу отзывов. Добавь его администратором."
+    if isinstance(error, TelegramNotFound) or "chat not found" in description:
+        return "Канал отзывов не найден. Проверь FEEDBACK_CHANNEL_ID."
+    if isinstance(error, TelegramBadRequest) and (
+        "not enough rights" in description
+        or "need administrator rights" in description
+        or "message can't be sent" in description
+    ):
+        return "Боту не разрешено публиковать в канале отзывов. Выдай право Post Messages."
+    if isinstance(error, TelegramNetworkError):
+        return "Telegram временно недоступен. Попробуй отправить отзыв ещё раз."
+    if isinstance(error, ValueError):
+        return "Неверный FEEDBACK_CHANNEL_ID. Нужен ID вида -100... или @username."
+    return "Не удалось отправить отзыв. Ошибка записана в журнал бота."
 
 
 @router.message(Command("feedback"))
@@ -58,8 +84,12 @@ async def handle_feedback(msg: Message, state: FSMContext, bot: Bot) -> None:
             parse_mode=None,
         )
     except (TelegramAPIError, ValueError) as error:
-        logging.exception("Failed to deliver feedback: %s", error)
-        await msg.answer("Не удалось отправить отзыв. Попробуй позже.")
+        logging.exception(
+            "Failed to deliver feedback to %r: %s",
+            feedback_channel_id,
+            error,
+        )
+        await msg.answer(_feedback_error_message(error))
         return
 
     logging.info("Feedback received from %s", sender)
