@@ -5,7 +5,12 @@ from unittest.mock import AsyncMock, patch
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.handlers import setup_routers
-from bot.handlers.feedback import handle_feedback, router as feedback_router
+from bot.handlers.feedback import (
+    callback_feedback,
+    cmd_feedback,
+    handle_feedback,
+    router as feedback_router,
+)
 from bot.handlers.fallback import router as fallback_router
 from bot.handlers.quiz import (
     _build_answer_feedback,
@@ -39,6 +44,27 @@ def test_feedback_router_is_registered_before_callback_fallback():
     routers = setup_routers().sub_routers
 
     assert routers.index(feedback_router) < routers.index(fallback_router)
+
+
+def test_feedback_entry_points_are_disabled_without_receiver():
+    async def run_test():
+        message = SimpleNamespace(answer=AsyncMock())
+        callback = SimpleNamespace(answer=AsyncMock())
+        state = FakeState({})
+
+        with patch("bot.handlers.feedback.feedback_channel_id", None):
+            await cmd_feedback(message, state)
+            await callback_feedback(callback, state)
+
+        message.answer.assert_awaited_once_with(
+            "Отзывы временно недоступны. Попробуй позже."
+        )
+        callback.answer.assert_awaited_once_with(
+            "Отзывы временно недоступны", show_alert=True
+        )
+        assert state.data == {}
+
+    asyncio.run(run_test())
 
 
 def test_feedback_is_delivered_to_configured_receiver():

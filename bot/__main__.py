@@ -20,9 +20,6 @@ BOT_TOKEN = bot_token
 if not BOT_TOKEN:
     raise RuntimeError("BOT_TOKEN environment variable is not set")
 
-if not feedback_channel_id:
-    raise RuntimeError("FEEDBACK_CHANNEL_ID environment variable is not set")
-
 # Setup logging
 logging.basicConfig(
     level=LOG_LEVEL, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -49,15 +46,17 @@ async def on_startup(bot: Bot) -> None:
     )
 
     # Set bot commands menu
-    await bot.set_my_commands(
-        commands=[
-            BotCommand(command="start", description="Начать тестирование"),
-            BotCommand(command="theme", description="Сменить тему"),
-            BotCommand(command="level", description="Сменить уровень"),
-            BotCommand(command="feedback", description="Оставить отзыв"),
-        ],
-        scope=BotCommandScopeDefault(),
-    )
+    commands = [
+        BotCommand(command="start", description="Начать тестирование"),
+        BotCommand(command="theme", description="Сменить тему"),
+        BotCommand(command="level", description="Сменить уровень"),
+    ]
+    if feedback_channel_id:
+        commands.append(BotCommand(command="feedback", description="Оставить отзыв"))
+    else:
+        logger.warning("FEEDBACK_CHANNEL_ID is not set; feedback is disabled")
+
+    await bot.set_my_commands(commands=commands, scope=BotCommandScopeDefault())
     logger.info("Bot commands menu updated")
 
 
