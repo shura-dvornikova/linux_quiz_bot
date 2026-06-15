@@ -30,7 +30,9 @@ def _feedback_error_message(error: Exception) -> str:
         or "need administrator rights" in description
         or "message can't be sent" in description
     ):
-        return "Боту не разрешено публиковать в канале отзывов. Выдай право Post Messages."
+        return (
+            "Боту не разрешено публиковать в канале отзывов. Выдай право Post Messages."
+        )
     if isinstance(error, TelegramNetworkError):
         return "Telegram временно недоступен. Попробуй отправить отзыв ещё раз."
     if isinstance(error, ValueError):
