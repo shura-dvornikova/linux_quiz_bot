@@ -4,11 +4,10 @@ import os
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
-from aiogram.enums import ChatMemberStatus, ChatType, ParseMode
-from aiogram.exceptions import TelegramAPIError
+from aiogram.enums import ParseMode
 from aiogram.types import BotCommand, BotCommandScopeDefault
 
-from bot.config import bot_token, feedback_channel_id, get_feedback_chat_id
+from bot.config import bot_token, feedback_channel_id
 from bot.db import init_db
 from bot.db.fsm_storage import SQLiteStorage
 from bot.handlers import setup_routers
@@ -20,9 +19,6 @@ BOT_TOKEN = bot_token
 
 if not BOT_TOKEN:
     raise RuntimeError("BOT_TOKEN environment variable is not set")
-
-if not feedback_channel_id:
-    raise RuntimeError("FEEDBACK_CHANNEL_ID environment variable is not set")
 
 # Setup logging
 logging.basicConfig(
@@ -49,24 +45,8 @@ async def on_startup(bot: Bot) -> None:
         f"username=@{me.username}, name={me.first_name}"
     )
 
-    try:
-        feedback_chat = await bot.get_chat(get_feedback_chat_id(feedback_channel_id))
-        if feedback_chat.type == ChatType.CHANNEL:
-            membership = await bot.get_chat_member(feedback_chat.id, me.id)
-            if (
-                membership.status != ChatMemberStatus.ADMINISTRATOR
-                or not membership.can_post_messages
-            ):
-                raise RuntimeError(
-                    "The bot must be a channel administrator with permission "
-                    "to post messages."
-                )
-    except (TelegramAPIError, ValueError) as error:
-        raise RuntimeError(
-            "Cannot access FEEDBACK_CHANNEL_ID. Check the ID and add the bot "
-            "to the channel as an administrator with permission to post messages."
-        ) from error
-    logger.info("Feedback destination verified: chat_id=%s", feedback_chat.id)
+    if not feedback_channel_id:
+        logger.warning("FEEDBACK_CHANNEL_ID is not set; feedback delivery will fail")
 
     # Set bot commands menu
     await bot.set_my_commands(
