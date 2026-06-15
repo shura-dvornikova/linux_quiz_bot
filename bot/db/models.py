@@ -1,7 +1,7 @@
 import json
 import os
 from pathlib import Path
-from sqlalchemy import create_engine, Column, Integer, String, BigInteger
+from sqlalchemy import create_engine, Column, Integer, String, BigInteger, Text
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
 Base = declarative_base()
@@ -57,6 +57,16 @@ class User(Base):
             "middle": self.get_scores("middle"),
             "senior": self.get_scores("senior"),
         }
+
+
+class FSMRecord(Base):
+    """Persisted aiogram FSM state and data for one storage key."""
+
+    __tablename__ = "fsm_records"
+
+    key = Column(String(255), primary_key=True)
+    state = Column(String(255), nullable=True)
+    data = Column(Text, nullable=False, default="{}")
 
 
 def init_db() -> None:

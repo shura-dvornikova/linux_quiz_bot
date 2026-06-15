@@ -85,21 +85,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Who am I
+      - name: Verify deployment runner
         run: |
           echo "Runner name = ${{ runner.name }}"
           echo "Expected    = ${{ env.SERVER_RUNNER_DEV }}"
+          test "${{ runner.name }}" = "${{ env.SERVER_RUNNER_DEV }}"
 
       - name: Pull fresh image
-        if: runner.name == env.SERVER_RUNNER_DEV
         run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
 
       - name: Remove old image tag
-        if: runner.name == env.SERVER_RUNNER_DEV
         run: docker rmi -f docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest || true
 
       - name: Create .env.dev from secrets
-        if: runner.name == env.SERVER_RUNNER_DEV
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN_DEV }}
           FEEDBACK_CHANNEL_ID: ${{ secrets.FEEDBACK_CHANNEL_ID }}
@@ -114,11 +112,9 @@ jobs:
           EOF
 
       - name: Stop and remove old container (dev)
-        if: runner.name == env.SERVER_RUNNER_DEV
         run: docker rm -f linux-quiz-bot-dev || true
 
       - name: Recreate container (dev)
-        if: runner.name == env.SERVER_RUNNER_DEV
         run: |
           docker compose -f docker-compose.dev.yml \
                          --env-file .env.dev \
@@ -126,17 +122,14 @@ jobs:
                          up -d --force-recreate --pull always
 
       - name: Show running image (dev)
-        if: runner.name == env.SERVER_RUNNER_DEV
         run: docker ps --filter "name=linux-quiz-bot-dev" --format "{{.Image}}"
 
       - name: Smoke test
-        if: runner.name == env.SERVER_RUNNER_DEV
         run: |
           sleep 5
           docker inspect -f '{{.State.Running}}' linux-quiz-bot-dev | grep -qx true
 
       - name: Cleanup unused images/containers (dev)
-        if: runner.name == env.SERVER_RUNNER_DEV
         run: |
           docker image prune -f
           docker container prune -f
@@ -154,21 +147,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Who am I
+      - name: Verify deployment runner
         run: |
           echo "Runner name = ${{ runner.name }}"
           echo "Expected    = ${{ env.SERVER_RUNNER_PROD }}"
+          test "${{ runner.name }}" = "${{ env.SERVER_RUNNER_PROD }}"
 
       - name: Pull fresh image
-        if: runner.name == env.SERVER_RUNNER_PROD
         run: docker pull docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:${IMAGE_TAG}
 
       - name: Remove old image tag
-        if: runner.name == env.SERVER_RUNNER_PROD
         run: docker rmi -f docker.io/${DOCKERHUB_USERNAME}/linux-quiz-bot:latest || true
 
       - name: Create .env.prod from secrets
-        if: runner.name == env.SERVER_RUNNER_PROD
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN_PROD }}
           FEEDBACK_CHANNEL_ID: ${{ secrets.FEEDBACK_CHANNEL_ID }}
@@ -183,11 +174,9 @@ jobs:
           EOF
 
       - name: Stop and remove old container (prod)
-        if: runner.name == env.SERVER_RUNNER_PROD
         run: docker rm -f linux-quiz-bot-prod || true
 
       - name: Recreate container (prod)
-        if: runner.name == env.SERVER_RUNNER_PROD
         run: |
           docker compose -f docker-compose.prod.yml \
                          --env-file .env.prod \
@@ -195,17 +184,14 @@ jobs:
                          up -d --force-recreate --pull always
 
       - name: Show running image (prod)
-        if: runner.name == env.SERVER_RUNNER_PROD
         run: docker ps --filter "name=linux-quiz-bot-prod" --format "{{.Image}}"
 
       - name: Smoke test
-        if: runner.name == env.SERVER_RUNNER_PROD
         run: |
           sleep 5
           docker inspect -f '{{.State.Running}}' linux-quiz-bot-prod | grep -qx true
 
       - name: Cleanup unused images/containers (prod)
-        if: runner.name == env.SERVER_RUNNER_PROD
         run: |
           docker image prune -f
           docker container prune -f

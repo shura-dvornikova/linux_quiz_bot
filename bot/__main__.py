@@ -9,6 +9,7 @@ from aiogram.types import BotCommand, BotCommandScopeDefault
 
 from bot.config import bot_token, feedback_channel_id
 from bot.db import init_db
+from bot.db.fsm_storage import SQLiteStorage
 from bot.handlers import setup_routers
 
 # Configuration
@@ -32,13 +33,13 @@ logger = logging.getLogger(__name__)
 bot = Bot(
     token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2)
 )
-dp = Dispatcher()
+dp = Dispatcher(storage=SQLiteStorage())
 
 
 async def on_startup(bot: Bot) -> None:
     """Startup hook - runs when bot starts."""
-    # Clear old webhooks and pending updates
-    await bot.delete_webhook(drop_pending_updates=True)
+    # Clear an old webhook while preserving updates received during downtime.
+    await bot.delete_webhook(drop_pending_updates=False)
 
     # Get bot info
     me = await bot.get_me()

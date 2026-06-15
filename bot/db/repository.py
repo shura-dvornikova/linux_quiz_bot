@@ -1,5 +1,10 @@
+import json
 from typing import Optional
-from bot.db.models import User, get_session
+
+from sqlalchemy import Integer, cast, func, update
+from sqlalchemy.dialects.sqlite import insert
+
+from bot.db.models import FSMRecord, User, VALID_LEVELS, get_session
 
 
 class UserRepository:
@@ -68,19 +73,39 @@ class UserRepository:
     def add_to_scores(
         telegram_id: int, level: str, correct_delta: int, total_delta: int
     ) -> Optional[User]:
-        """Add to user's scores for a specific level."""
+        """Atomically add to a user's scores for a specific level."""
+        if level not in VALID_LEVELS:
+            raise ValueError(f"Unsupported quiz level: {level}")
+
+        score_column = getattr(User, f"scores_{level}")
+        correct = func.coalesce(
+            cast(func.json_extract(score_column, "$.correct"), Integer), 0
+        )
+        total = func.coalesce(
+            cast(func.json_extract(score_column, "$.total"), Integer), 0
+        )
+
         with get_session() as session:
-            user = session.query(User).filter(User.telegram_id == telegram_id).first()
-            if user:
-                current = user.get_scores(level)
-                user.set_scores(
-                    level,
-                    current["correct"] + correct_delta,
-                    current["total"] + total_delta,
+            result = session.execute(
+                update(User)
+                .where(User.telegram_id == telegram_id)
+                .values(
+                    {
+                        score_column: func.json_object(
+                            "correct",
+                            correct + correct_delta,
+                            "total",
+                            total + total_delta,
+                        )
+                    }
                 )
-                session.commit()
-                session.refresh(user)
-            return user
+            )
+            if result.rowcount == 0:
+                session.rollback()
+                return None
+
+            session.commit()
+            return session.query(User).filter(User.telegram_id == telegram_id).first()
 
     @staticmethod
     def update_pinned_message(telegram_id: int, message_id: int) -> Optional[User]:
@@ -98,3 +123,38 @@ class UserRepository:
         """Get user's pinned message ID."""
         user = UserRepository.get_by_telegram_id(telegram_id)
         return user.pinned_message_id if user else None
+
+
+class FSMRepository:
+    """Persistence operations used by the aiogram FSM storage adapter."""
+
+    @staticmethod
+    def get(key: str) -> tuple[Optional[str], dict]:
+        with get_session() as session:
+            record = session.get(FSMRecord, key)
+            if not record:
+                return None, {}
+            return record.state, json.loads(record.data)
+
+    @staticmethod
+    def set_state(key: str, state: Optional[str]) -> None:
+        with get_session() as session:
+            statement = insert(FSMRecord).values(key=key, state=state, data="{}")
+            session.execute(
+                statement.on_conflict_do_update(
+                    index_elements=[FSMRecord.key], set_={"state": state}
+                )
+            )
+            session.commit()
+
+    @staticmethod
+    def set_data(key: str, data: dict) -> None:
+        encoded = json.dumps(data, ensure_ascii=False)
+        with get_session() as session:
+            statement = insert(FSMRecord).values(key=key, state=None, data=encoded)
+            session.execute(
+                statement.on_conflict_do_update(
+                    index_elements=[FSMRecord.key], set_={"data": encoded}
+                )
+            )
+            session.commit()
