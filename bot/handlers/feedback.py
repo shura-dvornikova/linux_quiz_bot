@@ -17,10 +17,6 @@ router = Router()
 @router.message(Command("feedback"))
 async def cmd_feedback(msg: Message, state: FSMContext) -> None:
     """Handle /feedback command."""
-    if not feedback_channel_id:
-        await msg.answer("Отзывы временно недоступны. Попробуй позже.")
-        return
-
     await msg.answer("✍️ Напиши свой отзыв сообщением, я обязательно прочитаю!")
     await state.set_state(QuizState.waiting_for_feedback)
 
@@ -28,10 +24,6 @@ async def cmd_feedback(msg: Message, state: FSMContext) -> None:
 @router.callback_query(F.data == "feedback")
 async def callback_feedback(cb: CallbackQuery, state: FSMContext) -> None:
     """Handle feedback button click."""
-    if not feedback_channel_id:
-        await cb.answer("Отзывы временно недоступны", show_alert=True)
-        return
-
     await cb.message.answer("📝 Напиши сюда свой отзыв:")
     await state.set_state(QuizState.waiting_for_feedback)
     await cb.answer()

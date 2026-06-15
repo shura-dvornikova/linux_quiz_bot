@@ -103,6 +103,7 @@ jobs:
           FEEDBACK_CHANNEL_ID: ${{ secrets.FEEDBACK_CHANNEL_ID }}
         run: |
           test -n "$BOT_TOKEN"
+          test -n "$FEEDBACK_CHANNEL_ID"
           cat > .env.dev <<EOF
           ENV=dev
           BOT_TOKEN=$BOT_TOKEN
@@ -164,6 +165,7 @@ jobs:
           FEEDBACK_CHANNEL_ID: ${{ secrets.FEEDBACK_CHANNEL_ID }}
         run: |
           test -n "$BOT_TOKEN"
+          test -n "$FEEDBACK_CHANNEL_ID"
           cat > .env.prod <<EOF
           ENV=prod
           BOT_TOKEN=$BOT_TOKEN
