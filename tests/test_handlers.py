@@ -16,6 +16,7 @@ from bot.handlers.quiz import (
 )
 from bot.handlers.start import process_level, process_name
 from bot.db.models import User
+from bot.config import get_feedback_chat_id
 
 
 class FakeState:
@@ -41,6 +42,11 @@ def test_feedback_router_is_registered_before_callback_fallback():
     assert routers.index(feedback_router) < routers.index(fallback_router)
 
 
+def test_feedback_destination_accepts_id_and_channel_username():
+    assert get_feedback_chat_id(" -10012345 ") == -10012345
+    assert get_feedback_chat_id("@linux_quiz_feedback") == "@linux_quiz_feedback"
+
+
 def test_feedback_is_delivered_to_configured_receiver():
     async def run_test():
         state = FakeState({"pending": True})
@@ -58,7 +64,8 @@ def test_feedback_is_delivered_to_configured_receiver():
 
         bot.send_message.assert_awaited_once()
         assert bot.send_message.await_args.kwargs["chat_id"] == -10012345
-        assert "Great quiz\\!" in bot.send_message.await_args.kwargs["text"]
+        assert "Great quiz!" in bot.send_message.await_args.kwargs["text"]
+        assert bot.send_message.await_args.kwargs["parse_mode"] is None
         message.answer.assert_awaited_once_with("Спасибо за отзыв! 💌")
         assert state.data == {}
 

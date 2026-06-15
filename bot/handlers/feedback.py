@@ -5,11 +5,9 @@ from aiogram.exceptions import TelegramAPIError
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
-from aiogram.enums import ParseMode
 
-from bot.config import feedback_channel_id
+from bot.config import feedback_channel_id, get_feedback_chat_id
 from bot.states import QuizState
-from bot.services.user_service import escape_md
 
 router = Router()
 
@@ -46,18 +44,18 @@ async def handle_feedback(msg: Message, state: FSMContext, bot: Bot) -> None:
     sender = f"@{username}" if username else f"id:{msg.from_user.id}"
     full_name = msg.from_user.full_name
     text = (
-        "✉️ *Новый отзыв от @LinuxQuizBot*\n\n"
-        f"👤 Пользователь: {escape_md(full_name)}\n"
-        f"🔎 Telegram: {escape_md(sender)}\n"
-        f"🆔 ID: `{msg.from_user.id}`\n\n"
-        f"📝 Сообщение:\n{escape_md(feedback_text)}"
+        "✉️ Новый отзыв от @LinuxQuizBot\n\n"
+        f"👤 Пользователь: {full_name}\n"
+        f"🔎 Telegram: {sender}\n"
+        f"🆔 ID: {msg.from_user.id}\n\n"
+        f"📝 Сообщение:\n{feedback_text}"
     )
 
     try:
         await bot.send_message(
-            chat_id=int(feedback_channel_id),
+            chat_id=get_feedback_chat_id(feedback_channel_id),
             text=text,
-            parse_mode=ParseMode.MARKDOWN_V2,
+            parse_mode=None,
         )
     except (TelegramAPIError, ValueError) as error:
         logging.exception("Failed to deliver feedback: %s", error)
