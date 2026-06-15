@@ -9,9 +9,9 @@ from bot.handlers.fallback import router as fallback_router
 def setup_routers() -> Router:
     """Setup and return the main router with all sub-routers."""
     router = Router()
+    router.include_router(feedback_router)
     router.include_router(start_router)
     router.include_router(quiz_router)
-    router.include_router(feedback_router)
     router.include_router(fallback_router)
     return router
 

@@ -15,7 +15,7 @@ from bot.handlers.quiz import (
     handle_answer,
     show_reference,
 )
-from bot.handlers.start import process_level, process_name
+from bot.handlers.start import process_level, process_name, router as start_router
 from bot.db.models import User
 from bot.config import get_feedback_chat_id
 
@@ -37,9 +37,10 @@ class FakeState:
         self.data.clear()
 
 
-def test_feedback_router_is_registered_before_callback_fallback():
+def test_feedback_router_has_priority_over_state_flows_and_fallback():
     routers = setup_routers().sub_routers
 
+    assert routers.index(feedback_router) < routers.index(start_router)
     assert routers.index(feedback_router) < routers.index(fallback_router)
 
 
