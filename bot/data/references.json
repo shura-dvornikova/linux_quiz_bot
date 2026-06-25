@@ -1,6 +1,9 @@
 {
   "file_systems": {
-    "junior": {},
+    "junior": {
+      "0": "Текст справки для первого вопроса Bash Junior.",
+      "1": "Текст справки для второго вопроса Bash Junior."
+    },
     "middle": {},
     "senior": {}
   },
