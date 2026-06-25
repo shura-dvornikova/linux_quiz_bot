@@ -76,8 +76,9 @@ def _build_answer_feedback(
     text = f"{status}\\!\n*Ответ:* {escape_md(answer)}"
     if include_reference:
         reference = QuizService.get_reference(topic, level, question_idx)
-        if reference:
-            text += f"\n\n*Краткая справка:*\n{escape_md(reference)}"
+        if not reference:
+            reference = "Краткая справка пока не заполнена."
+        text += f"\n\n*Краткая справка:*\n{escape_md(reference)}"
     return text
 
 
@@ -113,11 +114,8 @@ def _build_answered_question_text(
 
 def _build_reference_keyboard(
     topic: str, level: str, question_idx: int, is_correct: bool
-) -> InlineKeyboardMarkup | None:
+) -> InlineKeyboardMarkup:
     """Build the action that expands a question's short reference."""
-    if not QuizService.get_reference(topic, level, question_idx):
-        return None
-
     callback_data = f"ref:{topic}:{level}:{question_idx}:{int(is_correct)}"
     return InlineKeyboardMarkup(
         inline_keyboard=[
@@ -141,11 +139,11 @@ def _build_answered_reference_keyboard(
     """Mark the selected option and add the reference action below it."""
     answered = _build_answered_keyboard(keyboard, selected_callback_data, is_correct)
     rows = list(answered.inline_keyboard) if answered else []
-    reference_keyboard = _build_reference_keyboard(
-        topic, level, question_idx, is_correct
+    rows.extend(
+        _build_reference_keyboard(
+            topic, level, question_idx, is_correct
+        ).inline_keyboard
     )
-    if reference_keyboard:
-        rows.extend(reference_keyboard.inline_keyboard)
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
 

@@ -346,14 +346,17 @@ def test_answer_feedback_omits_missing_reference():
             "bash", "junior", 0, False, include_reference=True
         )
 
-    assert text == "❌ Неверно\\!\n*Ответ:* ls \\-la"
+    assert text == (
+        "❌ Неверно\\!\n"
+        "*Ответ:* ls \\-la\n\n"
+        "*Краткая справка:*\nКраткая справка пока не заполнена\\."
+    )
 
 
-def test_reference_keyboard_is_hidden_without_manual_reference():
-    with patch("bot.handlers.quiz.QuizService.get_reference", return_value=""):
-        keyboard = _build_reference_keyboard("bash", "junior", 0, True)
+def test_reference_keyboard_is_shown_without_manual_reference():
+    keyboard = _build_reference_keyboard("bash", "junior", 0, True)
 
-    assert keyboard is None
+    assert keyboard.inline_keyboard[0][0].text == "🔗 Краткая справка"
 
 
 def test_show_reference_expands_answer_message():
