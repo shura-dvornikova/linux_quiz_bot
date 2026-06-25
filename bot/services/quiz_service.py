@@ -4,17 +4,6 @@ from typing import Optional
 
 QUIZ_PATH = Path(__file__).parent.parent / "data" / "quizzes.json"
 
-REFERENCE_HINTS = {
-    "file_systems": "Состояние ФС проверяют через mount, df и lsblk; детали команд — через man.",
-    "permissions": "Проверяйте владельца, группу и режим через ls -l и id, расширенные права — через getfacl.",
-    "processes": "Состояние процесса видно в ps/top и /proc; сигналы и приоритет меняют его поведение.",
-    "resources": "Нагрузку оценивают в динамике: CPU, память, I/O и load average нужно сопоставлять.",
-    "systemd": "Для диагностики юнита обычно используют systemctl status и journalctl -u.",
-    "networking": "Проверяйте адреса, маршруты, сокеты и DNS отдельно командами ip, ss и resolvectl.",
-    "boot": "Цепочка загрузки включает прошивку, загрузчик, ядро, initramfs и PID 1.",
-    "bash": "Поведение Bash зависит от quoting, кодов возврата, перенаправлений и окружения.",
-}
-
 
 class QuizService:
     """Service for quiz data operations."""
@@ -98,13 +87,7 @@ class QuizService:
 
         reference = question.get("reference")
         if not reference:
-            answer = (
-                cls.get_correct_answer(topic, level, question_idx) or "Этот вариант"
-            )
-            hint = REFERENCE_HINTS.get(
-                topic, "Сопоставьте назначение ответа с условиями вопроса."
-            )
-            reference = f"{answer} — ключевой ответ для этого случая.\n{hint}"
+            return ""
 
         lines = str(reference).splitlines()[:3]
         return "\n".join(line.strip() for line in lines if line.strip())

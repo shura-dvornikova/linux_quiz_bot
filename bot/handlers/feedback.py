@@ -17,6 +17,8 @@ from bot.states import QuizState
 
 router = Router()
 
+_FEEDBACK_RETURN_STATE_KEY = "_feedback_return_state"
+
 
 def _feedback_error_message(error: Exception) -> str:
     """Return an actionable message for feedback delivery failures."""
@@ -43,6 +45,7 @@ def _feedback_error_message(error: Exception) -> str:
 @router.message(Command("feedback"))
 async def cmd_feedback(msg: Message, state: FSMContext) -> None:
     """Handle /feedback command."""
+    await _remember_feedback_return_state(state)
     await msg.answer(
         "✍️ Напиши свой отзыв сообщением, я обязательно прочитаю!",
         parse_mode=None,
@@ -53,6 +56,7 @@ async def cmd_feedback(msg: Message, state: FSMContext) -> None:
 @router.callback_query(F.data == "feedback")
 async def callback_feedback(cb: CallbackQuery, state: FSMContext) -> None:
     """Handle feedback button click."""
+    await _remember_feedback_return_state(state)
     await cb.message.answer("📝 Напиши сюда свой отзыв:", parse_mode=None)
     await state.set_state(QuizState.waiting_for_feedback)
     await cb.answer()
@@ -101,4 +105,26 @@ async def handle_feedback(msg: Message, state: FSMContext, bot: Bot) -> None:
 
     logging.info("Feedback received from %s", sender)
     await msg.answer("Спасибо за отзыв! 💌", parse_mode=None)
+    await _restore_feedback_return_state(state)
+
+
+async def _remember_feedback_return_state(state: FSMContext) -> None:
+    """Save the current FSM state so feedback can return to the interrupted flow."""
+    current_state = await state.get_state()
+    if current_state == QuizState.waiting_for_feedback.state:
+        return
+
+    await state.update_data(**{_FEEDBACK_RETURN_STATE_KEY: current_state})
+
+
+async def _restore_feedback_return_state(state: FSMContext) -> None:
+    """Restore the FSM state that was active before feedback collection."""
+    data = await state.get_data()
+    return_state = data.pop(_FEEDBACK_RETURN_STATE_KEY, None)
+    await state.set_data(data)
+
+    if return_state:
+        await state.set_state(return_state)
+        return
+
     await state.clear()

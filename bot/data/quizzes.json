@@ -141,7 +141,7 @@
     "title": "Процессы",  
     "junior": [
       {"question": "Какой процесс имеет PID 1 в Linux?", "options": ["systemd/init", "kernel", "sshd", "bash"], "correct": 0},
-      {"question": "Какая команда показывает запущенные процессы?", "options": ["ls", "ps", "top", "ps, top, htop"], "correct": 3},
+      {"question": "Какая команда показывает запущенные процессы?", "options": ["ls", "netstat", "pwd", "top"], "correct": 3},
       {"question": "Как завершить процесс по PID?", "options": ["stop PID", "kill PID", "end PID", "close PID"], "correct": 1},
       {"question": "Что возвращает `$?` в bash?", "options": ["PID", "Exit code последней команды", "Кол-во аргументов", "UID"], "correct": 1},
       {"question": "Какой командой запустить процесс в фоне?", "options": ["command &", "bg command", "background command", "run -bg command"], "correct": 0},
@@ -151,7 +151,7 @@
       {"question": "Как приостановить процесс на переднем плане?", "options": ["Ctrl+Z", "Ctrl+C", "Ctrl+S", "Ctrl+P"], "correct": 0},
       {"question": "Какой командой возобновить приостановленный процесс на переднем плане?", "options": ["fg", "bg", "resume", "continue"], "correct": 0},
       {"question": "Какой командой возобновить приостановленный процесс в фоне?", "options": ["fg", "bg", "resume", "back"], "correct": 1},
-      {"question": "Как посмотреть список фоновых задач?", "options": ["ps", "jobs", "bg", "tasks"], "correct": 1},
+      {"question": "Как посмотреть активные задачи в окне текущего терминала?", "options": ["ps", "jobs", "bg", "tasks"], "correct": 1},
       {"question": "Что делает команда `ps aux`?", "options": ["Показывает файлы", "Показывает все процессы с деталями", "Убивает процессы", "Запускает процесс"], "correct": 1},
       {"question": "Какой командой найти процесс по имени?", "options": ["ps | grep name", "pgrep name", "Оба варианта", "findproc name"], "correct": 2},
       {"question": "Что делает команда `killall` в Linux??", "options": ["Убивает все процессы", "Убивает процессы по имени", "Перезагружает систему", "Останавливает службы"], "correct": 1},

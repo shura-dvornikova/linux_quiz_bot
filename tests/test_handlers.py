@@ -6,6 +6,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.handlers import setup_routers
 from bot.handlers.feedback import (
+    _FEEDBACK_RETURN_STATE_KEY,
     cmd_feedback,
     handle_feedback,
     router as feedback_router,
@@ -14,7 +15,7 @@ from bot.handlers.feedback import _feedback_error_message
 from bot.handlers.fallback import router as fallback_router
 from bot.handlers.quiz import (
     _build_answer_feedback,
-    _build_answered_reference_keyboard,
+    _build_reference_keyboard,
     _build_answered_keyboard,
     handle_answer,
     show_reference,
@@ -22,23 +23,38 @@ from bot.handlers.quiz import (
 from bot.handlers.start import process_level, process_name, router as start_router
 from bot.db.models import User
 from bot.config import get_feedback_chat_id
+from bot.states import QuizState
 
 
 class FakeState:
-    def __init__(self, data):
+    def __init__(self, data, state_name=None):
         self.data = data
+        self.state_name = state_name
 
     async def get_data(self):
         await asyncio.sleep(0)
         return dict(self.data)
 
+    async def set_data(self, data):
+        await asyncio.sleep(0)
+        self.data = dict(data)
+
     async def update_data(self, **kwargs):
         await asyncio.sleep(0)
         self.data.update(kwargs)
 
+    async def get_state(self):
+        await asyncio.sleep(0)
+        return self.state_name
+
+    async def set_state(self, state):
+        await asyncio.sleep(0)
+        self.state_name = state
+
     async def clear(self):
         await asyncio.sleep(0)
         self.data.clear()
+        self.state_name = None
 
 
 def test_feedback_router_has_priority_over_state_flows_and_fallback():
@@ -90,6 +106,41 @@ def test_feedback_is_delivered_to_configured_receiver():
         assert bot.send_message.await_args.kwargs["parse_mode"] is None
         message.answer.assert_awaited_once_with("Спасибо за отзыв! 💌", parse_mode=None)
         assert state.data == {}
+
+    asyncio.run(run_test())
+
+
+def test_feedback_restores_interrupted_quiz_state():
+    async def run_test():
+        state = FakeState(
+            {
+                "topic": "bash",
+                "level": "junior",
+                "idx": 2,
+                "score": 1,
+                "results": [{"idx": 0, "correct": True}],
+                _FEEDBACK_RETURN_STATE_KEY: QuizState.answering.state,
+            },
+            QuizState.waiting_for_feedback.state,
+        )
+        message = SimpleNamespace(
+            text="Please add more Bash questions",
+            from_user=SimpleNamespace(id=20, username=None, full_name="Student"),
+            answer=AsyncMock(),
+        )
+        bot = AsyncMock()
+
+        with patch("bot.handlers.feedback.feedback_channel_id", "-10012345"):
+            await handle_feedback(message, state, bot)
+
+        assert state.state_name == QuizState.answering.state
+        assert state.data == {
+            "topic": "bash",
+            "level": "junior",
+            "idx": 2,
+            "score": 1,
+            "results": [{"idx": 0, "correct": True}],
+        }
 
     asyncio.run(run_test())
 
@@ -194,18 +245,11 @@ def test_duplicate_answers_are_processed_once():
         assert state.data["results"] == [{"idx": 0, "correct": True}]
         check_answer.assert_called_once()
         ask_question.assert_awaited_once()
-        message.edit_text.assert_awaited_once_with(
+        message.edit_text.assert_awaited_once()
+        assert message.edit_text.await_args.args == (
             "❓ _Вопрос 1 из 2_\n\n*Test question*\n\n" "✅ Верно\\!\n*Ответ:* Second",
-            reply_markup=_build_answered_reference_keyboard(
-                message.reply_markup,
-                "ans:0:1",
-                "bash",
-                "junior",
-                0,
-                True,
-            ),
-            parse_mode="MarkdownV2",
         )
+        assert message.edit_text.await_args.kwargs["parse_mode"] == "MarkdownV2"
         message.answer.assert_not_awaited()
         answered_keyboard = message.edit_text.await_args.kwargs["reply_markup"]
         assert answered_keyboard.inline_keyboard[0][0].text == "First"
@@ -288,6 +332,28 @@ def test_answer_feedback_expands_and_escapes_reference():
         "*Ответ:* ls \\-la\n\n"
         "*Краткая справка:*\nПоказывает файлы, включая \\.скрытые"
     )
+
+
+def test_answer_feedback_omits_missing_reference():
+    with (
+        patch(
+            "bot.handlers.quiz.QuizService.get_correct_answer",
+            return_value="ls -la",
+        ),
+        patch("bot.handlers.quiz.QuizService.get_reference", return_value=""),
+    ):
+        text = _build_answer_feedback(
+            "bash", "junior", 0, False, include_reference=True
+        )
+
+    assert text == "❌ Неверно\\!\n*Ответ:* ls \\-la"
+
+
+def test_reference_keyboard_is_hidden_without_manual_reference():
+    with patch("bot.handlers.quiz.QuizService.get_reference", return_value=""):
+        keyboard = _build_reference_keyboard("bash", "junior", 0, True)
+
+    assert keyboard is None
 
 
 def test_show_reference_expands_answer_message():
