@@ -1,0 +1,42 @@
+{
+  "file_systems": {
+    "junior": {},
+    "middle": {},
+    "senior": {}
+  },
+  "permissions": {
+    "junior": {},
+    "middle": {},
+    "senior": {}
+  },
+  "processes": {
+    "junior": {},
+    "middle": {},
+    "senior": {}
+  },
+  "resources": {
+    "junior": {},
+    "middle": {},
+    "senior": {}
+  },
+  "systemd": {
+    "junior": {},
+    "middle": {},
+    "senior": {}
+  },
+  "networking": {
+    "junior": {},
+    "middle": {},
+    "senior": {}
+  },
+  "boot": {
+    "junior": {},
+    "middle": {},
+    "senior": {}
+  },
+  "bash": {
+    "junior": {},
+    "middle": {},
+    "senior": {}
+  }
+}

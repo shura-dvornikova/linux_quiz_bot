@@ -3,12 +3,14 @@ from pathlib import Path
 from typing import Optional
 
 QUIZ_PATH = Path(__file__).parent.parent / "data" / "quizzes.json"
+REFERENCES_PATH = Path(__file__).parent.parent / "data" / "references.json"
 
 
 class QuizService:
     """Service for quiz data operations."""
 
     _quizzes: Optional[dict] = None
+    _references: Optional[dict] = None
 
     @classmethod
     def load_quizzes(cls) -> dict:
@@ -17,6 +19,14 @@ class QuizService:
             with QUIZ_PATH.open(encoding="utf-8") as f:
                 cls._quizzes = json.load(f)
         return cls._quizzes
+
+    @classmethod
+    def load_references(cls) -> dict:
+        """Load manually written short references from JSON file."""
+        if cls._references is None:
+            with REFERENCES_PATH.open(encoding="utf-8") as f:
+                cls._references = json.load(f)
+        return cls._references
 
     @classmethod
     def get_topics(cls) -> list[str]:
@@ -85,7 +95,8 @@ class QuizService:
         if not question:
             return ""
 
-        reference = question.get("reference")
+        references = cls.load_references()
+        reference = references.get(topic, {}).get(level, {}).get(str(question_idx), "")
         if not reference:
             return ""
 
