@@ -30,7 +30,7 @@
       {"question": "Каким инструментом измерить I/O диска в реальном времени?", "options": ["htop", "iostat", "vmstat", "strace"], "correct": 1},
       {"question": "Какая из перечисленных технологий использует Copy-On-Write для объединения read-only и writable слоев файловой системы?", "options": ["LVM", "OverlayFS", "ext4", "NFS"], "correct": 1},
       {"question": "Какие команды позволяют увидеть информацию о смонтированных файловых системах?", "options": ["ls /mnt", "mount", "df", "mount и df"], "correct": 3},
-      {"question": "Как создать символическую ссылку?", "options": ["ln file link", "ln -s target link", "link -s file", "symlink file link"], "correct": 1},
+      {"question": "Как создать символическую ссылку (symlink/softlink) в Linux?", "options": ["ln file link", "ln -s target link", "link -s file", "symlink file link"], "correct": 1},
       {"question": "Что показывает команда `lsblk`?", "options": ["Список файлов", "Блочные устройства", "Сетевые интерфейсы", "Процессы"], "correct": 1},
       {"question": "Какая файловая система используется по умолчанию в большинстве дистрибутивов?", "options": ["NTFS", "ext4", "FAT32", "XFS"], "correct": 1},
       {"question": "Что делает команда `df -h`?", "options": ["Показывает скрытые файлы", "Показывает использование дисков в читаемом формате", "Форматирует диск", "Удаляет файлы"], "correct": 1},
